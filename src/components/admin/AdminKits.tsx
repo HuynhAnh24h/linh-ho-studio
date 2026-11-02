@@ -183,10 +183,34 @@ export function AdminKits({ kits, comboOffer, onRefresh }: AdminKitsProps) {
   };
 
   const testPlaySample = (padKey: PadKey, customKit?: SoundKitItem) => {
-    const k = customKit || editingKit || kits[0];
-    if (k) {
-      drumAudioEngine.playSound(padKey, k);
+    if (customKit) {
+      drumAudioEngine.playSound(padKey, customKit);
+      return;
     }
+
+    const currentFormKit: SoundKitItem = {
+      id: editingKit ? editingKit.id : "preview",
+      name: name || "Preview",
+      desc: desc || "",
+      padType,
+      category,
+      compatibleDevices,
+      price: Number(price) || 0,
+      sampleCount,
+      format,
+      samples,
+      synthConfig: {
+        kick: editingKit?.synthConfig?.kick || [150, 45, 0.45],
+        snare: editingKit?.synthConfig?.snare || [190, 0.22],
+        hat: editingKit?.synthConfig?.hat || [0.05, 0.35],
+        tom: editingKit?.synthConfig?.tom || 1,
+        crash: editingKit?.synthConfig?.crash || 1.6,
+        lp: editingKit?.synthConfig?.lp || 18000,
+        bpm: Number(bpm) || 110,
+      },
+      order: 0,
+    };
+    drumAudioEngine.playSound(padKey, currentFormKit);
   };
 
   const togglePlayDemo = (kit: SoundKitItem) => {
@@ -782,6 +806,99 @@ export function AdminKits({ kits, comboOffer, onRefresh }: AdminKitsProps) {
                   <span className="text-[10px] text-[var(--muted)] mt-1 block">
                     Lưu trữ link tải để dễ dàng copy gửi khách khi có đơn hàng.
                   </span>
+                </div>
+              </div>
+
+              {/* 6 Pad Audio Sounds Upload Section */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-[var(--bg)] border border-[var(--line)] space-y-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                  <div>
+                    <h4 className="font-bold text-sm text-[var(--text)] flex items-center gap-2">
+                      <Volume2 className="w-4 h-4 text-[var(--brass)]" />
+                      <span>Cài Đặt Âm Thanh 6 Pad Cho Bộ Này (Kick, Snare, Hat, Tom, Clap, Crash)</span>
+                    </h4>
+                    <p className="text-xs text-[var(--muted)]">
+                      Tải file WAV/MP3 riêng cho từng ô pad để khách hàng gõ thử cảm nhận và phát beat mẫu trên website.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs">
+                    <span className="text-[var(--muted)] font-bold">Tốc độ BPM:</span>
+                    <input
+                      type="number"
+                      value={bpm}
+                      onChange={(e) => setBpm(Number(e.target.value))}
+                      className="w-16 px-2 py-1 rounded-lg bg-[var(--surface)] border border-[var(--line)] text-center font-bold text-[var(--text)] focus:border-[var(--brass)] focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {[
+                    { id: "kick" as PadKey, name: "Kick (Trống Bass)", key: "Q" },
+                    { id: "snare" as PadKey, name: "Snare (Trống Con)", key: "W" },
+                    { id: "hat" as PadKey, name: "Hi-Hat (Chũm Chọe)", key: "E" },
+                    { id: "tom" as PadKey, name: "Tom (Trống Trung)", key: "A" },
+                    { id: "clap" as PadKey, name: "Clap (Vỗ Tay / Rim)", key: "S" },
+                    { id: "crash" as PadKey, name: "Crash (Chũm Chọe Vang)", key: "D" },
+                  ].map((pad) => {
+                    const hasAudio = Boolean(samples[pad.id]);
+                    const isUp = isUploading === pad.id;
+
+                    return (
+                      <div
+                        key={pad.id}
+                        className="p-3 rounded-xl bg-[var(--surface)] border border-[var(--line)] space-y-2 flex flex-col justify-between"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-xs text-[var(--text)] uppercase tracking-wider flex items-center gap-1.5">
+                            <span>{pad.name}</span>
+                            <span className="text-[10px] text-[var(--muted)] font-mono">({pad.key})</span>
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => testPlaySample(pad.id)}
+                            className="p-1.5 rounded-lg bg-[var(--chip)] text-[var(--brass)] hover:bg-[var(--brass)] hover:text-[#1e1715] transition-colors"
+                            title="Nghe thử âm thanh pad này"
+                          >
+                            <Play className="w-3.5 h-3.5 fill-current" />
+                          </button>
+                        </div>
+
+                        <div className="space-y-1">
+                          <div className="flex items-center justify-between text-[11px]">
+                            <span className={`truncate ${hasAudio ? "text-emerald-400 font-semibold" : "text-[var(--muted)]"}`}>
+                              {hasAudio ? "✓ Đã nạp file WAV riêng" : "Âm thanh synth giả lập"}
+                            </span>
+                            {hasAudio && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const newSamples = { ...samples };
+                                  delete newSamples[pad.id];
+                                  setSamples(newSamples);
+                                }}
+                                className="text-red-400 hover:underline text-[10px]"
+                              >
+                                Gỡ file
+                              </button>
+                            )}
+                          </div>
+
+                          <label className="w-full cursor-pointer inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-[var(--chip)] text-[var(--text)] hover:bg-[var(--line)] transition-colors border border-[var(--line)]">
+                            <Upload className="w-3 h-3 text-[var(--brass)]" />
+                            <span>{isUp ? "Đang tải..." : hasAudio ? "Thay file khác" : "Tải file âm thanh"}</span>
+                            <input
+                              type="file"
+                              accept="audio/*"
+                              onChange={(e) => handlePadAudioUpload(pad.id, e)}
+                              disabled={isUp}
+                              className="hidden"
+                            />
+                          </label>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 

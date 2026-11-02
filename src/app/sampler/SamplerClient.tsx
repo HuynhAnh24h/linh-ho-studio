@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { SoundKitItem, ComboOffer, ProfileData } from "@/lib/types";
-import { SamplerSection } from "@/components/SamplerSection";
 import { ShopSection } from "@/components/ShopSection";
 
 interface SamplerClientProps {
@@ -12,31 +11,13 @@ interface SamplerClientProps {
 }
 
 export function SamplerClient({ kits, comboOffer, profile }: SamplerClientProps) {
-  const [selectedKitId, setSelectedKitId] = useState<string>(kits[0]?.id || "");
-
-  const handleSelectKitToBuy = (kitId: string) => {
-    setSelectedKitId(kitId);
-    // Smooth scroll to shop section
-    const shopEl = document.getElementById("shop");
-    if (shopEl) {
-      shopEl.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <div className="space-y-12">
-      <SamplerSection
+      <ShopSection
         kits={kits}
-        onSelectKitToBuy={handleSelectKitToBuy}
+        comboOffer={comboOffer}
+        profile={profile}
       />
-      <div id="shop">
-        <ShopSection
-          kits={kits}
-          comboOffer={comboOffer}
-          profile={profile}
-          preselectedKitId={selectedKitId}
-        />
-      </div>
     </div>
   );
 }
