@@ -129,6 +129,7 @@ export interface OrderItem {
   id: string;
   customerName: string;
   phone: string;
+  email?: string;
   serviceType: "sampler" | "room" | "course" | "event_band" | "thue_trong";
   itemSelected: string;
   software?: string;

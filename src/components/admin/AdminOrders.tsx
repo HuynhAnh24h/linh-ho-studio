@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { OrderItem } from "@/lib/types";
-import { Search, Trash2, Eye, X, Phone, MessageCircle, AlertCircle, CheckCircle, Clock } from "lucide-react";
+import { Search, Trash2, Eye, X, Phone, MessageCircle, AlertCircle, CheckCircle, Clock, Mail } from "lucide-react";
 
 interface AdminOrdersProps {
   orders: OrderItem[];
@@ -123,6 +123,16 @@ export function AdminOrders({ orders, onRefresh, onUpdateStatus, onDeleteOrder }
                           <MessageCircle className="w-4 h-4" />
                         </a>
                       </div>
+                      {order.email && (
+                        <a
+                          href={`mailto:${order.email}`}
+                          className="font-mono text-[11px] text-[var(--muted)] hover:text-[var(--brass)] flex items-center gap-1 mt-1 truncate max-w-[170px]"
+                          title={`Gửi mail cho ${order.email}`}
+                        >
+                          <Mail className="w-3 h-3 text-[var(--brass)] flex-shrink-0" />
+                          <span className="truncate">{order.email}</span>
+                        </a>
+                      )}
                     </td>
                     <td className="px-5 py-4">
                       <div className="font-semibold text-xs text-[var(--text)]">
@@ -217,6 +227,15 @@ export function AdminOrders({ orders, onRefresh, onUpdateStatus, onDeleteOrder }
                   <span className="text-xs text-[var(--muted)] block">Số điện thoại / Zalo</span>
                   <strong className="text-base text-[var(--brass)]">{viewingOrder.phone}</strong>
                 </div>
+                {viewingOrder.email && (
+                  <div className="col-span-2">
+                    <span className="text-xs text-[var(--muted)] block">Email liên hệ</span>
+                    <a href={`mailto:${viewingOrder.email}`} className="text-sm font-mono text-[var(--brass)] hover:underline flex items-center gap-1.5 mt-0.5">
+                      <Mail className="w-3.5 h-3.5" />
+                      <span>{viewingOrder.email}</span>
+                    </a>
+                  </div>
+                )}
               </div>
 
               <div className="pt-3 pb-3 space-y-2">

@@ -19,6 +19,7 @@ export function LienHeClient({ eventServices, profile }: LienHeClientProps) {
   );
   const [customerName, setCustomerName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [eventDate, setEventDate] = useState("");
   const [eventLocation, setEventLocation] = useState("");
   const [notes, setNotes] = useState("");
@@ -97,6 +98,7 @@ export function LienHeClient({ eventServices, profile }: LienHeClientProps) {
 Dịch vụ: ${selectedServiceTitle}
 Khách hàng: ${customerName || "(Chưa điền)"}
 SĐT/Zalo: ${phone}
+Email: ${email || "(Không cung cấp)"}
 Ngày diễn ra: ${eventDate || "Chưa xác định"}
 Địa điểm tổ chức: ${eventLocation || "Chưa xác định"}
 Ghi chú thêm: ${notes || "Không"}`;
@@ -108,6 +110,7 @@ Ghi chú thêm: ${notes || "Không"}`;
         body: JSON.stringify({
           customerName: customerName.trim() || "Khách đặt dịch vụ sự kiện",
           phone: phone.trim(),
+          email: email.trim() || undefined,
           serviceType: "event_band",
           itemSelected: selectedServiceTitle,
           message: fullMessage,
@@ -117,10 +120,11 @@ Ghi chú thêm: ${notes || "Không"}`;
       if (res.ok) {
         setFeedback({
           type: "success",
-          text: "✓ Gửi yêu cầu đặt dịch vụ thành công! Tôi sẽ gọi điện / nhắn Zalo để gửi bảng báo giá chi tiết trong vòng vài giờ.",
+          text: "✓ Gửi yêu cầu đặt dịch vụ thành công! Hệ thống đã gửi thông báo và tôi sẽ liên hệ lại qua SĐT/Zalo để gửi bảng báo giá chi tiết trong vòng vài giờ.",
         });
         setCustomerName("");
         setPhone("");
+        setEmail("");
         setEventDate("");
         setEventLocation("");
         setNotes("");
@@ -303,6 +307,19 @@ Ghi chú: ${notes || "Cần báo giá chi tiết"}`;
                   className="w-full px-4 py-2.5 rounded-xl border border-[var(--line-strong)] bg-[var(--bg)] text-[var(--text)] text-sm outline-none focus:border-[var(--brass)]"
                 />
               </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-[var(--muted)] mb-1">
+                Email của bạn (tuỳ chọn - nhận xác nhận qua email)
+              </label>
+              <input
+                type="email"
+                placeholder="yourname@gmail.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl border border-[var(--line-strong)] bg-[var(--bg)] text-[var(--text)] text-sm outline-none focus:border-[var(--brass)]"
+              />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

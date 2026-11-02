@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getDatabase, saveDatabase } from "@/lib/db";
 import { OrderItem } from "@/lib/types";
+import { broadcastSocketEvent } from "@/lib/socket-server-emit";
+import { sendContactNotificationEmail } from "@/lib/mail";
 
 export async function GET() {
   const db = await getDatabase();
@@ -16,9 +18,12 @@ export async function POST(req: Request) {
       id: "ord-" + Date.now(),
       customerName: body.customerName || "Khách hàng",
       phone: body.phone || "",
+      email: body.email ? String(body.email).trim() : undefined,
       serviceType: body.serviceType || "sampler",
       itemSelected: body.itemSelected || "Liên hệ dịch vụ",
       software: body.software || "",
+      deviceModel: body.deviceModel || "",
+      deliveryMethod: body.deliveryMethod || "",
       hours: body.hours,
       roomSelected: body.roomSelected,
       message: body.message || "",
@@ -31,8 +36,31 @@ export async function POST(req: Request) {
     }
     db.orders.unshift(newOrder);
     await saveDatabase(db);
+
+    // 1. Real-time broadcast via Socket.IO
+    broadcastSocketEvent("new_order", newOrder);
+    broadcastSocketEvent("notification", {
+      id: "notif-" + Date.now(),
+      type: "new_order",
+      title: "🔔 Yêu cầu liên hệ mới!",
+      message: `${newOrder.customerName} (${newOrder.phone}) vừa gửi: ${newOrder.itemSelected}`,
+      order: newOrder,
+      timestamp: new Date().toISOString(),
+    });
+
+    // 2. Email notification via Nodemailer (non-blocking)
+    const hostUrl = req.headers.get("origin") || req.headers.get("host") || "http://localhost:3000";
+    sendContactNotificationEmail({
+      order: newOrder,
+      toEmail: db.profile?.contact?.email,
+      hostUrl: hostUrl.startsWith("http") ? hostUrl : `http://${hostUrl}`,
+    }).catch((mErr) => {
+      console.warn("[Orders API] Email notification background error:", mErr);
+    });
+
     return NextResponse.json({ success: true, order: newOrder });
-  } catch {
+  } catch (err: any) {
+    console.error("[Orders API] Error creating order:", err);
     return NextResponse.json({ error: "Failed to create order" }, { status: 500 });
   }
 }
@@ -45,11 +73,16 @@ export async function PUT(req: Request) {
     if (index === -1) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
+
     db.orders[index] = {
       ...db.orders[index],
       ...body,
     };
     await saveDatabase(db);
+
+    // Real-time broadcast status change
+    broadcastSocketEvent("order_updated", db.orders[index]);
+
     return NextResponse.json({ success: true, order: db.orders[index] });
   } catch {
     return NextResponse.json({ error: "Failed to update order" }, { status: 500 });
@@ -66,6 +99,10 @@ export async function DELETE(req: Request) {
     const db = await getDatabase();
     db.orders = db.orders.filter((o) => o.id !== id);
     await saveDatabase(db);
+
+    // Real-time broadcast deletion
+    broadcastSocketEvent("order_deleted", { id });
+
     return NextResponse.json({ success: true, id });
   } catch {
     return NextResponse.json({ error: "Failed to delete order" }, { status: 500 });

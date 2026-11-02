@@ -15,6 +15,7 @@ export function ContactSection({ profile }: ContactSectionProps) {
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [topic, setTopic] = useState("Học trống kèm 1:1");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -87,6 +88,7 @@ export function ContactSection({ profile }: ContactSectionProps) {
 Chủ đề: ${topic}
 Họ tên: ${name || "(Chưa điền)"}
 SĐT/Zalo: ${phone}
+Email: ${email || "(Không cung cấp)"}
 Nội dung: ${message || "Cần tư vấn thông tin chi tiết."}`;
 
     try {
@@ -96,6 +98,7 @@ Nội dung: ${message || "Cần tư vấn thông tin chi tiết."}`;
         body: JSON.stringify({
           customerName: name.trim() || "Khách liên hệ",
           phone: phone.trim(),
+          email: email.trim() || undefined,
           serviceType: "course",
           itemSelected: `Liên hệ: ${topic}`,
           message: fullMessage,
@@ -105,10 +108,11 @@ Nội dung: ${message || "Cần tư vấn thông tin chi tiết."}`;
       if (res.ok) {
         setFeedback({
           type: "success",
-          text: "✓ Đã gửi tin nhắn thành công! Tôi sẽ liên hệ lại bạn qua SĐT/Zalo trong thời gian sớm nhất.",
+          text: "✓ Đã gửi tin nhắn thành công! Hệ thống đã ghi nhận và gửi thông báo. Tôi sẽ liên hệ lại bạn qua SĐT/Zalo trong thời gian sớm nhất.",
         });
         setName("");
         setPhone("");
+        setEmail("");
         setMessage("");
       } else {
         setFeedback({
@@ -208,6 +212,19 @@ Nội dung: ${message || "Cần tư vấn thông tin chi tiết."}`;
                     className="w-full px-4 py-2.5 rounded-xl border border-[var(--line-strong)] bg-[var(--bg)] text-[var(--text)] text-sm outline-none focus:border-[var(--brass)]"
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-[var(--muted)] mb-1.5">
+                  Email (tuỳ chọn - nhận thư xác nhận tự động)
+                </label>
+                <input
+                  type="email"
+                  placeholder="yourname@gmail.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl border border-[var(--line-strong)] bg-[var(--bg)] text-[var(--text)] text-sm outline-none focus:border-[var(--brass)]"
+                />
               </div>
 
               <div>

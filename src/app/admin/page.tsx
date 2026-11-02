@@ -19,6 +19,8 @@ import {
   Database,
   Users,
   Music,
+  Bell,
+  Radio,
 } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { AdminLogin } from "@/components/admin/AdminLogin";
@@ -31,6 +33,7 @@ import { AdminServices } from "@/components/admin/AdminServices";
 import { AdminKits } from "@/components/admin/AdminKits";
 import { AdminOrders } from "@/components/admin/AdminOrders";
 import { AdminMedia } from "@/components/admin/AdminMedia";
+import { getSocket } from "@/lib/socket-client";
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -39,6 +42,16 @@ export default function AdminPage() {
   const [isNeon, setIsNeon] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState<boolean>(false);
+
+  // Real-time Socket.IO state
+  const [isSocketConnected, setIsSocketConnected] = useState<boolean>(false);
+  const [activeVisitors, setActiveVisitors] = useState<number>(1);
+  const [liveToast, setLiveToast] = useState<{
+    id: string;
+    title: string;
+    message: string;
+    order?: OrderItem;
+  } | null>(null);
 
   // Check auth session
   useEffect(() => {
@@ -74,6 +87,113 @@ export default function AdminPage() {
       fetchData();
     }
   }, [isAuthenticated, fetchData]);
+
+  // Audio chime for new notifications
+  const playChime = useCallback(() => {
+    try {
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = "sine";
+      const now = ctx.currentTime;
+      osc.frequency.setValueAtTime(587.33, now); // D5
+      osc.frequency.setValueAtTime(880, now + 0.15); // A5
+      gain.gain.setValueAtTime(0.25, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+      osc.start(now);
+      osc.stop(now + 0.6);
+    } catch (e) {
+      console.warn("Chime audio error:", e);
+    }
+  }, []);
+
+  // Socket.IO real-time event listeners
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const socket = getSocket();
+    if (!socket || !socket.on) return;
+
+    if (socket.connected) {
+      setIsSocketConnected(true);
+    }
+
+    const onConnect = () => {
+      setIsSocketConnected(true);
+    };
+
+    const onDisconnect = () => {
+      setIsSocketConnected(false);
+    };
+
+    const onClientsCount = (cnt: number) => {
+      setActiveVisitors(cnt);
+    };
+
+    const onNewOrder = (newOrder: OrderItem) => {
+      playChime();
+      setData((prev) => {
+        if (!prev) return prev;
+        const exists = prev.orders?.some((o) => o.id === newOrder.id);
+        if (exists) return prev;
+        return {
+          ...prev,
+          orders: [newOrder, ...(prev.orders || [])],
+        };
+      });
+
+      setLiveToast({
+        id: "toast-" + Date.now(),
+        title: "🔔 Yêu cầu liên hệ / Đặt lịch mới!",
+        message: `${newOrder.customerName} (${newOrder.phone}) vừa đặt: ${newOrder.itemSelected}`,
+        order: newOrder,
+      });
+
+      setTimeout(() => {
+        setLiveToast((current) => (current?.order?.id === newOrder.id ? null : current));
+      }, 8000);
+    };
+
+    const onOrderUpdated = (updatedOrder: OrderItem) => {
+      setData((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          orders: (prev.orders || []).map((o) => (o.id === updatedOrder.id ? updatedOrder : o)),
+        };
+      });
+    };
+
+    const onOrderDeleted = ({ id }: { id: string }) => {
+      setData((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          orders: (prev.orders || []).filter((o) => o.id !== id),
+        };
+      });
+    };
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+    socket.on("clients_count", onClientsCount);
+    socket.on("new_order", onNewOrder);
+    socket.on("order_updated", onOrderUpdated);
+    socket.on("order_deleted", onOrderDeleted);
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+      socket.off("clients_count", onClientsCount);
+      socket.off("new_order", onNewOrder);
+      socket.off("order_updated", onOrderUpdated);
+      socket.off("order_deleted", onOrderDeleted);
+    };
+  }, [isAuthenticated, playChime]);
 
   const handleLogout = () => {
     sessionStorage.removeItem("admin_auth");
@@ -193,6 +313,30 @@ export default function AdminPage() {
             <span className="font-semibold truncate">
               {isNeon ? "Neon PostgreSQL" : "CSDL Cục bộ"}
             </span>
+          </div>
+
+          {/* Real-time Socket.IO status pill */}
+          <div className="px-3 py-2 rounded-xl bg-[var(--chip)] border border-[var(--line)] flex items-center justify-between text-xs">
+            <div className="flex items-center gap-2 truncate">
+              <span className="relative flex h-2 w-2 flex-shrink-0">
+                {isSocketConnected ? (
+                  <>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                  </>
+                ) : (
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
+                )}
+              </span>
+              <span className="font-semibold truncate text-[11px]">
+                {isSocketConnected ? "Realtime Socket.IO" : "Socket.IO Đang nối..."}
+              </span>
+            </div>
+            {isSocketConnected && (
+              <span className="font-mono text-[10px] text-[var(--brass)] bg-[var(--surface)] px-1.5 py-0.5 rounded border border-[var(--line)] flex-shrink-0" title="Tổng số thiết bị & client đang online">
+                {activeVisitors} online
+              </span>
+            )}
           </div>
 
           {/* Navigation Menu */}
@@ -325,6 +469,45 @@ export default function AdminPage() {
           </>
         )}
       </main>
+
+      {/* Real-time Socket.IO Floating Toast Notification */}
+      {liveToast && (
+        <div className="fixed top-5 right-5 z-50 max-w-sm w-full animate-fade-in p-4 rounded-2xl bg-[#1e1715]/95 border-2 border-[var(--brass)] shadow-[0_15px_40px_rgba(0,0,0,0.8)] backdrop-blur-md">
+          <div className="flex items-start justify-between gap-3">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping flex-shrink-0" />
+                <h4 className="font-condensed font-extrabold text-base text-[var(--brass)] uppercase">
+                  {liveToast.title}
+                </h4>
+              </div>
+              <p className="text-xs text-white leading-relaxed font-medium">
+                {liveToast.message}
+              </p>
+            </div>
+            <button
+              onClick={() => setLiveToast(null)}
+              className="text-[var(--muted)] hover:text-white p-1"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+          <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center justify-between">
+            <span className="text-[10px] font-mono text-[var(--muted)]">
+              Vừa tức thì qua Socket.IO
+            </span>
+            <button
+              onClick={() => {
+                setActiveTab("orders");
+                setLiveToast(null);
+              }}
+              className="px-3 py-1.5 rounded-lg bg-[var(--brass)] text-[#1e1715] font-bold text-xs hover:bg-amber-300 transition-colors shadow-sm"
+            >
+              Xem đơn hàng ngay
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
