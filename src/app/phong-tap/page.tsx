@@ -3,6 +3,9 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PhongTapClient } from "./PhongTapClient";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function PhongTapPage() {
   const data = await getDatabase();
 

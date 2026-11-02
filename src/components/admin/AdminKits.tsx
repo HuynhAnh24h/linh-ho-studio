@@ -74,8 +74,17 @@ export function AdminKits({ kits, comboOffer, onRefresh }: AdminKitsProps) {
   const [comboBadge, setComboBadge] = useState(comboOffer.badge);
   const [comboDesc, setComboDesc] = useState(comboOffer.desc);
 
+  // Sync comboOffer prop changes
+  React.useEffect(() => {
+    setComboTitle(comboOffer.title);
+    setComboPrice(comboOffer.price);
+    setComboOriginalPrice(comboOffer.originalPrice);
+    setComboBadge(comboOffer.badge);
+    setComboDesc(comboOffer.desc);
+  }, [comboOffer]);
+
   const openCreateKit = (presetPadType?: "spd30" | "sample_pad") => {
-    const targetType = presetPadType || activeTab === "spd30" ? "spd30" : "sample_pad";
+    const targetType = (presetPadType || activeTab) === "spd30" ? "spd30" : "sample_pad";
     setEditingKit(null);
     setPadType(targetType);
     setName(targetType === "spd30" ? "Bộ Tiếng SPD-30 Cài Đặt Sẵn" : "Bộ Tiếng Sound Ngoài WAV");
@@ -146,8 +155,9 @@ export function AdminKits({ kits, comboOffer, onRefresh }: AdminKitsProps) {
         body: formData,
       });
       const data = await res.json();
-      if (data.success && data.media?.url) {
-        setDemoAudioUrl(data.media.url);
+      const audioUrl = data.url || data.media?.url;
+      if (audioUrl) {
+        setDemoAudioUrl(audioUrl);
       }
     } catch (err) {
       console.error(err);
@@ -172,11 +182,15 @@ export function AdminKits({ kits, comboOffer, onRefresh }: AdminKitsProps) {
         body: formData,
       });
       const data = await res.json();
-      if (data.success && data.media?.url) {
-        setSamples((prev) => ({ ...prev, [padKey]: data.media.url }));
+      const audioUrl = data.url || data.media?.url;
+      if (audioUrl) {
+        setSamples((prev) => ({ ...prev, [padKey]: audioUrl }));
+      } else {
+        alert("Không thể lưu file âm thanh. Vui lòng thử lại!");
       }
     } catch (err) {
       console.error(err);
+      alert("Lỗi tải tệp âm thanh pad!");
     } finally {
       setIsUploading(null);
     }

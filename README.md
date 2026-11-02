@@ -81,3 +81,27 @@ Mở trình duyệt:
    - Trong phần **Environment Variables**, thêm biến:
      - `ADMIN_PASSWORD`: Mật khẩu đăng nhập trang admin (ví dụ: `matkhau_cua_ban`).
    - Bấm **Deploy**. Vercel sẽ tự động build và cung cấp đường link website trực tuyến!
+
+## Full ENV
+# Mật khẩu quản trị Admin (mặc định: admin123)
+ADMIN_PASSWORD=admin123
+
+# Kết nối cơ sở dữ liệu chính: Neon Serverless PostgreSQL
+# Tạo database miễn phí tại https://neon.tech rồi dán connection string vào đây:
+DATABASE_URL=postgresql://neondb_owner:npg_6AKNucPTm5zS@ep-dry-truth-b4iv3kq2-pooler.c-6.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+
+# Cấu hình gửi Email thông báo tự động (Nodemailer)
+# Cách 1: Sử dụng Gmail (khuyên dùng - tạo 'Mật khẩu ứng dụng / App Password' 16 ký tự tại myaccount.google.com/apppasswords):
+GMAIL_USER=your_email@gmail.com
+GMAIL_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx
+
+# Cách 2: Sử dụng SMTP tùy chỉnh (Resend, Sendgrid, Zoho, Hostinger...):
+# SMTP_HOST=smtp.gmail.com
+# SMTP_PORT=587
+# SMTP_SECURE=false
+# SMTP_USER=your_email@gmail.com
+# SMTP_PASS=your_password
+
+# Email nhận thông báo đơn hàng / liên hệ:
+CONTACT_EMAIL_TO=lh.musicstudio.vn@gmail.com
+

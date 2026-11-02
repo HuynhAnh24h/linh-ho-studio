@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { BackgroundMusic } from "@/components/BackgroundMusic";
 import { PageLoader } from "@/components/PageLoader";
+import { RealtimeDataSync } from "@/components/RealtimeDataSync";
 
 export const metadata: Metadata = {
   title: "Linh Hồ – Drummer & LH Music Studio",
@@ -26,6 +27,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col antialiased selection:bg-[#b8860b] selection:text-white relative">
         <PageLoader />
+        <RealtimeDataSync />
         {children}
         <BackgroundMusic />
       </body>

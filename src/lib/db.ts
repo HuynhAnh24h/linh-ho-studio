@@ -1,11 +1,11 @@
 import fs from "fs";
 import path from "path";
+import { revalidatePath } from "next/cache";
 import { neon, NeonQueryFunction } from "@neondatabase/serverless";
 import { SiteData } from "./types";
 import { initialSiteData } from "./initial-data";
+import { broadcastSocketEvent } from "./socket-server-emit";
 
-// In-memory cache for ultra-fast responses
-let memoryData: SiteData | null = null;
 let isTableInitialized = false;
 
 const DATA_DIR = path.join(process.cwd(), "data");
@@ -69,13 +69,12 @@ function ensureDirectoryExists(dirPath: string) {
 export async function getDatabase(): Promise<SiteData> {
   const sql = getNeonClient();
 
-  // 1. Neon PostgreSQL as Primary Database
+  // 1. Neon PostgreSQL as Primary Database (when configured)
   if (sql) {
     try {
       await ensureNeonTable(sql);
       const rows = (await sql`SELECT data FROM lh_site_data WHERE id = 'main' LIMIT 1;`) as { data: SiteData }[];
       if (rows && rows.length > 0 && rows[0].data) {
-        memoryData = rows[0].data;
         return rows[0].data;
       } else {
         // Seed Neon database with initial data
@@ -86,53 +85,44 @@ export async function getDatabase(): Promise<SiteData> {
           VALUES ('main', ${JSON.stringify(seedData)}::jsonb, NOW())
           ON CONFLICT (id) DO UPDATE SET data = ${JSON.stringify(seedData)}::jsonb, updated_at = NOW();
         `;
-        memoryData = seedData;
         return seedData;
       }
     } catch (err) {
-      console.error("[Neon] Error querying Neon database, falling back to local:", err);
+      console.error("[Neon] Error querying Neon database, falling back to local file:", err);
     }
   }
 
-  // 2. In-memory cache
-  if (memoryData) {
-    return memoryData;
-  }
-
-  // 3. Fallback to local data/db.json
+  // 2. Local data/db.json (Always fresh, zero stale cache)
   try {
     if (fs.existsSync(DATA_FILE)) {
       const raw = fs.readFileSync(DATA_FILE, "utf-8");
       const parsed: SiteData = JSON.parse(raw);
-      memoryData = parsed;
       return parsed;
     }
   } catch (err) {
     console.warn("Failed to read from DATA_FILE:", err);
   }
 
-  // 4. Fallback to /tmp/db.json
+  // 3. Fallback to /tmp/db.json (Serverless environments)
   try {
     if (fs.existsSync(TMP_FILE)) {
       const raw = fs.readFileSync(TMP_FILE, "utf-8");
       const parsed: SiteData = JSON.parse(raw);
-      memoryData = parsed;
       return parsed;
     }
   } catch {
     // Ignore tmp error
   }
 
-  // 5. Default initial seed
+  // 4. Default initial seed
   const fallbackData: SiteData = JSON.parse(JSON.stringify(initialSiteData));
-  memoryData = fallbackData;
   await saveDatabase(fallbackData);
   return fallbackData;
 }
 
 export async function saveDatabase(data: SiteData): Promise<boolean> {
-  memoryData = data;
   const sql = getNeonClient();
+  let savedToNeon = false;
 
   // 1. Save to Neon PostgreSQL
   if (sql) {
@@ -143,26 +133,39 @@ export async function saveDatabase(data: SiteData): Promise<boolean> {
         VALUES ('main', ${JSON.stringify(data)}::jsonb, NOW())
         ON CONFLICT (id) DO UPDATE SET data = ${JSON.stringify(data)}::jsonb, updated_at = NOW();
       `;
-      return true;
+      savedToNeon = true;
     } catch (err) {
       console.error("[Neon] Error saving to Neon database:", err);
     }
   }
 
-  // 2. Fallback: Save to local data/db.json
+  // 2. Always save to local data/db.json as local mirror / backup
   try {
     ensureDirectoryExists(DATA_DIR);
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), "utf-8");
-    return true;
   } catch (err) {
     try {
       fs.writeFileSync(TMP_FILE, JSON.stringify(data, null, 2), "utf-8");
-      return true;
     } catch {
-      console.warn("Filesystem read-only. Data kept in memory.", err);
-      return true;
+      console.warn("Filesystem read-only.", err);
     }
   }
+
+  // 3. Invalidate Next.js cache across entire layout instantly
+  try {
+    revalidatePath("/", "layout");
+  } catch (err) {
+    // In dev mode or standalone scripts, ignore if Next cache context is not active
+  }
+
+  // 4. Broadcast real-time update to all open admin & client tabs via Socket.IO
+  try {
+    broadcastSocketEvent("data_updated", { timestamp: Date.now() });
+  } catch (err) {
+    // Ignore socket error
+  }
+
+  return true;
 }
 
 export async function resetDatabase(): Promise<SiteData> {

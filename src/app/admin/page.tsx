@@ -67,7 +67,13 @@ export default function AdminPage() {
   const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
-      const res = await fetch("/api/data");
+      const res = await fetch(`/api/data?t=${Date.now()}`, {
+        cache: "no-store",
+        headers: {
+          "Pragma": "no-cache",
+          "Cache-Control": "no-cache",
+        },
+      });
       if (res.ok) {
         const json = await res.json();
         setData(json);
@@ -178,12 +184,17 @@ export default function AdminPage() {
       });
     };
 
+    const onDataUpdated = () => {
+      fetchData();
+    };
+
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
     socket.on("clients_count", onClientsCount);
     socket.on("new_order", onNewOrder);
     socket.on("order_updated", onOrderUpdated);
     socket.on("order_deleted", onOrderDeleted);
+    socket.on("data_updated", onDataUpdated);
 
     return () => {
       socket.off("connect", onConnect);
@@ -192,8 +203,9 @@ export default function AdminPage() {
       socket.off("new_order", onNewOrder);
       socket.off("order_updated", onOrderUpdated);
       socket.off("order_deleted", onOrderDeleted);
+      socket.off("data_updated", onDataUpdated);
     };
-  }, [isAuthenticated, playChime]);
+  }, [isAuthenticated, playChime, fetchData]);
 
   const handleLogout = () => {
     sessionStorage.removeItem("admin_auth");

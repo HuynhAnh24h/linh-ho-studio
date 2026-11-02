@@ -40,7 +40,7 @@ export async function POST(req: Request) {
       if (!db.media) db.media = [];
       db.media.unshift(mediaItem);
       await saveDatabase(db);
-      return NextResponse.json({ success: true, media: mediaItem });
+      return NextResponse.json({ success: true, url: body.url, media: mediaItem });
     }
 
     // 2. FormData file upload
@@ -87,7 +87,7 @@ export async function POST(req: Request) {
     db.media.unshift(mediaItem);
     await saveDatabase(db);
 
-    return NextResponse.json({ success: true, media: mediaItem });
+    return NextResponse.json({ success: true, url: fileUrl, media: mediaItem });
   } catch (error) {
     console.error("Upload error:", error);
     return NextResponse.json({ error: "Failed to process file upload" }, { status: 500 });

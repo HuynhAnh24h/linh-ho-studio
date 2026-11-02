@@ -53,7 +53,7 @@ export function AdminStudents({ students, onRefresh }: AdminStudentsProps) {
 
       if (res.ok) {
         const item = await res.json();
-        setImageUrl(item.url);
+        setImageUrl(item.url || item.media?.url || "");
       } else {
         alert("Tải lên thất bại. Vui lòng thử lại!");
       }

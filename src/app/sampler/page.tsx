@@ -8,6 +8,9 @@ export const metadata = {
   description: "Trải nghiệm máy gõ trống 6-pad online và kho bộ tiếng Sampler drum kit chất lượng cao.",
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function SamplerPage() {
   const data = await getDatabase();
 

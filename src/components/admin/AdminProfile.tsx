@@ -17,6 +17,13 @@ export function AdminProfile({ profile: initialProfile, onSaveProfile }: AdminPr
   const [isSuccess, setIsSuccess] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
+  // Sync prop changes from database
+  React.useEffect(() => {
+    setProfile(initialProfile);
+    setStats(initialProfile.stats || []);
+    setGenresInput((initialProfile.genres || []).join(", "));
+  }, [initialProfile]);
+
   const handleStatChange = (idx: number, field: "value" | "label", val: string) => {
     const updated = [...stats];
     updated[idx][field] = val;
@@ -46,8 +53,9 @@ export function AdminProfile({ profile: initialProfile, onSaveProfile }: AdminPr
         body: formData,
       });
       const data = await res.json();
-      if (data.success && data.media?.url) {
-        setProfile((prev) => ({ ...prev, avatarUrl: data.media.url }));
+      const newUrl = data.url || data.media?.url;
+      if (newUrl) {
+        setProfile((prev) => ({ ...prev, avatarUrl: newUrl }));
       }
     } catch (err) {
       console.error(err);

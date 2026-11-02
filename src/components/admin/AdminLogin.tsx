@@ -64,7 +64,7 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-[var(--muted)] mb-1.5">
-              Mật khẩu Admin
+              Mật khẩu
             </label>
             <div className="relative">
               <input
@@ -73,8 +73,8 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
                 autoFocus
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Nhập mật khẩu (mặc định: admin123)"
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-[var(--line-strong)] bg-[var(--bg)] text-[var(--text)] text-sm outline-none focus:border-[var(--brass)]"
+                placeholder="Nhập mật khẩu ... "
+                className="w-full pl-10 pr-4 py-3 outline-none rounded-xl border border-[var(--line-strong)] bg-[var(--bg)] text-[var(--text)] text-sm outline-none focus:border-[var(--brass)]"
               />
               <Lock className="w-4 h-4 text-[var(--muted)] absolute left-3.5 top-1/2 -translate-y-1/2" />
             </div>
