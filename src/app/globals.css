@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* ===== Theme Variables ===== */
 :root {
   --bg: #eef1f6;
   --surface: #ffffff;
@@ -15,11 +16,11 @@
   --pad-on: #f1d27a;
   --tint: rgba(184, 134, 11, 0.14);
   --ember: #c8431f;
-  --navbg: rgba(238, 241, 246, 0.90);
+  --navbg: rgba(238, 241, 246, 0.86);
   color-scheme: light;
 }
 
-[data-theme="dark"] {
+:root[data-theme="dark"] {
   --bg: #101426;
   --surface: #171c33;
   --text: #eef0f7;
@@ -34,7 +35,7 @@
   --pad-on: #e0b13c;
   --tint: rgba(224, 177, 60, 0.15);
   --ember: #ff7a52;
-  --navbg: rgba(16, 20, 38, 0.90);
+  --navbg: rgba(16, 20, 38, 0.86);
   color-scheme: dark;
 }
 
@@ -54,22 +55,22 @@
     --pad-on: #e0b13c;
     --tint: rgba(224, 177, 60, 0.15);
     --ember: #ff7a52;
-    --navbg: rgba(16, 20, 38, 0.90);
+    --navbg: rgba(16, 20, 38, 0.86);
     color-scheme: dark;
   }
 }
 
+/* ===== Base typography & layout ===== */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px;
+  scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 70px);
 }
 
 body {
   margin: 0;
   background-color: var(--bg);
   color: var(--text);
-  font-family: "Be Vietnam Pro", system-ui, -apple-system, sans-serif;
-  line-height: 1.65;
+  font: 400 16px/1.65 "Be Vietnam Pro", system-ui, -apple-system, sans-serif;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
@@ -77,8 +78,139 @@ body {
   font-family: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
 }
 
-/* Snare Drum 3D styling */
-.snare-drum {
+h1, h2, h3 {
+  font-family: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+  line-height: 1.05;
+  margin: 0 0 12px;
+  font-weight: 800;
+}
+
+h1 {
+  font-size: clamp(50px, 9vw, 96px);
+}
+
+h2 {
+  font-size: clamp(34px, 5vw, 50px);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+h3 {
+  font-size: 27px;
+  font-weight: 600;
+}
+
+p {
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+
+/* ===== Original Button Classes ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.12s, background 0.12s, border-color 0.12s;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--brass);
+  color: #1a1405;
+}
+
+.btn-primary:hover {
+  background: var(--brass-2);
+}
+
+.btn-outline {
+  border-color: var(--line-strong);
+  color: var(--text);
+  background: transparent;
+}
+
+.btn-outline:hover {
+  border-color: var(--brass);
+  color: var(--brass);
+}
+
+.btn-sm {
+  padding: 8px 14px;
+  font-size: 14px;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* ===== Cards & Badges ===== */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-body {
+  padding: 24px;
+}
+
+.card.feat {
+  border-color: var(--brass);
+  box-shadow: 0 0 0 1px var(--brass);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 99px;
+  background: var(--chip);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.ibox {
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: var(--tint);
+  color: var(--brass);
+  flex-shrink: 0;
+}
+
+.ibox svg {
+  width: 24px;
+  height: 24px;
+}
+
+h2 .ibox {
+  width: 52px;
+  height: 52px;
+}
+
+/* ===== Interactive Snare Drum ===== */
+.snare, .snare-drum {
   position: relative;
   width: min(100%, 360px);
   aspect-ratio: 1;
@@ -92,28 +224,188 @@ body {
   transition: transform 0.08s ease;
 }
 
-.snare-drum:active {
+.snare:active, .snare-drum:active {
   transform: scale(0.96);
 }
 
-.snare-drum.hit {
+.snare.hit, .snare-drum.hit {
   animation: snare-hit 0.16s ease-out;
 }
 
 @keyframes snare-hit {
-  0% {
-    transform: scale(0.95);
-  }
-  50% {
-    transform: scale(1.02);
-  }
-  100% {
-    transform: scale(1);
+  0% { transform: scale(0.96); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.snare span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font: 800 30px "Barlow Condensed", sans-serif;
+  color: var(--text);
+  pointer-events: none;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.snare span svg {
+  width: 44px;
+  height: 44px;
+  color: var(--brass);
+}
+
+/* ===== Stats & Price ===== */
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 34px;
+  margin-top: 30px;
+}
+
+.stats b {
+  display: block;
+  font: 800 40px "Barlow Condensed", sans-serif;
+  color: var(--brass);
+  line-height: 1;
+}
+
+.stats small {
+  color: var(--muted);
+}
+
+.price {
+  font: 800 42px "Barlow Condensed", sans-serif;
+  color: var(--brass);
+  line-height: 1.1;
+  margin: 6px 0 4px;
+}
+
+.price small {
+  font: 400 14px "Be Vietnam Pro", sans-serif;
+  color: var(--muted);
+}
+
+ul.tick {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+}
+
+ul.tick li {
+  padding: 5px 0 5px 28px;
+  position: relative;
+  color: var(--muted);
+}
+
+ul.tick li svg {
+  position: absolute;
+  left: 0;
+  top: 9px;
+  color: var(--brass);
+  width: 18px;
+  height: 18px;
+}
+
+.ribbon {
+  position: absolute;
+  top: 16px;
+  right: -34px;
+  transform: rotate(38deg);
+  background: var(--ember);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 40px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Perks & Calc ===== */
+.perks {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+@media (min-width: 640px) {
+  .perks {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
-/* Drum Pad styling */
-.drum-pad {
+.perk {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.perk .ibox {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+}
+
+.calc {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 26px;
+}
+
+.total {
+  font: 800 54px "Barlow Condensed", sans-serif;
+  color: var(--brass);
+  line-height: 1.1;
+}
+
+/* ===== Sampler Pads & Kits ===== */
+.kits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.kit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 99px;
+  border: 2px solid var(--line-strong);
+  background: transparent;
+  color: var(--text);
+  font: 500 15px "Be Vietnam Pro", sans-serif;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.kit[aria-pressed="true"], .kit.active {
+  background: var(--brass);
+  border-color: var(--brass);
+  color: #1a1405;
+  font-weight: 700;
+}
+
+.pads {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  max-width: 540px;
+}
+
+.pad, .drum-pad {
   aspect-ratio: 1.25;
   border-radius: 16px;
   border: 2px solid var(--line-strong);
@@ -127,54 +419,65 @@ body {
   font-family: "Barlow Condensed", sans-serif;
   font-size: 27px;
   font-weight: 800;
-  transition: background-color 0.06s, color 0.06s, border-color 0.06s, transform 0.06s;
   user-select: none;
+  transition: background 0.06s, color 0.06s, border-color 0.06s, transform 0.06s;
 }
 
-.drum-pad:active,
-.drum-pad.active {
+.pad small, .drum-pad small {
+  font: 500 13px "Be Vietnam Pro", sans-serif;
+  opacity: 0.75;
+}
+
+.pad.on, .pad:active, .drum-pad.active, .drum-pad:active {
   background: var(--pad-on) !important;
   color: #1a1405 !important;
   border-color: var(--pad-on) !important;
   transform: scale(0.96);
 }
 
-/* Sequencer LED step */
-.step-led {
+.steps {
+  display: flex;
+  gap: 4px;
+  margin-top: 20px;
+  max-width: 540px;
+}
+
+.steps i, .step-led {
   flex: 1;
   height: 10px;
   border-radius: 3px;
   background: var(--line);
-  transition: background-color 0.05s ease;
+  transition: background 0.05s ease;
 }
 
-.step-led.active {
+.steps i.now, .step-led.active {
   background: var(--brass) !important;
   box-shadow: 0 0 8px var(--brass);
 }
 
-/* Icon box */
-.ibox {
-  display: inline-grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  background: var(--tint);
-  color: var(--brass);
-  flex-shrink: 0;
+/* ===== Form inputs ===== */
+.form-select, .form-control {
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  outline: none;
 }
 
-/* Ribbon badge */
-.ribbon {
-  position: absolute;
-  top: 16px;
-  right: -34px;
-  transform: rotate(38deg);
-  background: var(--ember);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 3px 40px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+.form-select:focus, .form-control:focus {
+  border-color: var(--brass);
+}
+
+.form-range {
+  width: 100%;
+  accent-color: var(--brass);
+}
+
+/* Focus visible */
+a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--brass);
+  outline-offset: 2px;
 }
