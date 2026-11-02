@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Moon, Sun, Menu, X, ShieldAlert } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
 
@@ -12,6 +13,7 @@ interface NavbarProps {
 export function Navbar({ brandName = "LH STUDIO" }: NavbarProps) {
   const [theme, setTheme] = useState<"light" | "dark">("dark");
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
@@ -19,7 +21,6 @@ export function Navbar({ brandName = "LH STUDIO" }: NavbarProps) {
       setTheme(savedTheme);
       document.documentElement.setAttribute("data-theme", savedTheme);
     } else {
-      // Default to dark theme matching LH Studio aesthetic
       setTheme("dark");
       document.documentElement.setAttribute("data-theme", "dark");
     }
@@ -33,33 +34,39 @@ export function Navbar({ brandName = "LH STUDIO" }: NavbarProps) {
   };
 
   const navLinks = [
-    { href: "#gioi-thieu", label: "Giới thiệu" },
-    { href: "#day-trong", label: "Dạy trống" },
-    { href: "#phong-tap", label: "Phòng tập" },
-    { href: "#sampler", label: "Sampler" },
-    { href: "#mua-sampler", label: "Mua sampler" },
-    { href: "#lien-he", label: "Liên hệ" },
+    { href: "/", label: "Profile" },
+    { href: "/day-trong", label: "Dạy trống" },
+    { href: "/phong-tap", label: "Phòng tập" },
+    { href: "/sampler", label: "Sampler" },
+    { href: "/lien-he", label: "Dịch vụ" },
   ];
 
   return (
     <header className="sticky top-0 z-40 w-full backdrop-blur-md border-b border-[var(--line)] bg-[var(--navbg)] transition-colors">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        {/* Brand with Logo image */}
-        <Link href="#top" className="hover:opacity-90 transition-opacity">
+        {/* Brand with Logo */}
+        <Link href="/" className="hover:opacity-90 transition-opacity">
           <BrandLogo size="md" />
         </Link>
 
         {/* Desktop Nav Links */}
         <nav className="hidden md:flex items-center gap-1">
-          {navLinks.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="px-3 py-1.5 rounded-lg text-sm font-medium text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--chip)] transition-colors"
-            >
-              {item.label}
-            </a>
-          ))}
+          {navLinks.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`px-3.5 py-1.5 rounded-xl text-sm font-medium transition-all ${
+                  isActive
+                    ? "bg-[var(--brass)] text-[#1e1715] font-bold shadow-sm"
+                    : "text-[var(--muted)] hover:text-[var(--text)] hover:bg-[var(--chip)]"
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Actions */}
@@ -97,16 +104,23 @@ export function Navbar({ brandName = "LH STUDIO" }: NavbarProps) {
       {/* Mobile Drawer */}
       {isMobileOpen && (
         <div className="md:hidden border-t border-[var(--line)] bg-[var(--surface)] px-4 py-4 space-y-2">
-          {navLinks.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={() => setIsMobileOpen(false)}
-              className="block px-3 py-2 rounded-lg font-medium text-[var(--text)] hover:bg-[var(--chip)] transition-colors"
-            >
-              {item.label}
-            </a>
-          ))}
+          {navLinks.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsMobileOpen(false)}
+                className={`block px-3 py-2 rounded-lg font-medium transition-colors ${
+                  isActive
+                    ? "bg-[var(--brass)] text-[#1e1715] font-bold"
+                    : "text-[var(--text)] hover:bg-[var(--chip)]"
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
           <div className="pt-2 border-t border-[var(--line)]">
             <Link
               href="/admin"

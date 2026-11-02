@@ -2,7 +2,7 @@
 
 import React from "react";
 import { SiteData, OrderItem } from "@/lib/types";
-import { ShoppingBag, GraduationCap, Clock, Headphones, Image as ImageIcon, ExternalLink, AlertCircle, CheckCircle, Database } from "lucide-react";
+import { ShoppingBag, GraduationCap, Clock, Headphones, Image as ImageIcon, ExternalLink, AlertCircle, CheckCircle, Database, Music, Users } from "lucide-react";
 
 interface AdminOverviewProps {
   data: SiteData;
@@ -30,10 +30,22 @@ export function AdminOverview({ data, isNeon, onNavigateTab, onUpdateOrderStatus
       tab: "courses",
     },
     {
+      label: "Hình ảnh học viên",
+      value: data.studentImages?.length || 0,
+      icon: <Users className="w-5 h-5 text-[var(--brass)]" />,
+      tab: "students",
+    },
+    {
       label: "Phòng tập band",
       value: data.rooms.length,
       icon: <Clock className="w-5 h-5 text-[var(--brass)]" />,
       tab: "rooms",
+    },
+    {
+      label: "Dịch vụ Show & Tiệc",
+      value: data.eventServices?.length || 0,
+      icon: <Music className="w-5 h-5 text-[var(--brass)]" />,
+      tab: "services",
     },
     {
       label: "Bộ Sampler trống",

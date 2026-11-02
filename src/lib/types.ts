@@ -34,6 +34,13 @@ export interface CourseItem {
   order: number;
 }
 
+export interface StudentImageItem {
+  id: string;
+  title: string;
+  imageUrl: string;
+  caption?: string;
+}
+
 export interface RoomItem {
   id: string;
   name: string;
@@ -47,6 +54,25 @@ export interface RoomPerk {
   id: string;
   title: string;
   iconName: string;
+}
+
+export interface RoomImageItem {
+  id: string;
+  title: string;
+  imageUrl: string;
+  category?: string;
+}
+
+export interface EventServiceItem {
+  id: string;
+  title: string;
+  category: "band_acoustic" | "thue_trong" | "full_band_tiec" | "khac";
+  price: string;
+  priceNumber?: number;
+  description: string;
+  features: string[];
+  imageUrl?: string;
+  order: number;
 }
 
 export interface KitSamples {
@@ -96,7 +122,7 @@ export interface OrderItem {
   id: string;
   customerName: string;
   phone: string;
-  serviceType: "sampler" | "room" | "course";
+  serviceType: "sampler" | "room" | "course" | "event_band" | "thue_trong";
   itemSelected: string;
   software?: string;
   hours?: number;
@@ -118,8 +144,11 @@ export interface MediaItem {
 export interface SiteData {
   profile: ProfileData;
   courses: CourseItem[];
+  studentImages: StudentImageItem[];
   rooms: RoomItem[];
   roomPerks: RoomPerk[];
+  roomImages: RoomImageItem[];
+  eventServices: EventServiceItem[];
   kits: SoundKitItem[];
   comboOffer: ComboOffer;
   orders: OrderItem[];

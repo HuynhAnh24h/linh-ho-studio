@@ -17,13 +17,17 @@ import {
   Menu,
   X,
   Database,
+  Users,
+  Music,
 } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { AdminLogin } from "@/components/admin/AdminLogin";
 import { AdminOverview } from "@/components/admin/AdminOverview";
 import { AdminProfile } from "@/components/admin/AdminProfile";
 import { AdminCourses } from "@/components/admin/AdminCourses";
+import { AdminStudents } from "@/components/admin/AdminStudents";
 import { AdminRooms } from "@/components/admin/AdminRooms";
+import { AdminServices } from "@/components/admin/AdminServices";
 import { AdminKits } from "@/components/admin/AdminKits";
 import { AdminOrders } from "@/components/admin/AdminOrders";
 import { AdminMedia } from "@/components/admin/AdminMedia";
@@ -145,7 +149,9 @@ export default function AdminPage() {
     { id: "overview", label: "Tổng quan", icon: <LayoutDashboard className="w-4 h-4" /> },
     { id: "profile", label: "Thông tin & Trang chủ", icon: <User className="w-4 h-4" /> },
     { id: "courses", label: "Khoá học dạy trống", icon: <GraduationCap className="w-4 h-4" /> },
-    { id: "rooms", label: "Phòng tập band", icon: <Clock className="w-4 h-4" /> },
+    { id: "students", label: "Hình ảnh học viên", icon: <Users className="w-4 h-4" /> },
+    { id: "rooms", label: "Phòng tập & Thiết bị", icon: <Clock className="w-4 h-4" /> },
+    { id: "services", label: "Dịch vụ Show & Tiệc", icon: <Music className="w-4 h-4" /> },
     { id: "kits", label: "Bộ Sampler trống", icon: <Headphones className="w-4 h-4" /> },
     {
       id: "orders",
@@ -279,12 +285,21 @@ export default function AdminPage() {
               <AdminCourses courses={data.courses} onRefresh={fetchData} />
             )}
 
+            {activeTab === "students" && (
+              <AdminStudents students={data.studentImages || []} onRefresh={fetchData} />
+            )}
+
             {activeTab === "rooms" && (
               <AdminRooms
                 rooms={data.rooms}
                 roomPerks={data.roomPerks}
+                roomImages={data.roomImages || []}
                 onRefresh={fetchData}
               />
+            )}
+
+            {activeTab === "services" && (
+              <AdminServices services={data.eventServices || []} onRefresh={fetchData} />
             )}
 
             {activeTab === "kits" && (
