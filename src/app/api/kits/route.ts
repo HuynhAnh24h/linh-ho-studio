@@ -17,14 +17,25 @@ export async function POST(req: Request) {
 
     const newKit: SoundKitItem = {
       id: body.id || "kit-" + Date.now(),
-      name: body.name,
+      name: body.name || "Bộ tiếng mới",
       desc: body.desc || "",
+      padType: body.padType === "spd30" ? "spd30" : "sample_pad",
+      category: body.category || (body.padType === "spd30" ? "spd30_preset" : "pop_ballad"),
+      compatibleDevices: Array.isArray(body.compatibleDevices)
+        ? body.compatibleDevices
+        : body.padType === "spd30"
+        ? ["Roland SPD-30 (Octapad)"]
+        : ["Roland SPD-SX", "Roland SPD-SX PRO", "NUX DP-2000", "Avatar HXW"],
       price: Number(body.price) || 350000,
       originalPrice: body.originalPrice ? Number(body.originalPrice) : undefined,
       sampleCount: body.sampleCount || "100 sample",
       format: body.format || "WAV 24-bit",
       coverUrl: body.coverUrl || "",
       iconName: body.iconName || "drum",
+      badge: body.badge || "",
+      demoAudioUrl: body.demoAudioUrl || "",
+      downloadUrl: body.downloadUrl || "",
+      features: Array.isArray(body.features) ? body.features : [],
       samples: body.samples || {},
       synthConfig: body.synthConfig || {
         kick: [120, 40, 0.5],

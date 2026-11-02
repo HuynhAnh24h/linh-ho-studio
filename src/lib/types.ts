@@ -99,12 +99,19 @@ export interface SoundKitItem {
   id: string;
   name: string;
   desc: string;
+  padType: "spd30" | "sample_pad"; // "spd30": Sound gốc Roland SPD-30; "sample_pad": Sound ngoài (SPD-SX, NUX, Avatar...)
+  category: string; // "pop_ballad", "vinahouse_edm", "acoustic_percussion", "rock_funk", "thanh_ca", "show_all", "spd30_preset", "other"
+  compatibleDevices: string[]; // ["Roland SPD-30"] or ["Roland SPD-SX", "Roland SPD-SX PRO", "NUX DP-2000", "Avatar HXW", "Donner"]
   price: number;
   originalPrice?: number;
   sampleCount: string;
   format: string;
   coverUrl?: string;
   iconName?: string;
+  badge?: string;
+  demoAudioUrl?: string;
+  downloadUrl?: string;
+  features?: string[];
   samples?: KitSamples;
   synthConfig: SynthConfig;
   order: number;
@@ -125,6 +132,8 @@ export interface OrderItem {
   serviceType: "sampler" | "room" | "course" | "event_band" | "thue_trong";
   itemSelected: string;
   software?: string;
+  deviceModel?: string;
+  deliveryMethod?: string;
   hours?: number;
   roomSelected?: string;
   message?: string;
