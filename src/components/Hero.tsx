@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Drum, CalendarCheck, ShoppingCart, GraduationCap, Clock, Headphones } from "lucide-react";
+import Image from "next/image";
+import { Drum, CalendarCheck, ShoppingCart, GraduationCap, Clock, Headphones, Sparkles } from "lucide-react";
 import { ProfileData } from "@/lib/types";
 import { drumAudioEngine } from "@/lib/audio-engine";
 
@@ -47,7 +48,7 @@ export function Hero({ profile, onOpenBookingModal }: HeroProps) {
               </button>
 
               <a
-                href="#mua-sampler"
+                href="/sampler"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-base border-2 border-[var(--line-strong)] text-[var(--text)] hover:border-[var(--brass)] hover:text-[var(--brass)] transition-all active:translate-y-0.5"
               >
                 <ShoppingCart className="w-5 h-5" />
@@ -58,25 +59,25 @@ export function Hero({ profile, onOpenBookingModal }: HeroProps) {
             {/* Quick links */}
             <div className="flex flex-wrap gap-2.5 pt-2">
               <a
-                href="#day-trong"
+                href="/day-trong"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--surface)] border border-[var(--line)] text-sm font-medium text-[var(--text)] hover:border-[var(--brass)] transition-colors"
               >
                 <GraduationCap className="w-4 h-4 text-[var(--brass)]" />
                 <span>Dạy trống</span>
               </a>
               <a
-                href="#phong-tap"
+                href="/phong-tap"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--surface)] border border-[var(--line)] text-sm font-medium text-[var(--text)] hover:border-[var(--brass)] transition-colors"
               >
                 <Clock className="w-4 h-4 text-[var(--brass)]" />
                 <span>Thuê phòng theo giờ</span>
               </a>
               <a
-                href="#sampler"
+                href="/sampler"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--surface)] border border-[var(--line)] text-sm font-medium text-[var(--text)] hover:border-[var(--brass)] transition-colors"
               >
                 <Headphones className="w-4 h-4 text-[var(--brass)]" />
-                <span>Nghe sampler</span>
+                <span>Kho sampler</span>
               </a>
             </div>
 
@@ -95,18 +96,46 @@ export function Hero({ profile, onOpenBookingModal }: HeroProps) {
             </div>
           </div>
 
-          {/* Right Column: 3D Interactive Snare Drum */}
-          <div className="lg:col-span-5 flex justify-center items-center py-6">
-            <button
-              onClick={handleSnareHit}
-              className={`snare-drum ${isHit ? "hit" : ""}`}
-              aria-label="Đánh thử trống snare"
-            >
-              <span className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 font-condensed font-extrabold text-3xl sm:text-4xl text-[var(--text)] pointer-events-none select-none text-center leading-tight">
-                <Drum className="w-10 h-10 sm:w-12 sm:h-12 text-[var(--brass)] animate-pulse" />
-                <span>BẤM<br />ĐỂ ĐÁNH</span>
-              </span>
-            </button>
+          {/* Right Column: Artist Spotlight Card & Interactive Snare Button */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center gap-4 py-4">
+            <div className="relative w-full max-w-[420px] aspect-[4/3] sm:aspect-[1/1] rounded-3xl overflow-hidden border-2 border-[var(--brass)]/60 shadow-2xl group">
+              <Image
+                src="/images/profile/linh-ho-live-concert.jpg"
+                alt="Drummer Linh Hồ Live Concert Performance"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                priority
+                sizes="(max-width: 768px) 100vw, 420px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent flex flex-col justify-end p-6">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--brass)] mb-1">
+                  Live Performance
+                </span>
+                <div className="font-condensed font-extrabold text-3xl text-white">
+                  Linh Hồ
+                </div>
+                <div className="text-xs text-white/80">
+                  Drummer &amp; Founder LH Music Studio
+                </div>
+              </div>
+
+              {/* Floating interactive drum trigger badge */}
+              <button
+                onClick={handleSnareHit}
+                className={`absolute top-4 right-4 px-4 py-2.5 rounded-2xl bg-[var(--brass)] text-[#1e1715] font-bold text-xs shadow-xl flex items-center gap-2 transition-transform cursor-pointer active:scale-90 ${
+                  isHit ? "scale-90 bg-amber-400" : "hover:scale-105"
+                }`}
+                title="Bấm để gõ thử tiếng Snare Live"
+              >
+                <Drum className="w-4 h-4 animate-pulse" />
+                <span>Gõ Snare</span>
+              </button>
+            </div>
+
+            <div className="flex items-center gap-2 text-xs text-[var(--muted)]">
+              <Sparkles className="w-3.5 h-3.5 text-[var(--brass)]" />
+              <span>Bấm nút <b>Gõ Snare</b> để nghe thử lực đánh trực tiếp</span>
+            </div>
           </div>
         </div>
       </div>

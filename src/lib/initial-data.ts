@@ -7,7 +7,7 @@ export const initialSiteData: SiteData = {
     bio: "Drummer chuyên nghiệp với hơn 10 năm biểu diễn live, tour diễn cùng nhiều ban nhạc và đào tạo hơn 200 học viên. Chủ sở hữu LH Music Studio & chuyên cung cấp các dịch vụ ban nhạc biểu diễn tiệc cưới hỏi, sự kiện cao cấp.",
     aboutText1: "Xin chào, tôi là Linh Hồ, drummer chuyên nghiệp với hơn 10 năm chơi live sân khấu, thu âm studio và lưu diễn cùng nhiều ban nhạc rock, pop, indie và acoustic trên toàn quốc.",
     aboutText2: "Tôi thành lập LH Music Studio với mong muốn mang lại một không gian âm nhạc chất lượng: nơi đào tạo học viên từ căn bản đến biểu diễn thực chiến, phòng tập band cách âm tiêu chuẩn và cung cấp các dịch vụ ban nhạc chuyên nghiệp cho các sự kiện, tiệc cưới, gala.",
-    avatarUrl: "/logo.png",
+    avatarUrl: "/images/profile/linh-ho-portrait.jpg",
     stats: [
       { value: "10+", label: "năm chơi trống & biểu diễn" },
       { value: "200+", label: "học viên đã đào tạo" },

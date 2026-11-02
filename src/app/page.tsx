@@ -2,6 +2,7 @@ import { getDatabase } from "@/lib/db";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { AboutSection } from "@/components/AboutSection";
+import { ProfileGallery } from "@/components/ProfileGallery";
 import { Footer } from "@/components/Footer";
 import Link from "next/link";
 import { GraduationCap, Clock, Headphones, Music2, ArrowRight, Award, PlayCircle, ShieldCheck } from "lucide-react";
@@ -51,6 +52,9 @@ export default async function HomePage() {
 
         {/* In-depth About & Profile Section */}
         <AboutSection profile={profile} />
+
+        {/* Real Stage & Studio Photo Gallery */}
+        <ProfileGallery />
 
         {/* Drummer Career Highlights & Philosophy */}
         <section className="py-20 bg-[var(--hero)] border-b border-[var(--line)]">

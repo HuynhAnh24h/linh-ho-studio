@@ -5,7 +5,7 @@
     "bio": "Drummer chuyên nghiệp với hơn 10 năm biểu diễn live, tour diễn cùng nhiều ban nhạc và đào tạo hơn 200 học viên. Chủ sở hữu LH Music Studio & chuyên cung cấp các dịch vụ ban nhạc biểu diễn tiệc cưới hỏi, sự kiện cao cấp.",
     "aboutText1": "Xin chào, tôi là Linh Hồ, drummer chuyên nghiệp với hơn 10 năm chơi live sân khấu, thu âm studio và lưu diễn cùng nhiều ban nhạc rock, pop, indie và acoustic trên toàn quốc.",
     "aboutText2": "Tôi thành lập LH Music Studio với mong muốn mang lại một không gian âm nhạc chất lượng: nơi đào tạo học viên từ căn bản đến biểu diễn thực chiến, phòng tập band cách âm tiêu chuẩn và cung cấp các dịch vụ ban nhạc chuyên nghiệp cho các sự kiện, tiệc cưới, gala.",
-    "avatarUrl": "/logo.png",
+    "avatarUrl": "/images/profile/linh-ho-portrait.jpg",
     "stats": [
       {
         "value": "10+",
@@ -337,24 +337,23 @@
       "padType": "sample_pad",
       "category": "vinahouse_edm",
       "compatibleDevices": [
-        "Roland SPD-SX",
-        "Roland SPD-SX PRO",
-        "NUX DP-2000",
-        "Avatar HXW",
-        "Donner"
+        "Donner",
+        "Roland SPD-30 (Octapad)"
       ],
       "price": 490000,
       "originalPrice": 700000,
       "sampleCount": "160 WAV Samples + 12 Kits",
       "format": "WAV 24-bit 44.1kHz Multi-Velocity",
       "badge": "Cực Cháy",
+      "demoAudioUrl": "",
+      "downloadUrl": "",
       "features": [
         "Sample WAV gốc xử lý qua Analog Limiter cho âm lượng to rõ",
         "Kick Vinahouse nén chặt, không bị vỡ tiếng khi mở lớn",
         "Kèm bộ tiếng hiệu ứng Intro DJ, Sirens, Laser, Còi hú",
         "Tương thích tất cả sample pad nhận file WAV"
       ],
-      "iconName": "zap",
+      "samples": {},
       "synthConfig": {
         "kick": [
           90,
