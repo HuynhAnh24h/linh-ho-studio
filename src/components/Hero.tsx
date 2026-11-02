@@ -41,6 +41,59 @@ export function Hero({ profile, onOpenBookingModal }: HeroProps) {
     });
   };
 
+  const renderTagline = () => {
+    const raw = (profile.tagline || "CHƠI HẾT MÌNH TRÊN SÂN KHẤU.\nCHUẨN TỪNG TIẾT TẤU TRONG PHÒNG THU.").trim();
+    const lines = raw.split("\n").map((l) => l.trim()).filter(Boolean);
+
+    if (lines.length >= 2) {
+      const line1 = lines[0];
+      const line2 = lines.slice(1).join(" ");
+
+      const isDefaultStageLine = line1.toUpperCase().includes("TRÊN SÂN KHẤU");
+      const isDefaultStudioLine = line2.toUpperCase().includes("TRONG PHÒNG THU");
+
+      return (
+        <h1 className="font-condensed font-black tracking-tight uppercase text-[var(--text)] text-balance">
+          {/* Line 1: Sân khấu (Stage) */}
+          <span className="block text-4xl sm:text-5xl lg:text-[3.3rem] xl:text-[3.7rem] leading-[1.05]">
+            {isDefaultStageLine ? (
+              <>
+                <span className="inline-block">CHƠI HẾT MÌNH</span>{" "}
+                <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[var(--brass)] via-amber-200 to-[var(--brass)] drop-shadow-[0_0_20px_rgba(232,220,190,0.3)]">
+                  TRÊN SÂN KHẤU.
+                </span>
+              </>
+            ) : (
+              line1
+            )}
+          </span>
+
+          {/* Line 2: Phòng thu (Studio) */}
+          <span className="block text-3xl sm:text-4xl lg:text-[2.6rem] xl:text-[2.9rem] leading-[1.1] text-[var(--muted)] mt-1.5 sm:mt-2">
+            {isDefaultStudioLine ? (
+              <>
+                <span className="inline-block text-[var(--brass)] font-extrabold">
+                  CHUẨN TỪNG TIẾT TẤU
+                </span>{" "}
+                <span className="inline-block text-[var(--text)]">
+                  TRONG PHÒNG THU.
+                </span>
+              </>
+            ) : (
+              <span className="text-[var(--brass)]">{line2}</span>
+            )}
+          </span>
+        </h1>
+      );
+    }
+
+    return (
+      <h1 className="font-condensed font-black text-4xl sm:text-5xl lg:text-[3.5rem] tracking-tight leading-[1.04] text-[var(--text)] uppercase text-balance">
+        {raw}
+      </h1>
+    );
+  };
+
   return (
     <section className="relative overflow-hidden bg-[var(--hero)] border-b border-[var(--line)] py-14 md:py-24" id="top">
       {/* Concert stage ambient glow lighting */}
@@ -76,21 +129,9 @@ export function Hero({ profile, onOpenBookingModal }: HeroProps) {
               </span>
             </div>
 
-            {/* Giant Stage Tagline */}
-            <div className="space-y-3">
-              <h1 className="font-condensed font-extrabold text-5xl sm:text-7xl lg:text-[5.4rem] tracking-tight leading-[0.98] text-[var(--text)] uppercase whitespace-pre-line">
-                {profile.tagline || (
-                  <>
-                    Chơi hết mình{" "}
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brass)] via-amber-200 to-[var(--brass)]">
-                      trên sân khấu
-                    </span>
-                    {"\n"}
-                    Chuẩn từng tiết tấu{" "}
-                    <span className="text-[var(--brass)]">trong phòng thu</span>
-                  </>
-                )}
-              </h1>
+            {/* Giant Stage Tagline (Balanced & High Impact) */}
+            <div className="space-y-4">
+              {renderTagline()}
 
               <p className="text-base sm:text-lg text-[var(--muted)] max-w-2xl leading-relaxed font-normal">
                 {profile.bio}
