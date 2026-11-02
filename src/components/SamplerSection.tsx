@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Headphones, Play, Square, ShoppingCart, Package, Check } from "lucide-react";
+import { Headphones, Play, Square, ShoppingCart, Package, Check, Zap, Sliders, Sparkles } from "lucide-react";
 import { SoundKitItem } from "@/lib/types";
 import { drumAudioEngine, DRUM_PADS, BEAT_PATTERN, PadKey } from "@/lib/audio-engine";
 
@@ -11,7 +11,8 @@ interface SamplerSectionProps {
 }
 
 export function SamplerSection({ kits, onSelectKitToBuy }: SamplerSectionProps) {
-  const [activeKitIndex, setActiveKitIndex] = useState<number>(0);
+  const [activeCategoryTab, setActiveCategoryTab] = useState<"all" | "spd30" | "sample_pad">("all");
+  const [activeKitId, setActiveKitId] = useState<string>(kits[0]?.id || "");
   const [activePad, setActivePad] = useState<string | null>(null);
   const [isPlayingLoop, setIsPlayingLoop] = useState<boolean>(false);
   const [currentStep, setCurrentStep] = useState<number>(-1);
@@ -19,7 +20,15 @@ export function SamplerSection({ kits, onSelectKitToBuy }: SamplerSectionProps) 
   const loopTimerRef = useRef<NodeJS.Timeout | null>(null);
   const currentStepRef = useRef<number>(0);
 
-  const activeKit = kits[activeKitIndex] || kits[0];
+  // Filter kits for the pills
+  const visibleKits = kits.filter((k) => {
+    if (activeCategoryTab === "spd30") return k.padType === "spd30";
+    if (activeCategoryTab === "sample_pad") return k.padType !== "spd30";
+    return true;
+  });
+
+  // Ensure active kit is valid
+  const activeKit = kits.find((k) => k.id === activeKitId) || visibleKits[0] || kits[0];
 
   // Hit a pad
   const hitPad = useCallback(
@@ -71,13 +80,10 @@ export function SamplerSection({ kits, onSelectKitToBuy }: SamplerSectionProps) 
   }, [hitPad]);
 
   // Handle kit change
-  const handleKitSelect = (index: number) => {
-    setActiveKitIndex(index);
-    const newKit = kits[index];
-    if (newKit) {
-      drumAudioEngine.setLowpassFilter(newKit.synthConfig.lp);
-      drumAudioEngine.playSound("snare", newKit);
-    }
+  const handleKitSelect = (kit: SoundKitItem) => {
+    setActiveKitId(kit.id);
+    drumAudioEngine.setLowpassFilter(kit.synthConfig.lp);
+    drumAudioEngine.playSound("snare", kit);
     if (isPlayingLoop) {
       stopLoop();
     }
@@ -94,7 +100,7 @@ export function SamplerSection({ kits, onSelectKitToBuy }: SamplerSectionProps) 
     setIsPlayingLoop(true);
     currentStepRef.current = 0;
 
-    const bpm = activeKit.synthConfig.bpm || 100;
+    const bpm = activeKit.synthConfig.bpm || 110;
     const intervalMs = (60000 / bpm) / 4; // 16th notes
 
     const tick = () => {
@@ -129,20 +135,70 @@ export function SamplerSection({ kits, onSelectKitToBuy }: SamplerSectionProps) 
     };
   }, []);
 
+  const isSpd30 = activeKit?.padType === "spd30";
+
   return (
     <section id="sampler" className="py-20 bg-[var(--hero)] border-b border-[var(--line)]">
       <div className="max-w-6xl mx-auto px-4">
         {/* Title */}
         <div className="mb-8 space-y-3">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[var(--brass)]/15 text-[var(--brass)] border border-[var(--brass)]/30">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Phòng Máy Gõ Trống Trực Tuyến</span>
+          </div>
           <h2 className="font-condensed font-extrabold text-4xl sm:text-5xl text-[var(--text)] flex items-center gap-3.5 leading-none">
-            <span className="ibox w-12 h-12 rounded-2xl">
+            <span className="w-12 h-12 rounded-2xl bg-[var(--surface)] border border-[var(--line)] flex items-center justify-center text-[var(--brass)] flex-shrink-0">
               <Headphones className="w-6 h-6" />
             </span>
-            <span>Nghe thử sampler</span>
+            <span>Nghe & Gõ thử sampler</span>
           </h2>
           <p className="text-base sm:text-lg text-[var(--muted)] max-w-3xl leading-relaxed">
-            Chọn một bộ, rồi bấm pad hoặc dùng phím <kbd className="px-1.5 py-0.5 rounded bg-[var(--chip)] font-mono text-sm border border-[var(--line)]">Q</kbd> <kbd className="px-1.5 py-0.5 rounded bg-[var(--chip)] font-mono text-sm border border-[var(--line)]">W</kbd> <kbd className="px-1.5 py-0.5 rounded bg-[var(--chip)] font-mono text-sm border border-[var(--line)]">E</kbd> <kbd className="px-1.5 py-0.5 rounded bg-[var(--chip)] font-mono text-sm border border-[var(--line)]">A</kbd> <kbd className="px-1.5 py-0.5 rounded bg-[var(--chip)] font-mono text-sm border border-[var(--line)]">S</kbd> <kbd className="px-1.5 py-0.5 rounded bg-[var(--chip)] font-mono text-sm border border-[var(--line)]">D</kbd> để nghe. Bấm “Phát beat mẫu” để nghe bộ đó chạy một vòng nhịp.
+            Chọn một bộ tiếng, rồi bấm trực tiếp vào pad hoặc dùng phím <kbd className="px-1.5 py-0.5 rounded bg-[var(--chip)] font-mono text-sm border border-[var(--line)]">Q</kbd> <kbd className="px-1.5 py-0.5 rounded bg-[var(--chip)] font-mono text-sm border border-[var(--line)]">W</kbd> <kbd className="px-1.5 py-0.5 rounded bg-[var(--chip)] font-mono text-sm border border-[var(--line)]">E</kbd> <kbd className="px-1.5 py-0.5 rounded bg-[var(--chip)] font-mono text-sm border border-[var(--line)]">A</kbd> <kbd className="px-1.5 py-0.5 rounded bg-[var(--chip)] font-mono text-sm border border-[var(--line)]">S</kbd> <kbd className="px-1.5 py-0.5 rounded bg-[var(--chip)] font-mono text-sm border border-[var(--line)]">D</kbd> để cảm nhận độ nảy và uy lực. Bấm <b>“Phát beat mẫu”</b> để nghe bộ đó chạy một vòng nhịp hoàn chỉnh.
           </p>
+        </div>
+
+        {/* Category Switcher Tabs */}
+        <div className="flex flex-wrap items-center gap-2 mb-6">
+          <button
+            onClick={() => setActiveCategoryTab("all")}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+              activeCategoryTab === "all"
+                ? "bg-[var(--brass)] text-[#1e1715] shadow-md"
+                : "bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)] border border-[var(--line)]"
+            }`}
+          >
+            Tất Cả ({kits.length})
+          </button>
+          <button
+            onClick={() => {
+              setActiveCategoryTab("spd30");
+              const firstSpd = kits.find((k) => k.padType === "spd30");
+              if (firstSpd) setActiveKitId(firstSpd.id);
+            }}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 ${
+              activeCategoryTab === "spd30"
+                ? "bg-[var(--brass)] text-[#1e1715] shadow-md"
+                : "bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)] border border-[var(--line)]"
+            }`}
+          >
+            <Zap className="w-3.5 h-3.5 text-amber-500" />
+            <span>Roland SPD-30 ({kits.filter((k) => k.padType === "spd30").length})</span>
+          </button>
+          <button
+            onClick={() => {
+              setActiveCategoryTab("sample_pad");
+              const firstExt = kits.find((k) => k.padType !== "spd30");
+              if (firstExt) setActiveKitId(firstExt.id);
+            }}
+            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 ${
+              activeCategoryTab === "sample_pad"
+                ? "bg-[var(--brass)] text-[#1e1715] shadow-md"
+                : "bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--text)] border border-[var(--line)]"
+            }`}
+          >
+            <Sliders className="w-3.5 h-3.5 text-blue-400" />
+            <span>Sound Ngoài: SPD-SX, NUX, Avatar ({kits.filter((k) => k.padType !== "spd30").length})</span>
+          </button>
         </div>
 
         {/* Sampler Machine & What's inside */}
@@ -151,14 +207,14 @@ export function SamplerSection({ kits, onSelectKitToBuy }: SamplerSectionProps) 
           <div className="lg:col-span-7 space-y-5">
             {/* Kit Selection Buttons */}
             <div className="flex flex-wrap gap-2.5">
-              {kits.map((k, idx) => (
+              {visibleKits.map((k) => (
                 <button
                   key={k.id}
-                  onClick={() => handleKitSelect(idx)}
-                  className={`px-4 py-2 rounded-full text-sm font-semibold border-2 transition-all cursor-pointer ${
-                    activeKitIndex === idx
-                      ? "bg-[var(--brass)] border-[var(--brass)] text-[#1a1405]"
-                      : "border-[var(--line-strong)] text-[var(--text)] hover:border-[var(--brass)]"
+                  onClick={() => handleKitSelect(k)}
+                  className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold border-2 transition-all cursor-pointer ${
+                    activeKit?.id === k.id
+                      ? "bg-[var(--brass)] border-[var(--brass)] text-[#1a1405] font-bold shadow-md"
+                      : "border-[var(--line)] text-[var(--text)] hover:border-[var(--brass)] bg-[var(--surface)]"
                   }`}
                 >
                   {k.name}
@@ -167,9 +223,21 @@ export function SamplerSection({ kits, onSelectKitToBuy }: SamplerSectionProps) 
             </div>
 
             {/* Description */}
-            <p className="text-sm sm:text-base text-[var(--muted)] min-h-[44px]">
-              {activeKit?.desc}
-            </p>
+            <div className="p-3.5 rounded-2xl bg-[var(--surface)] border border-[var(--line)] text-xs sm:text-sm text-[var(--muted)] leading-relaxed">
+              <div className="flex items-center gap-2 mb-1">
+                <span
+                  className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                    isSpd30 ? "bg-amber-500/20 text-amber-300" : "bg-blue-500/20 text-blue-300"
+                  }`}
+                >
+                  {isSpd30 ? "Roland SPD-30 (Sound Gốc Cài Đặt)" : "Sound Ngoài (WAV Samples)"}
+                </span>
+                <span className="text-xs font-semibold text-[var(--text)]">
+                  {activeKit?.sampleCount} • {activeKit?.format}
+                </span>
+              </div>
+              <p>{activeKit?.desc}</p>
+            </div>
 
             {/* Drum Pads 3x2 */}
             <div className="grid grid-cols-3 gap-3 max-w-[540px]">
@@ -214,18 +282,20 @@ export function SamplerSection({ kits, onSelectKitToBuy }: SamplerSectionProps) 
                 ) : (
                   <>
                     <Play className="w-4 h-4 fill-current" />
-                    <span>Phát beat mẫu</span>
+                    <span>Phát beat mẫu ({activeKit?.synthConfig?.bpm || 110} BPM)</span>
                   </>
                 )}
               </button>
 
-              <button
-                onClick={() => onSelectKitToBuy(activeKit.id)}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm border-2 border-[var(--line-strong)] text-[var(--text)] hover:border-[var(--brass)] hover:text-[var(--brass)] transition-all"
-              >
-                <ShoppingCart className="w-4 h-4" />
-                <span>Mua bộ này ({activeKit.price.toLocaleString("vi-VN")}đ)</span>
-              </button>
+              {activeKit && (
+                <button
+                  onClick={() => onSelectKitToBuy(activeKit.id)}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm border-2 border-[var(--brass)] text-[var(--brass)] hover:bg-[var(--brass)] hover:text-[#1a1405] transition-all"
+                >
+                  <ShoppingCart className="w-4 h-4" />
+                  <span>Mua bộ này ({activeKit.price.toLocaleString("vi-VN")}đ)</span>
+                </button>
+              )}
             </div>
           </div>
 
@@ -236,36 +306,87 @@ export function SamplerSection({ kits, onSelectKitToBuy }: SamplerSectionProps) 
                 <span className="ibox w-11 h-11 rounded-xl">
                   <Package className="w-5 h-5 text-[var(--brass)]" />
                 </span>
-                <h3 className="font-condensed font-bold text-2xl text-[var(--text)]">
-                  Trong mỗi bộ sampler có gì?
-                </h3>
+                <div>
+                  <h3 className="font-condensed font-bold text-2xl text-[var(--text)]">
+                    Trong mỗi bộ sampler có gì?
+                  </h3>
+                  <span className="text-xs text-[var(--muted)]">
+                    {isSpd30 ? "Đặc quyền bộ tiếng Roland SPD-30" : "Hệ sinh thái Sound Ngoài (WAV Samples)"}
+                  </span>
+                </div>
               </div>
 
-              <ul className="space-y-3.5 text-sm sm:text-base text-[var(--muted)]">
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[var(--brass)] flex-shrink-0 mt-0.5" />
-                  <span>
-                    <strong className="text-[var(--text)]">Sample WAV 24-bit / 48kHz</strong> chất lượng phòng thu chuyên nghiệp.
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[var(--brass)] flex-shrink-0 mt-0.5" />
-                  <span>
-                    <strong className="text-[var(--text)]">Nhiều lớp velocity</strong> riêng biệt cho từng tiếng trống (soft, medium, hard rimshot).
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[var(--brass)] flex-shrink-0 mt-0.5" />
-                  <span>
-                    <strong className="text-[var(--text)]">Preset sẵn</strong> kéo thả trực tiếp cho Ableton Live, FL Studio, Logic Pro, Studio One.
-                  </span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[var(--brass)] flex-shrink-0 mt-0.5" />
-                  <span>
-                    <strong className="text-[var(--text)]">100% Royalty-Free:</strong> sử dụng thương mại không giới hạn, không cần chia sẻ doanh thu.
-                  </span>
-                </li>
+              <ul className="space-y-3.5 text-xs sm:text-sm text-[var(--muted)]">
+                {isSpd30 ? (
+                  <>
+                    <li className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                      <span>
+                        <strong className="text-[var(--text)]">File Backup SPD-30 (.SVD) độc quyền:</strong> Cắm USB vào máy Roland SPD-30 load 1 phút là xong toàn bộ 25-50 user kit.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                      <span>
+                        <strong className="text-[var(--text)]">Cân chỉnh chuyên sâu chi tiết:</strong> Từng thông số EQ, Layer, Muffle, Tune, Ambience, FX được tinh chỉnh cho lực đánh dày, sáng, nổi bật trên dàn âm thanh sân khấu.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                      <span>
+                        <strong className="text-[var(--text)]">Tối ưu lực gõ & chống nảy tiếng:</strong> Căn chỉnh Sens/Threshold để khi đánh mạnh không bị rè, ghost-note mượt mà.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                      <span>
+                        <strong className="text-[var(--text)]">Hỗ trợ kỹ thuật 1:1 trọn đời:</strong> Video hướng dẫn chi tiết và hỗ trợ qua Zalo nếu gặp bất kỳ khó khăn nào.
+                      </span>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                      <span>
+                        <strong className="text-[var(--text)]">Sample WAV 24-bit / 44.1kHz - 48kHz:</strong> Chất lượng phòng thu cao cấp, thu trực tiếp từ dàn trống cơ Yamaha, Ludwig xịn.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                      <span>
+                        <strong className="text-[var(--text)]">Nhiều lớp velocity chân thực:</strong> Phân tách độ mạnh nhẹ (soft, medium, hard rimshot) cho cảm giác chơi sống động như trống thật.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                      <span>
+                        <strong className="text-[var(--text)]">Xử lý Master Limiter & Compressor:</strong> Kick & Snare nén chặt, âm lượng to, tiếng không vỡ hay méo khi đẩy âm lượng lớn trên loa sân khấu.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                      <span>
+                        <strong className="text-[var(--text)]">Tương thích toàn diện:</strong> Roland SPD-SX, SPD-SX PRO, NUX DP-2000, Avatar HXW, Donner và phần mềm máy tính (FL Studio, Ableton, Logic).
+                      </span>
+                    </li>
+                  </>
+                )}
+
+                {/* Specific kit features if present */}
+                {activeKit?.features && activeKit.features.length > 0 && (
+                  <div className="pt-2 border-t border-[var(--line)] space-y-2">
+                    <span className="text-[11px] font-bold uppercase text-[var(--brass)] tracking-wider block">
+                      Ưu đãi riêng của bộ này:
+                    </span>
+                    {activeKit.features.map((feat, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-xs text-[var(--text)]">
+                        <Sparkles className="w-3.5 h-3.5 text-[var(--brass)] flex-shrink-0 mt-0.5" />
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </div>
+                )}
               </ul>
             </div>
           </div>

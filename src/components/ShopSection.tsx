@@ -21,9 +21,11 @@ import {
   X,
   Send,
   HelpCircle,
+  Headphones,
 } from "lucide-react";
 import { SoundKitItem, ComboOffer, ProfileData } from "@/lib/types";
 import { drumAudioEngine } from "@/lib/audio-engine";
+import { InteractivePadModal } from "@/components/InteractivePadModal";
 
 interface ShopSectionProps {
   kits: SoundKitItem[];
@@ -37,6 +39,9 @@ export function ShopSection({ kits, comboOffer, profile, preselectedKitId }: Sho
   const [activeTab, setActiveTab] = useState<"all" | "spd30" | "sample_pad">("all");
   const [selectedGenre, setSelectedGenre] = useState<string>("all");
   const [selectedDeviceFilter, setSelectedDeviceFilter] = useState<string>("all");
+
+  // Modal testing kit on 6-pad
+  const [testingKit, setTestingKit] = useState<SoundKitItem | null>(null);
 
   // Playing preview state
   const [playingKitId, setPlayingKitId] = useState<string | null>(null);
@@ -542,57 +547,68 @@ Gửi mình thông tin thanh toán & link tải nhé!`;
                     )}
                   </div>
 
-                  {/* Card Bottom: Price, Audio Preview button & Buy button */}
-                  <div className="pt-6 mt-6 border-t border-[var(--line)] space-y-4 relative z-10">
-                    <div className="flex items-baseline justify-between">
-                      <div className="space-y-0.5">
-                        <span className="text-[11px] uppercase tracking-wider text-[var(--muted)] font-semibold block">
-                          Giá trọn gói:
-                        </span>
-                        <div className="flex items-baseline gap-2">
-                          <span className="font-condensed font-extrabold text-3xl sm:text-4xl text-[var(--brass)]">
-                            {kit.price.toLocaleString("vi-VN")}đ
+                    {/* Card Bottom: Price & Actions */}
+                    <div className="pt-6 mt-6 border-t border-[var(--line)] space-y-4 relative z-10">
+                      <div className="flex items-baseline justify-between">
+                        <div className="space-y-0.5">
+                          <span className="text-[11px] uppercase tracking-wider text-[var(--muted)] font-semibold block">
+                            Giá trọn gói:
                           </span>
-                          {kit.originalPrice && (
-                            <s className="text-xs text-[var(--muted)] font-mono">
-                              {kit.originalPrice.toLocaleString("vi-VN")}đ
-                            </s>
-                          )}
+                          <div className="flex items-baseline gap-2">
+                            <span className="font-condensed font-extrabold text-3xl sm:text-4xl text-[var(--brass)]">
+                              {kit.price.toLocaleString("vi-VN")}đ
+                            </span>
+                            {kit.originalPrice && (
+                              <s className="text-xs text-[var(--muted)] font-mono">
+                                {kit.originalPrice.toLocaleString("vi-VN")}đ
+                              </s>
+                            )}
+                          </div>
                         </div>
+
+                        {/* Audio Demo Preview Button */}
+                        <button
+                          onClick={() => handleTogglePlayPreview(kit)}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                            isPlaying
+                              ? "bg-red-500 text-white animate-pulse"
+                              : "bg-[var(--chip)] text-[var(--text)] hover:bg-[var(--brass)] hover:text-[#1e1715]"
+                          }`}
+                          title="Nghe thử tiếng demo nhanh"
+                        >
+                          {isPlaying ? (
+                            <>
+                              <Pause className="w-3.5 h-3.5" />
+                              <span>Dừng</span>
+                            </>
+                          ) : (
+                            <>
+                              <Play className="w-3.5 h-3.5 text-[var(--brass)]" />
+                              <span>Nghe audio</span>
+                            </>
+                          )}
+                        </button>
                       </div>
 
-                      {/* Audio Demo Preview Button */}
-                      <button
-                        onClick={() => handleTogglePlayPreview(kit)}
-                        className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-                          isPlaying
-                            ? "bg-red-500 text-white animate-pulse"
-                            : "bg-[var(--chip)] text-[var(--text)] hover:bg-[var(--brass)] hover:text-[#1e1715]"
-                        }`}
-                        title="Nghe thử tiếng demo"
-                      >
-                        {isPlaying ? (
-                          <>
-                            <Pause className="w-3.5 h-3.5" />
-                            <span>Dừng nghe</span>
-                          </>
-                        ) : (
-                          <>
-                            <Play className="w-3.5 h-3.5 text-[var(--brass)]" />
-                            <span>Nghe thử</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
+                      {/* 2 Primary Buttons: Interactive Pad Testing & Direct Buy */}
+                      <div className="space-y-2">
+                        <button
+                          onClick={() => setTestingKit(kit)}
+                          className="w-full py-2.5 px-3 rounded-2xl font-bold text-xs sm:text-sm border-2 border-[var(--brass)] text-[var(--brass)] hover:bg-[var(--brass)] hover:text-[#1e1715] transition-all flex items-center justify-center gap-2 shadow-sm group-hover:border-[var(--brass-2)]"
+                        >
+                          <Headphones className="w-4 h-4" />
+                          <span>Gõ & Cảm nhận bộ này (Q, W, E, A, S, D)</span>
+                        </button>
 
-                    <button
-                      onClick={() => openOrderModal(kit)}
-                      className="w-full py-3 rounded-2xl font-bold text-sm bg-[var(--brass)] text-[#1e1715] hover:bg-[var(--brass-2)] transition-all shadow-md flex items-center justify-center gap-2 group-hover:scale-[1.02]"
-                    >
-                      <ShoppingCart className="w-4 h-4" />
-                      <span>Đặt mua bộ này</span>
-                    </button>
-                  </div>
+                        <button
+                          onClick={() => openOrderModal(kit)}
+                          className="w-full py-2.5 px-3 rounded-2xl font-bold text-xs sm:text-sm bg-[var(--brass)] text-[#1e1715] hover:bg-[var(--brass-2)] transition-all shadow-md flex items-center justify-center gap-2"
+                        >
+                          <ShoppingCart className="w-4 h-4" />
+                          <span>Đặt mua bộ này</span>
+                        </button>
+                      </div>
+                    </div>
                 </div>
               );
             })}
@@ -810,6 +826,19 @@ Gửi mình thông tin thanh toán & link tải nhé!`;
               </form>
             </div>
           </div>
+        )}
+
+        {/* Modal: Interactive Pad Testing for EACH Kit */}
+        {testingKit && (
+          <InteractivePadModal
+            kit={testingKit}
+            isOpen={Boolean(testingKit)}
+            onClose={() => setTestingKit(null)}
+            onSelectToBuy={(k) => {
+              setTestingKit(null);
+              openOrderModal(k);
+            }}
+          />
         )}
       </div>
     </section>
