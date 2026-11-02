@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Drummer Profile – Dạy trống, thuê phòng tập, sampler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===== Mini Bootstrap 5 (chỉ các class đã dùng). Khi dùng trên web riêng: thêm link Bootstrap CDN và xoá khối này ===== */
+*,*::before,*::after{box-sizing:border-box}
+.container{width:100%;max-width:1080px;margin:0 auto;padding:0 16px}
+.row{display:flex;flex-wrap:wrap;margin:calc(var(--g,0px)/-2)}
+.row>*{padding:calc(var(--g,0px)/2);width:100%}
+.g-3{--g:16px}.g-4{--g:24px}
+.align-items-center{align-items:center}
+@media(min-width:768px){.col-md-4{width:33.3333%}.col-md-5{width:41.6667%}.col-md-6{width:50%}.col-md-7{width:58.3333%}}
+@media(min-width:992px){.col-lg-3{width:25%}.col-lg-4{width:33.3333%}}
+.d-flex{display:flex}.flex-wrap{flex-wrap:wrap}.gap-2{gap:8px}.gap-3{gap:16px}
+.justify-content-between{justify-content:space-between}
+.text-center{text-align:center}.mb-2{margin-bottom:8px}.mb-3{margin-bottom:16px}.mb-4{margin-bottom:24px}.mt-3{margin-top:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:10px;border:2px solid transparent;font-weight:700;font-size:15px;line-height:1.2;font-family:inherit;text-decoration:none;cursor:pointer;transition:transform .12s,background .12s,border-color .12s}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--brass);color:#1a1405}
+.btn-primary:hover{background:var(--brass-2)}
+.btn-outline{border-color:var(--line-strong);color:var(--text);background:transparent}
+.btn-outline:hover{border-color:var(--brass)}
+.btn-sm{padding:8px 14px;font-size:14px}
+.btn-block{width:100%}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;height:100%;position:relative;overflow:hidden}
+.card-body{padding:24px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:99px;background:var(--chip);color:var(--text);font-size:13px;font-weight:500}
+.navbar{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:12px;flex-wrap:wrap}
+.nav-link{color:var(--muted);text-decoration:none;font-weight:500;padding:6px 10px;border-radius:8px}
+.nav-link:hover{color:var(--text);background:var(--chip)}
+.form-range{width:100%;accent-color:var(--brass)}
+.form-select,.form-control{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line-strong);background:var(--bg);color:var(--text);font:inherit}
+textarea.form-control{resize:vertical;min-height:84px}
+
+/* ===== Theme ===== */
+:root{--bg:#eef1f6;--surface:#fff;--text:#14182b;--muted:#4d5670;--line:#d7dce8;--line-strong:#aeb6cb;--brass:#b8860b;--brass-2:#c99a1e;--chip:#e3e8f2;--hero:#e3e8f2;--pad:#f7f8fb;--pad-on:#f1d27a;--tint:rgba(184,134,11,.14);--ember:#c8431f;--navbg:rgba(238,241,246,.86);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101426;--surface:#171c33;--text:#eef0f7;--muted:#a3abc6;--line:#272e4d;--line-strong:#3b4468;--brass:#e0b13c;--brass-2:#f0c658;--chip:#232a49;--hero:#171c33;--pad:#1d2342;--pad-on:#e0b13c;--tint:rgba(224,177,60,.15);--ember:#ff7a52;--navbg:rgba(16,20,38,.86);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101426;--surface:#171c33;--text:#eef0f7;--muted:#a3abc6;--line:#272e4d;--line-strong:#3b4468;--brass:#e0b13c;--brass-2:#f0c658;--chip:#232a49;--hero:#171c33;--pad:#1d2342;--pad-on:#e0b13c;--tint:rgba(224,177,60,.15);--ember:#ff7a52;--navbg:rgba(16,20,38,.86);color-scheme:dark}
+
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.65 "Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+h1,h2,h3{font-family:"Barlow Condensed","Arial Narrow",Impact,sans-serif;line-height:1.05;margin:0 0 12px;font-weight:800}
+h1{font-size:clamp(50px,9vw,96px)}
+h2{font-size:clamp(34px,5vw,50px);display:flex;align-items:center;gap:14px}
+h3{font-size:27px;font-weight:600}
+p{margin:0 0 12px;color:var(--muted);max-width:62ch}
+section{padding:80px 0}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
+svg.lucide{width:1.15em;height:1.15em;flex:none}
+.ibox{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:14px;background:var(--tint);color:var(--brass);flex:none}
+.ibox svg.lucide{width:24px;height:24px}
+h2 .ibox{width:52px;height:52px}
+
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--navbg);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:24px;color:var(--text);text-decoration:none}
+.brand .ibox{width:38px;height:38px;border-radius:11px}
+.navlinks{display:flex;flex-wrap:wrap;gap:2px}
+
+header.hero-wrap{background:var(--hero);border-bottom:1px solid var(--line)}
+.hero{padding:56px 0 80px}
+.snare{position:relative;width:min(100%,360px);aspect-ratio:1;margin:0 auto;border-radius:50%;border:0;padding:0;cursor:pointer;
+ background:radial-gradient(circle,var(--pad) 0 62%,var(--brass) 62.5% 66%,var(--line-strong) 66.5% 100%);box-shadow:0 0 0 6px var(--hero),0 0 0 8px var(--line-strong),0 24px 50px rgba(0,0,0,.22)}
+.snare span{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font:800 30px "Barlow Condensed",sans-serif;color:var(--text);pointer-events:none;text-align:center;line-height:1.1}
+.snare span svg.lucide{width:44px;height:44px;color:var(--brass)}
+.snare.hit{animation:hit .16s ease-out}
+@keyframes hit{0%{transform:scale(.96)}100%{transform:scale(1)}}
+.quick{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.quick a{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:99px;background:var(--surface);border:1px solid var(--line);color:var(--text);text-decoration:none;font-weight:500;font-size:14px}
+.quick a:hover{border-color:var(--brass)}
+.quick svg{color:var(--brass)}
+.stats{display:flex;flex-wrap:wrap;gap:34px;margin-top:30px}
+.stats b{display:block;font:800 40px "Barlow Condensed",sans-serif;color:var(--brass);line-height:1}
+.stats small{color:var(--muted)}
+
+.price{font:800 42px "Barlow Condensed",sans-serif;color:var(--brass);line-height:1.1;margin:6px 0 4px}
+.price small{font:400 14px "Be Vietnam Pro",sans-serif;color:var(--muted)}
+ul.tick{list-style:none;padding:0;margin:14px 0 0}
+ul.tick li{padding:5px 0 5px 28px;position:relative;color:var(--muted)}
+ul.tick li svg{position:absolute;left:0;top:9px;color:var(--brass);width:18px;height:18px}
+.ribbon{position:absolute;top:16px;right:-34px;transform:rotate(38deg);background:var(--ember);color:#fff;font-size:12px;font-weight:700;padding:3px 40px}
+.card.feat{border-color:var(--brass);box-shadow:0 0 0 1px var(--brass)}
+.perks{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.perk{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;background:var(--surface);border:1px solid var(--line);font-size:14px;font-weight:500}
+.perk .ibox{width:38px;height:38px;border-radius:10px}
+.perk .ibox svg.lucide{width:20px;height:20px}
+.calc{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px}
+.total{font:800 54px "Barlow Condensed",sans-serif;color:var(--brass);line-height:1.1}
+
+.kits{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.kit{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:99px;border:2px solid var(--line-strong);background:transparent;color:var(--text);font:500 15px "Be Vietnam Pro",sans-serif;cursor:pointer}
+.kit[aria-pressed="true"]{background:var(--brass);border-color:var(--brass);color:#1a1405;font-weight:700}
+.pads{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:540px}
+.pad{aspect-ratio:1.25;border-radius:16px;border:2px solid var(--line-strong);background:var(--pad);color:var(--text);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:"Barlow Condensed",sans-serif;font-size:27px;font-weight:800;transition:background .06s,color .06s,border-color .06s}
+.pad small{font:500 13px "Be Vietnam Pro",sans-serif;opacity:.75}
+.pad.on{background:var(--pad-on);color:#1a1405;border-color:var(--pad-on)}
+.steps{display:flex;gap:4px;margin-top:20px;max-width:540px}
+.steps i{flex:1;height:10px;border-radius:3px;background:var(--line)}
+.steps i.now{background:var(--brass)}
+.sample-wrap{display:grid;gap:28px;grid-template-columns:1fr}
+@media(min-width:900px){.sample-wrap{grid-template-columns:1.1fr .9fr;align-items:start}}
+
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
+.sprice{font:800 36px "Barlow Condensed",sans-serif;color:var(--brass);margin-bottom:12px}
+.sprice s{font:400 15px "Be Vietnam Pro",sans-serif;color:var(--muted);margin-left:8px}
+.order{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px}
+.order label{display:block;font-weight:700;font-size:14px;margin:12px 0 6px}
+.order .f2{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:600px){.order .f2{grid-template-columns:1fr 1fr}}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+#toast{min-height:22px;margin:10px 0 0;font-size:14px;color:var(--brass);font-weight:500}
+
+.contact-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.ccard{display:flex;align-items:center;gap:14px;padding:18px;border-radius:16px;background:var(--surface);border:1px solid var(--line);color:var(--text);text-decoration:none}
+.ccard:hover{border-color:var(--brass)}
+.ccard b{display:block;font-size:15px}
+.ccard small{color:var(--muted);font-size:13px}
+footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:14px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="nav">
+  <div class="container">
+    <nav class="navbar">
+      <a class="brand" href="#top"><span class="ibox"><i data-lucide="drum"></i></span>TÊN CỦA BẠN</a>
+      <div class="navlinks">
+        <a class="nav-link" href="#gioi-thieu">Giới thiệu</a>
+        <a class="nav-link" href="#day-trong">Dạy trống</a>
+        <a class="nav-link" href="#phong-tap">Phòng tập</a>
+        <a class="nav-link" href="#sampler">Sampler</a>
+        <a class="nav-link" href="#mua-sampler">Mua sampler</a>
+        <a class="nav-link" href="#lien-he">Liên hệ</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<header class="hero-wrap" id="top">
+  <div class="container">
+    <div class="hero row g-4 align-items-center">
+      <div class="col-md-7">
+        <h1>Tôi đánh trống.<br>Bạn giữ nhịp.</h1>
+        <p>Drummer chuyên nghiệp, giáo viên dạy trống, chủ phòng tập band cho thuê theo giờ, và là người tự làm các bộ sampler trống bán cho producer. Bấm vào mặt trống để nghe thử.</p>
+        <div class="d-flex flex-wrap gap-3 mt-3">
+          <a class="btn btn-primary" href="#lien-he"><i data-lucide="calendar-check"></i>Đặt lịch học</a>
+          <a class="btn btn-outline" href="#mua-sampler"><i data-lucide="shopping-cart"></i>Mua sampler</a>
+        </div>
+        <div class="quick">
+          <a href="#day-trong"><i data-lucide="graduation-cap"></i>Dạy trống</a>
+          <a href="#phong-tap"><i data-lucide="clock"></i>Thuê phòng theo giờ</a>
+          <a href="#sampler"><i data-lucide="headphones"></i>Nghe sampler</a>
+        </div>
+        <div class="stats">
+          <div><b>10+</b><small>năm chơi trống</small></div>
+          <div><b>200+</b><small>học viên đã dạy</small></div>
+          <div><b>2</b><small>phòng tập band</small></div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <button class="snare" id="heroSnare" aria-label="Đánh thử trống snare"><span><i data-lucide="drum"></i>BẤM<br>ĐỂ ĐÁNH</span></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="gioi-thieu">
+  <div class="container row g-4">
+    <div class="col-md-5"><h2><span class="ibox"><i data-lucide="user-round"></i></span>Giới thiệu</h2></div>
+    <div class="col-md-7">
+      <p>Xin chào, tôi là [Tên của bạn], drummer với hơn 10 năm chơi live, thu âm và đi tour cùng nhiều ban nhạc rock, pop và indie.</p>
+      <p>Tôi dạy trống vì tin rằng ai cũng giữ được nhịp nếu được hướng dẫn đúng cách. Tôi mở phòng tập để các band có chỗ tập thoải mái với giá hợp lý. Tôi cũng tự thu và xử lý âm thanh trống để làm ra các bộ sampler cho producer.</p>
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        <span class="badge"><i data-lucide="music"></i>Rock</span><span class="badge"><i data-lucide="music"></i>Pop</span><span class="badge"><i data-lucide="music"></i>Jazz</span><span class="badge"><i data-lucide="music"></i>Funk</span><span class="badge"><i data-lucide="music"></i>Lo-fi</span><span class="badge"><i data-lucide="mic"></i>Thu âm studio</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="day-trong" style="background:var(--hero)">
+  <div class="container">
+    <h2><span class="ibox"><i data-lucide="graduation-cap"></i></span>Học trống</h2>
+    <p class="mb-4">Học 1 kèm 1, bạn có thể học tại phòng của tôi hoặc học online. Không cần có trống ở nhà, bạn có thể bắt đầu bằng pad tập.</p>
+    <div class="row g-4">
+      <div class="col-md-4"><div class="card"><div class="card-body">
+        <span class="ibox"><i data-lucide="sprout"></i></span>
+        <h3 class="mt-3">Người mới</h3><div class="price">300k <small>/ buổi 60 phút</small></div>
+        <ul class="tick"><li><i data-lucide="check"></i>Cách cầm dùi và tư thế ngồi</li><li><i data-lucide="check"></i>Đọc nhịp, giữ tempo</li><li><i data-lucide="check"></i>Bài đầu tiên sau 3 buổi</li></ul>
+      </div></div></div>
+      <div class="col-md-4"><div class="card feat"><span class="ribbon">Phổ biến</span><div class="card-body">
+        <span class="ibox"><i data-lucide="trending-up"></i></span>
+        <h3 class="mt-3">Trung cấp</h3><div class="price">350k <small>/ buổi 60 phút</small></div>
+        <ul class="tick"><li><i data-lucide="check"></i>Groove, fill và dynamics</li><li><i data-lucide="check"></i>Đánh theo bài hát thật</li><li><i data-lucide="check"></i>Rudiments và độc lập tay chân</li></ul>
+      </div></div></div>
+      <div class="col-md-4"><div class="card"><div class="card-body">
+        <span class="ibox"><i data-lucide="award"></i></span>
+        <h3 class="mt-3">Chuyên sâu</h3><div class="price">400k <small>/ buổi 60 phút</small></div>
+        <ul class="tick"><li><i data-lucide="check"></i>Chuẩn bị biểu diễn live</li><li><i data-lucide="check"></i>Click track và thu âm studio</li><li><i data-lucide="check"></i>Xây dựng phong cách riêng</li></ul>
+      </div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="phong-tap">
+  <div class="container row g-4">
+    <div class="col-md-6">
+      <h2><span class="ibox"><i data-lucide="clock"></i></span>Thuê phòng tập</h2>
+      <p>Phòng cách âm, có sẵn bộ trống, ampli, mic và loa monitor. Thuê theo giờ, đặt trước hoặc đến là vào tập.</p>
+      <div class="perks">
+        <div class="perk"><span class="ibox"><i data-lucide="drum"></i></span>Trống acoustic đủ cymbal</div>
+        <div class="perk"><span class="ibox"><i data-lucide="speaker"></i></span>Ampli guitar và bass</div>
+        <div class="perk"><span class="ibox"><i data-lucide="mic"></i></span>Mic hát và hệ thống PA</div>
+        <div class="perk"><span class="ibox"><i data-lucide="snowflake"></i></span>Máy lạnh, cách âm</div>
+        <div class="perk"><span class="ibox"><i data-lucide="clock"></i></span>Mở cửa 9:00 đến 23:00</div>
+        <div class="perk"><span class="ibox"><i data-lucide="percent"></i></span>Từ 4 giờ giảm 10%</div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="calc">
+        <label for="room" class="mb-2" style="display:block;font-weight:700">Chọn phòng</label>
+        <select id="room" class="form-select mb-3">
+          <option value="120000">Phòng A, 4 người, 120.000đ/giờ</option>
+          <option value="180000">Phòng B, 8 người, 180.000đ/giờ</option>
+        </select>
+        <label for="hours" style="display:block;font-weight:700">Số giờ: <span id="hoursVal">2</span></label>
+        <input id="hours" class="form-range mb-3" type="range" min="1" max="8" value="2">
+        <p id="discount" style="min-height:24px;margin:0"></p>
+        <div class="total" id="total">240.000đ</div>
+        <a class="btn btn-primary mt-3" href="#lien-he"><i data-lucide="calendar-check"></i>Đặt phòng</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sampler" style="background:var(--hero)">
+  <div class="container">
+    <h2><span class="ibox"><i data-lucide="headphones"></i></span>Nghe thử sampler</h2>
+    <p class="mb-4">Chọn một bộ, rồi bấm pad hoặc dùng phím Q W E A S D để nghe. Bấm “Phát beat mẫu” để nghe bộ đó chạy một vòng nhịp. Đây là bản nghe thử, file WAV thật có âm thu chất lượng cao hơn nhiều.</p>
+    <div class="sample-wrap">
+      <div>
+        <div class="kits" id="kits" role="group" aria-label="Chọn bộ sampler"></div>
+        <p id="kitDesc" style="min-height:52px"></p>
+        <div class="pads" id="pads"></div>
+        <div class="steps" id="steps" aria-hidden="true"></div>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <button class="btn btn-primary btn-sm" id="loopBtn"><i data-lucide="play"></i>Phát beat mẫu</button>
+          <a class="btn btn-outline btn-sm" href="#mua-sampler"><i data-lucide="shopping-cart"></i>Mua bộ này</a>
+        </div>
+      </div>
+      <div class="card"><div class="card-body">
+        <span class="ibox"><i data-lucide="package"></i></span>
+        <h3 class="mt-3">Trong mỗi bộ có gì</h3>
+        <ul class="tick">
+          <li><i data-lucide="check"></i>Sample WAV 24-bit / 48kHz</li>
+          <li><i data-lucide="check"></i>Nhiều lớp velocity cho mỗi tiếng trống</li>
+          <li><i data-lucide="check"></i>Preset cho Ableton, FL Studio, Logic</li>
+          <li><i data-lucide="check"></i>Dùng thương mại, không cần trả thêm phí</li>
+        </ul>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section id="mua-sampler">
+  <div class="container">
+    <h2><span class="ibox"><i data-lucide="shopping-cart"></i></span>Mua bộ sampler</h2>
+    <p class="mb-4">Chọn bộ bạn thích, điền thông tin, rồi gửi tin nhắn cho tôi qua Zalo hoặc email. Tôi sẽ gửi link tải sau khi nhận thanh toán.</p>
+    <div class="row g-4 mb-4">
+      <div class="col-md-4"><div class="card"><div class="card-body">
+        <span class="ibox"><i data-lucide="drum"></i></span>
+        <h3 class="mt-3">Rock Acoustic</h3>
+        <div class="meta"><span class="badge">120 sample</span><span class="badge">WAV 24-bit</span></div>
+        <div class="sprice">450.000đ</div>
+        <p>Kick dày, snare giòn, hi-hat sáng. Thu tại phòng tập thật.</p>
+        <button class="btn btn-outline btn-sm btn-block pick" data-v="rock"><i data-lucide="shopping-cart"></i>Chọn bộ này</button>
+      </div></div></div>
+      <div class="col-md-4"><div class="card"><div class="card-body">
+        <span class="ibox"><i data-lucide="disc-3"></i></span>
+        <h3 class="mt-3">Lo-fi Dusty</h3>
+        <div class="meta"><span class="badge">90 sample</span><span class="badge">WAV 24-bit</span></div>
+        <div class="sprice">350.000đ</div>
+        <p>Âm ấm, hơi cũ, đã qua băng từ. Hợp với beat chill.</p>
+        <button class="btn btn-outline btn-sm btn-block pick" data-v="lofi"><i data-lucide="shopping-cart"></i>Chọn bộ này</button>
+      </div></div></div>
+      <div class="col-md-4"><div class="card"><div class="card-body">
+        <span class="ibox"><i data-lucide="zap"></i></span>
+        <h3 class="mt-3">Electro 808</h3>
+        <div class="meta"><span class="badge">100 sample</span><span class="badge">WAV 24-bit</span></div>
+        <div class="sprice">390.000đ</div>
+        <p>Kick 808 kéo dài, clap điện tử. Hợp với trap và EDM.</p>
+        <button class="btn btn-outline btn-sm btn-block pick" data-v="808"><i data-lucide="shopping-cart"></i>Chọn bộ này</button>
+      </div></div></div>
+    </div>
+
+    <div class="card feat"><div class="card-body">
+      <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+          <span class="badge" style="background:var(--ember);color:#fff"><i data-lucide="percent"></i>Tiết kiệm 20%</span>
+          <h3 class="mt-3">Combo cả 3 bộ</h3>
+          <div class="sprice">990.000đ<s>1.190.000đ</s></div>
+          <p>Mua cả ba để có đủ màu âm thanh từ rock đến electro.</p>
+          <button class="btn btn-primary btn-sm pick" data-v="combo"><i data-lucide="shopping-cart"></i>Chọn combo</button>
+        </div>
+        <div class="col-md-7">
+          <form class="order" id="orderForm" autocomplete="on" novalidate>
+            <div class="f2">
+              <div><label for="oName" style="margin-top:0">Tên của bạn</label><input id="oName" class="form-control" type="text" placeholder="Nguyễn Văn A"></div>
+              <div><label for="oPhone" style="margin-top:0">Số điện thoại / Zalo</label><input id="oPhone" class="form-control" type="tel" placeholder="09xx xxx xxx"></div>
+            </div>
+            <label for="oKit">Bộ sampler</label>
+            <select id="oKit" class="form-select">
+              <option value="rock">Rock Acoustic, 450.000đ</option>
+              <option value="lofi">Lo-fi Dusty, 350.000đ</option>
+              <option value="808">Electro 808, 390.000đ</option>
+              <option value="combo">Combo 3 bộ, 990.000đ</option>
+            </select>
+            <label for="oDaw">Phần mềm bạn dùng</label>
+            <select id="oDaw" class="form-select"><option>Ableton Live</option><option>FL Studio</option><option>Logic Pro</option><option>Khác</option></select>
+            <label for="oMsg">Tin nhắn sẽ gửi cho tôi</label>
+            <textarea id="oMsg" class="form-control" readonly></textarea>
+            <div class="actions">
+              <a class="btn btn-primary btn-sm" id="zaloBtn" href="https://zalo.me/0900000000" target="_blank" rel="noopener"><i data-lucide="message-circle"></i>Gửi qua Zalo</a>
+              <a class="btn btn-outline btn-sm" id="mailBtn" href="mailto:ban@example.com"><i data-lucide="mail"></i>Gửi email</a>
+              <button class="btn btn-outline btn-sm" type="button" id="copyBtn"><i data-lucide="copy"></i>Sao chép</button>
+            </div>
+            <p id="toast" role="status"></p>
+          </form>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<section id="lien-he" style="background:var(--hero)">
+  <div class="container">
+    <h2><span class="ibox"><i data-lucide="phone"></i></span>Liên hệ</h2>
+    <p class="mb-4">Đặt lịch học, đặt phòng tập hoặc hỏi mua sampler. Tôi trả lời trong ngày.</p>
+    <div class="contact-grid">
+      <a class="ccard" href="tel:0900000000"><span class="ibox"><i data-lucide="phone"></i></span><span><b>Gọi điện</b><small>0900 000 000</small></span></a>
+      <a class="ccard" href="https://zalo.me/0900000000" target="_blank" rel="noopener"><span class="ibox"><i data-lucide="message-circle"></i></span><span><b>Zalo</b><small>Nhắn để mua sampler nhanh nhất</small></span></a>
+      <a class="ccard" href="mailto:ban@example.com"><span class="ibox"><i data-lucide="mail"></i></span><span><b>Email</b><small>ban@example.com</small></span></a>
+      <a class="ccard" href="#" target="_blank" rel="noopener"><span class="ibox"><i data-lucide="facebook"></i></span><span><b>Facebook</b><small>fb.com/tenban</small></span></a>
+      <a class="ccard" href="#" target="_blank" rel="noopener"><span class="ibox"><i data-lucide="youtube"></i></span><span><b>YouTube</b><small>Video biểu diễn và demo sound</small></span></a>
+      <a class="ccard" href="#"><span class="ibox"><i data-lucide="map-pin"></i></span><span><b>Địa chỉ phòng tập</b><small>[Số nhà, đường, quận/huyện]</small></span></a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="container d-flex flex-wrap justify-content-between gap-2"><span>© 2026 Tên của bạn. Drummer, giáo viên, phòng tập.</span><span>Zalo, điện thoại: 0900 000 000</span></div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+<script>
+/* ===== Tính tiền thuê phòng ===== */
+(function(){
+  var room=document.getElementById('room'),hrs=document.getElementById('hours');
+  function fmt(n){return n.toLocaleString('vi-VN')+'đ'}
+  function calc(){
+    var h=+hrs.value,p=+room.value,t=p*h,d=h>=4;
+    if(d)t*=0.9;
+    document.getElementById('hoursVal').textContent=h;
+    document.getElementById('discount').textContent=d?'Đã giảm 10% cho thuê từ 4 giờ':'Thuê từ 4 giờ để được giảm 10%';
+    document.getElementById('total').textContent=fmt(Math.round(t));
+  }
+  room.addEventListener('change',calc);hrs.addEventListener('input',calc);calc();
+})();
+
+/* ===== Sampler (Web Audio, âm thanh tổng hợp trực tiếp trên trình duyệt) ===== */
+(function(){
+  var AC=window.AudioContext||window.webkitAudioContext,ctx=null,master,noiseBuf;
+  var KITS=[
+    {name:'Rock Acoustic',desc:'Kick dày, snare giòn, hi-hat sáng. Hợp với rock, pop và indie.',kick:[150,45,.45],snare:[190,.22],hat:[.05,.35],tom:1,crash:1.6,lp:18000,bpm:100},
+    {name:'Lo-fi Dusty',desc:'Âm thanh ấm, hơi cũ và bị lọc bớt tần cao. Hợp với beat chill, hip-hop lo-fi.',kick:[110,40,.5],snare:[160,.18],hat:[.04,.2],tom:.85,crash:1.2,lp:3200,bpm:80},
+    {name:'Electro 808',desc:'Kick 808 kéo dài, clap điện tử. Hợp với trap, EDM và electro pop.',kick:[90,30,1.1],snare:[240,.14],hat:[.03,.25],tom:.7,crash:1.4,lp:18000,bpm:128}
+  ];
+  var PADS=[['Q','Kick','kick'],['W','Snare','snare'],['E','Hi-hat','hat'],['A','Tom','tom'],['S','Clap','clap'],['D','Crash','crash']];
+  var PAT={kick:[0,4,8,10],snare:[4,12],hat:[0,2,4,6,8,10,12,14],clap:[12],crash:[0]};
+  var kit=KITS[0],padEls={};
+
+  function init(){
+    if(ctx)return;
+    ctx=new AC();
+    master=ctx.createBiquadFilter();master.type='lowpass';master.frequency.value=kit.lp;
+    var g=ctx.createGain();g.gain.value=.8;master.connect(g);g.connect(ctx.destination);
+    noiseBuf=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate);
+    var d=noiseBuf.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+  }
+  function env(g,t,a,dur,peak){g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+a);g.gain.exponentialRampToValueAtTime(0.0001,t+dur)}
+  function osc(type,f0,f1,t,dur,peak){
+    var o=ctx.createOscillator(),g=ctx.createGain();o.type=type;
+    o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(f1,t+dur*.6);
+    env(g,t,.004,dur,peak);o.connect(g);g.connect(master);o.start(t);o.stop(t+dur+.05);
+  }
+  function noise(ftype,freq,t,dur,peak,q){
+    var s=ctx.createBufferSource(),f=ctx.createBiquadFilter(),g=ctx.createGain();
+    s.buffer=noiseBuf;f.type=ftype;f.frequency.value=freq;if(q)f.Q.value=q;
+    env(g,t,.003,dur,peak);s.connect(f);f.connect(g);g.connect(master);s.start(t,Math.random());s.stop(t+dur+.05);
+  }
+  var SND={
+    kick:function(t){osc('sine',kit.kick[0],kit.kick[1],t,kit.kick[2],1)},
+    snare:function(t){osc('triangle',kit.snare[0],kit.snare[0]*.6,t,kit.snare[1],.5);noise('highpass',1800,t,kit.snare[1],.7)},
+    hat:function(t,open){noise('highpass',7000,t,open?kit.hat[1]:kit.hat[0],.35)},
+    tom:function(t){osc('sine',220*kit.tom,110*kit.tom,t,.4,.8)},
+    clap:function(t){[0,.012,.024].forEach(function(o){noise('bandpass',1500,t+o,.05,.5,1.2)});noise('bandpass',1500,t+.036,.2,.5,1.2)},
+    crash:function(t){noise('highpass',5000,t,kit.crash,.35)}
+  };
+  function play(name,t){init();if(ctx.state==='suspended')ctx.resume();SND[name](t||ctx.currentTime)}
+  function flash(name){var el=padEls[name];if(!el)return;el.classList.add('on');setTimeout(function(){el.classList.remove('on')},110)}
+  function hit(name){play(name);flash(name)}
+
+  /* Giao diện pad */
+  var padsBox=document.getElementById('pads');
+  PADS.forEach(function(p){
+    var b=document.createElement('button');b.className='pad';b.innerHTML=p[1]+'<small>phím '+p[0]+'</small>';
+    b.addEventListener('pointerdown',function(e){e.preventDefault();hit(p[2])});
+    padsBox.appendChild(b);padEls[p[2]]=b;
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.repeat||e.target.tagName==='INPUT'||e.target.tagName==='SELECT')return;
+    var k=e.key.toUpperCase();
+    for(var i=0;i<PADS.length;i++)if(PADS[i][0]===k){hit(PADS[i][2]);return}
+  });
+
+  /* Chọn bộ sampler */
+  var kitsBox=document.getElementById('kits'),kitBtns=[];
+  function setKit(i){
+    kit=KITS[i];kitBtns.forEach(function(b,j){b.setAttribute('aria-pressed',j===i)});
+    document.getElementById('kitDesc').textContent=kit.desc;
+    if(ctx)master.frequency.value=kit.lp;
+    if(loop)stopLoop();
+  }
+  KITS.forEach(function(k,i){
+    var b=document.createElement('button');b.className='kit';b.textContent=k.name;
+    b.addEventListener('click',function(){setKit(i);hit('snare')});
+    kitsBox.appendChild(b);kitBtns.push(b);
+  });
+
+  /* Beat mẫu 16 bước */
+  var stepsBox=document.getElementById('steps'),stepEls=[],loop=null,step=0,loopBtn=document.getElementById('loopBtn');
+  for(var s=0;s<16;s++){var i=document.createElement('i');stepsBox.appendChild(i);stepEls.push(i)}
+  function tick(){
+    stepEls.forEach(function(e,j){e.classList.toggle('now',j===step)});
+    for(var n in PAT)if(PAT[n].indexOf(step)>-1){
+      if(n==='hat')play('hat',null);else play(n);
+      flash(n);
+    }
+    step=(step+1)%16;
+  }
+  function setBtn(i,t){loopBtn.innerHTML='<i data-lucide="'+i+'"></i>'+t;if(window.lucide)lucide.createIcons()}
+  function stopLoop(){clearInterval(loop);loop=null;step=0;stepEls.forEach(function(e){e.classList.remove('now')});setBtn('play','Phát beat mẫu')}
+  loopBtn.addEventListener('click',function(){
+    if(loop){stopLoop();return}
+    init();if(ctx.state==='suspended')ctx.resume();
+    loop=setInterval(tick,60000/kit.bpm/4);tick();setBtn('square','Dừng');
+  });
+  setKit(0);
+
+  /* Mặt trống ở phần đầu trang */
+  var hs=document.getElementById('heroSnare');
+  hs.addEventListener('pointerdown',function(){hs.classList.remove('hit');void hs.offsetWidth;hs.classList.add('hit');play('snare')});
+})();
+</script>
+<script>
+/* ===== Form mua sampler ===== */
+(function(){
+  var PHONE='0900000000',MAIL='ban@example.com';
+  var KITS={rock:['Rock Acoustic','450.000đ'],lofi:['Lo-fi Dusty','350.000đ'],'808':['Electro 808','390.000đ'],combo:['Combo 3 bộ (Rock Acoustic, Lo-fi Dusty, Electro 808)','990.000đ']};
+  var kit=document.getElementById('oKit'),daw=document.getElementById('oDaw'),nm=document.getElementById('oName'),ph=document.getElementById('oPhone'),msg=document.getElementById('oMsg'),toast=document.getElementById('toast');
+  function build(){
+    var k=KITS[kit.value];
+    var t='Chào bạn, mình muốn mua bộ sampler: '+k[0]+' ('+k[1]+').\nPhần mềm: '+daw.value+'.\nTên: '+(nm.value||'(chưa điền)')+'\nSĐT/Zalo: '+(ph.value||'(chưa điền)')+'\nBạn gửi mình thông tin thanh toán nhé.';
+    msg.value=t;
+    document.getElementById('mailBtn').href='mailto:'+MAIL+'?subject='+encodeURIComponent('Mua sampler '+k[0])+'&body='+encodeURIComponent(t);
+    return t;
+  }
+  function say(s){toast.textContent=s;setTimeout(function(){toast.textContent=''},3500)}
+  function copy(){
+    var t=build();
+    function fallback(){msg.removeAttribute('readonly');msg.select();try{document.execCommand('copy');say('Đã sao chép tin nhắn.')}catch(e){say('Hãy chọn và sao chép tin nhắn ở khung trên.')}msg.setAttribute('readonly','')}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){say('Đã sao chép tin nhắn.')},fallback)}else fallback();
+  }
+  [kit,daw,nm,ph].forEach(function(e){e.addEventListener('input',build)});
+  document.getElementById('copyBtn').addEventListener('click',copy);
+  document.getElementById('zaloBtn').addEventListener('click',function(){build();try{navigator.clipboard.writeText(msg.value)}catch(e){};say('Đã sao chép tin nhắn, hãy dán vào Zalo.')});
+  document.getElementById('orderForm').addEventListener('submit',function(e){e.preventDefault()});
+  document.querySelectorAll('.pick').forEach(function(b){b.addEventListener('click',function(){kit.value=b.getAttribute('data-v');build();document.getElementById('orderForm').scrollIntoView({behavior:'smooth',block:'center'})})});
+  build();
+  if(window.lucide)lucide.createIcons();
+})();
+</script>
+</body>
+</html>

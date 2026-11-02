@@ -1,26 +1,180 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #eef1f6;
+  --surface: #ffffff;
+  --text: #14182b;
+  --muted: #4d5670;
+  --line: #d7dce8;
+  --line-strong: #aeb6cb;
+  --brass: #b8860b;
+  --brass-2: #c99a1e;
+  --chip: #e3e8f2;
+  --hero: #e3e8f2;
+  --pad: #f7f8fb;
+  --pad-on: #f1d27a;
+  --tint: rgba(184, 134, 11, 0.14);
+  --ember: #c8431f;
+  --navbg: rgba(238, 241, 246, 0.90);
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="dark"] {
+  --bg: #101426;
+  --surface: #171c33;
+  --text: #eef0f7;
+  --muted: #a3abc6;
+  --line: #272e4d;
+  --line-strong: #3b4468;
+  --brass: #e0b13c;
+  --brass-2: #f0c658;
+  --chip: #232a49;
+  --hero: #171c33;
+  --pad: #1d2342;
+  --pad-on: #e0b13c;
+  --tint: rgba(224, 177, 60, 0.15);
+  --ember: #ff7a52;
+  --navbg: rgba(16, 20, 38, 0.90);
+  color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    --bg: #101426;
+    --surface: #171c33;
+    --text: #eef0f7;
+    --muted: #a3abc6;
+    --line: #272e4d;
+    --line-strong: #3b4468;
+    --brass: #e0b13c;
+    --brass-2: #f0c658;
+    --chip: #232a49;
+    --hero: #171c33;
+    --pad: #1d2342;
+    --pad-on: #e0b13c;
+    --tint: rgba(224, 177, 60, 0.15);
+    --ember: #ff7a52;
+    --navbg: rgba(16, 20, 38, 0.90);
+    color-scheme: dark;
   }
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Be Vietnam Pro", system-ui, -apple-system, sans-serif;
+  line-height: 1.65;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.font-condensed {
+  font-family: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+}
+
+/* Snare Drum 3D styling */
+.snare-drum {
+  position: relative;
+  width: min(100%, 360px);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background: radial-gradient(circle, var(--pad) 0 62%, var(--brass) 62.5% 66%, var(--line-strong) 66.5% 100%);
+  box-shadow: 0 0 0 6px var(--hero), 0 0 0 8px var(--line-strong), 0 24px 50px rgba(0, 0, 0, 0.25);
+  transition: transform 0.08s ease;
+}
+
+.snare-drum:active {
+  transform: scale(0.96);
+}
+
+.snare-drum.hit {
+  animation: snare-hit 0.16s ease-out;
+}
+
+@keyframes snare-hit {
+  0% {
+    transform: scale(0.95);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Drum Pad styling */
+.drum-pad {
+  aspect-ratio: 1.25;
+  border-radius: 16px;
+  border: 2px solid var(--line-strong);
+  background: var(--pad);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 27px;
+  font-weight: 800;
+  transition: background-color 0.06s, color 0.06s, border-color 0.06s, transform 0.06s;
+  user-select: none;
+}
+
+.drum-pad:active,
+.drum-pad.active {
+  background: var(--pad-on) !important;
+  color: #1a1405 !important;
+  border-color: var(--pad-on) !important;
+  transform: scale(0.96);
+}
+
+/* Sequencer LED step */
+.step-led {
+  flex: 1;
+  height: 10px;
+  border-radius: 3px;
+  background: var(--line);
+  transition: background-color 0.05s ease;
+}
+
+.step-led.active {
+  background: var(--brass) !important;
+  box-shadow: 0 0 8px var(--brass);
+}
+
+/* Icon box */
+.ibox {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--tint);
+  color: var(--brass);
+  flex-shrink: 0;
+}
+
+/* Ribbon badge */
+.ribbon {
+  position: absolute;
+  top: 16px;
+  right: -34px;
+  transform: rotate(38deg);
+  background: var(--ember);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 40px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
