@@ -1,46 +1,44 @@
 {
   "profile": {
     "name": "Linh Hồ",
-    "tagline": "Tôi đánh trống.\nBạn giữ nhịp.",
-    "bio": "Drummer chuyên nghiệp với hơn 10 năm biểu diễn live, tour diễn cùng nhiều ban nhạc và đào tạo hơn 200 học viên. Chủ sở hữu LH Music Studio & chuyên cung cấp các dịch vụ ban nhạc biểu diễn tiệc cưới hỏi, sự kiện cao cấp.",
-    "aboutText1": "Xin chào, tôi là Linh Hồ, drummer chuyên nghiệp với hơn 10 năm chơi live sân khấu, thu âm studio và lưu diễn cùng nhiều ban nhạc rock, pop, indie và acoustic trên toàn quốc.",
-    "aboutText2": "Tôi thành lập LH Music Studio với mong muốn mang lại một không gian âm nhạc chất lượng: nơi đào tạo học viên từ căn bản đến biểu diễn thực chiến, phòng tập band cách âm tiêu chuẩn và cung cấp các dịch vụ ban nhạc chuyên nghiệp cho các sự kiện, tiệc cưới, gala.",
+    "tagline": "CHƠI HẾT MÌNH TRÊN SÂN KHẤU.\nCHUẨN TỪNG TIẾT TẤU TRONG PHÒNG THU.",
+    "bio": "Drummer & Music Producer tại LH Music Studio. Hơn 10 năm cống hiến cho sân khấu live concert, tour diễn sự kiện lớn (HPMA Connection Showcase) và sáng tạo các bộ sound sampler độc quyền cho Roland SPD-30, SPD-SX Pro, NUX và Avatar.",
+    "aboutText1": "Âm nhạc với tôi không đơn thuần là đếm nhịp 1-2-3-4 theo giáo trình khô khan. Đó là nhịp tim của ban nhạc, là cú đạp Kick rung chuyển lồng ngực và tiếng Snare giòn giã kết nối hàng ngàn khán giả bên dưới sân khấu.",
+    "aboutText2": "Từ những đêm diễn cuồng nhiệt tại các sự kiện showcase lớn như HPMA Connection Showcase đến những buổi thâu đêm làm việc tại LH Music Studio, tôi luôn đặt trọn nhiệt huyết vào từng nhịp phách. Tại đây, tôi đào tạo thế hệ drummer thực chiến, cung cấp phòng tập tiêu chuẩn cách âm cao cấp và chia sẻ những bộ sound pack được cân chỉnh tỉ mỉ cho anh em đi show.",
     "avatarUrl": "/images/profile/linh-ho-portrait.jpg",
     "stats": [
       {
         "value": "10+",
-        "label": "năm chơi trống & biểu diễn"
-      },
-      {
-        "value": "200+",
-        "label": "học viên đã đào tạo"
+        "label": "Năm biểu diễn live & phòng thu"
       },
       {
         "value": "500+",
-        "label": "show diễn & tiệc cưới"
+        "label": "Show diễn & sự kiện sân khấu"
       },
       {
-        "value": "2",
-        "label": "phòng tập band studio"
+        "value": "200+",
+        "label": "Học viên tự tin làm chủ nhịp"
+      },
+      {
+        "value": "100%",
+        "label": "Tâm huyết & năng lượng rockstar"
       }
     ],
     "genres": [
-      "Rock",
-      "Pop",
-      "Jazz",
-      "Funk",
-      "Lo-fi",
-      "Acoustic",
-      "Thu âm studio",
-      "Biểu diễn Live"
+      "Rock & Pop Stage",
+      "Acoustic Live",
+      "Funk & Fusion",
+      "SPD-30 Sound Gốc",
+      "SPD-SX Pro WAV Pack",
+      "Thu âm & Phòng tập"
     ],
     "contact": {
-      "phone": "0900 000 000",
-      "zalo": "0900000000",
-      "email": "linhho.drummer@example.com",
-      "facebook": "https://facebook.com",
-      "youtube": "https://youtube.com",
-      "address": "123 Đường Âm Nhạc, Quận 1, TP. Hồ Chí Minh"
+      "phone": "0938 123 456",
+      "zalo": "0938123456",
+      "email": "lh.musicstudio.vn@gmail.com",
+      "facebook": "https://facebook.com/linhhodrummer",
+      "youtube": "https://youtube.com/@linhhomusic",
+      "address": "LH Music Studio - TP. Hồ Chí Minh"
     }
   },
   "courses": [
