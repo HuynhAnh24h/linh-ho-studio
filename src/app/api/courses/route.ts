@@ -3,23 +3,23 @@ import { getDatabase, saveDatabase } from "@/lib/db";
 import { CourseItem } from "@/lib/types";
 
 export async function GET() {
-  const db = getDatabase();
+  const db = await getDatabase();
   return NextResponse.json(db.courses);
 }
 
 export async function POST(req: Request) {
   try {
     const newCourse: Omit<CourseItem, "id"> = await req.json();
-    const db = getDatabase();
+    const db = await getDatabase();
     const course: CourseItem = {
       ...newCourse,
       id: "course-" + Date.now(),
       order: db.courses.length + 1,
     };
     db.courses.push(course);
-    saveDatabase(db);
+    await saveDatabase(db);
     return NextResponse.json({ success: true, course });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Failed to create course" }, { status: 500 });
   }
 }
@@ -27,15 +27,15 @@ export async function POST(req: Request) {
 export async function PUT(req: Request) {
   try {
     const updatedCourse: CourseItem = await req.json();
-    const db = getDatabase();
+    const db = await getDatabase();
     const index = db.courses.findIndex((c) => c.id === updatedCourse.id);
     if (index === -1) {
       return NextResponse.json({ error: "Course not found" }, { status: 404 });
     }
     db.courses[index] = updatedCourse;
-    saveDatabase(db);
+    await saveDatabase(db);
     return NextResponse.json({ success: true, course: updatedCourse });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Failed to update course" }, { status: 500 });
   }
 }
@@ -47,11 +47,11 @@ export async function DELETE(req: Request) {
     if (!id) {
       return NextResponse.json({ error: "Missing course id" }, { status: 400 });
     }
-    const db = getDatabase();
+    const db = await getDatabase();
     db.courses = db.courses.filter((c) => c.id !== id);
-    saveDatabase(db);
+    await saveDatabase(db);
     return NextResponse.json({ success: true, id });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Failed to delete course" }, { status: 500 });
   }
 }

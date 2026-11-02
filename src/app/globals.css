@@ -1,66 +1,47 @@
 @import "tailwindcss";
 
-/* ===== Theme Variables ===== */
+/* ===== LH Music Studio Theme Variables ===== */
 :root {
-  --bg: #eef1f6;
+  /* Light Mode (Cream & Rich Espresso) */
+  --bg: #f8f5ee;
   --surface: #ffffff;
-  --text: #14182b;
-  --muted: #4d5670;
-  --line: #d7dce8;
-  --line-strong: #aeb6cb;
-  --brass: #b8860b;
-  --brass-2: #c99a1e;
-  --chip: #e3e8f2;
-  --hero: #e3e8f2;
-  --pad: #f7f8fb;
-  --pad-on: #f1d27a;
-  --tint: rgba(184, 134, 11, 0.14);
-  --ember: #c8431f;
-  --navbg: rgba(238, 241, 246, 0.86);
+  --text: #241c19;
+  --muted: #6e5c54;
+  --line: #e3dacd;
+  --line-strong: #ccbfaf;
+  --brass: #a67c38;
+  --brass-2: #8a6428;
+  --chip: #eee7dc;
+  --hero: #f2ede3;
+  --pad: #f5f0e6;
+  --pad-on: #dfcaa0;
+  --tint: rgba(166, 124, 56, 0.12);
+  --ember: #b84b2e;
+  --navbg: rgba(248, 245, 238, 0.92);
   color-scheme: light;
 }
 
-:root[data-theme="dark"] {
-  --bg: #101426;
-  --surface: #171c33;
-  --text: #eef0f7;
-  --muted: #a3abc6;
-  --line: #272e4d;
-  --line-strong: #3b4468;
-  --brass: #e0b13c;
-  --brass-2: #f0c658;
-  --chip: #232a49;
-  --hero: #171c33;
-  --pad: #1d2342;
-  --pad-on: #e0b13c;
-  --tint: rgba(224, 177, 60, 0.15);
-  --ember: #ff7a52;
-  --navbg: rgba(16, 20, 38, 0.86);
+/* Dark Mode - Signature LH Music Studio Palette */
+:root[data-theme="dark"], :root:not([data-theme="light"]) {
+  --bg: #1e1715;
+  --surface: #27201c;
+  --text: #f5efe4;
+  --muted: #b5a597;
+  --line: #3d312c;
+  --line-strong: #594740;
+  --brass: #e8dcbe;
+  --brass-2: #f4ecdc;
+  --chip: #342a25;
+  --hero: #231b18;
+  --pad: #2c221e;
+  --pad-on: #e8dcbe;
+  --tint: rgba(232, 220, 190, 0.14);
+  --ember: #d6603a;
+  --navbg: rgba(30, 23, 21, 0.92);
   color-scheme: dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #101426;
-    --surface: #171c33;
-    --text: #eef0f7;
-    --muted: #a3abc6;
-    --line: #272e4d;
-    --line-strong: #3b4468;
-    --brass: #e0b13c;
-    --brass-2: #f0c658;
-    --chip: #232a49;
-    --hero: #171c33;
-    --pad: #1d2342;
-    --pad-on: #e0b13c;
-    --tint: rgba(224, 177, 60, 0.15);
-    --ember: #ff7a52;
-    --navbg: rgba(16, 20, 38, 0.86);
-    color-scheme: dark;
-  }
-}
-
-/* ===== Base typography & layout ===== */
+/* Base typography & layout */
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 70px);
@@ -106,14 +87,14 @@ p {
   color: var(--muted);
 }
 
-/* ===== Original Button Classes ===== */
+/* Button Classes */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   padding: 11px 20px;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 2px solid transparent;
   font-weight: 700;
   font-size: 15px;
@@ -130,7 +111,7 @@ p {
 
 .btn-primary {
   background: var(--brass);
-  color: #1a1405;
+  color: #1e1715;
 }
 
 .btn-primary:hover {
@@ -157,11 +138,11 @@ p {
   width: 100%;
 }
 
-/* ===== Cards & Badges ===== */
+/* Cards & Badges */
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 20px;
   height: 100%;
   position: relative;
   overflow: hidden;
@@ -209,7 +190,7 @@ h2 .ibox {
   height: 52px;
 }
 
-/* ===== Interactive Snare Drum ===== */
+/* Interactive Snare Drum */
 .snare, .snare-drum {
   position: relative;
   width: min(100%, 360px);
@@ -220,7 +201,7 @@ h2 .ibox {
   padding: 0;
   cursor: pointer;
   background: radial-gradient(circle, var(--pad) 0 62%, var(--brass) 62.5% 66%, var(--line-strong) 66.5% 100%);
-  box-shadow: 0 0 0 6px var(--hero), 0 0 0 8px var(--line-strong), 0 24px 50px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 0 6px var(--hero), 0 0 0 8px var(--line-strong), 0 24px 50px rgba(0, 0, 0, 0.45);
   transition: transform 0.08s ease;
 }
 
@@ -259,7 +240,7 @@ h2 .ibox {
   color: var(--brass);
 }
 
-/* ===== Stats & Price ===== */
+/* Stats & Price */
 .stats {
   display: flex;
   flex-wrap: wrap;
@@ -321,10 +302,10 @@ ul.tick li svg {
   font-size: 12px;
   font-weight: 700;
   padding: 3px 40px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 
-/* ===== Perks & Calc ===== */
+/* Perks & Calc */
 .perks {
   display: grid;
   grid-template-columns: 1fr;
@@ -359,7 +340,7 @@ ul.tick li svg {
 .calc {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 26px;
 }
 
@@ -369,7 +350,7 @@ ul.tick li svg {
   line-height: 1.1;
 }
 
-/* ===== Sampler Pads & Kits ===== */
+/* Sampler Pads & Kits */
 .kits {
   display: flex;
   flex-wrap: wrap;
@@ -394,7 +375,7 @@ ul.tick li svg {
 .kit[aria-pressed="true"], .kit.active {
   background: var(--brass);
   border-color: var(--brass);
-  color: #1a1405;
+  color: #1e1715;
   font-weight: 700;
 }
 
@@ -430,7 +411,7 @@ ul.tick li svg {
 
 .pad.on, .pad:active, .drum-pad.active, .drum-pad:active {
   background: var(--pad-on) !important;
-  color: #1a1405 !important;
+  color: #1e1715 !important;
   border-color: var(--pad-on) !important;
   transform: scale(0.96);
 }
@@ -447,19 +428,19 @@ ul.tick li svg {
   height: 10px;
   border-radius: 3px;
   background: var(--line);
-  transition: background 0.05s ease;
+  transition: background-color 0.05s ease;
 }
 
 .steps i.now, .step-led.active {
   background: var(--brass) !important;
-  box-shadow: 0 0 8px var(--brass);
+  box-shadow: 0 0 10px var(--brass);
 }
 
-/* ===== Form inputs ===== */
+/* Form inputs */
 .form-select, .form-control {
   width: 100%;
   padding: 11px 12px;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1px solid var(--line-strong);
   background: var(--bg);
   color: var(--text);
@@ -476,7 +457,6 @@ ul.tick li svg {
   accent-color: var(--brass);
 }
 
-/* Focus visible */
 a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible {
   outline: 3px solid var(--brass);
   outline-offset: 2px;

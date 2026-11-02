@@ -3,7 +3,7 @@ import { getDatabase, saveDatabase } from "@/lib/db";
 import { RoomItem, RoomPerk } from "@/lib/types";
 
 export async function GET() {
-  const db = getDatabase();
+  const db = await getDatabase();
   return NextResponse.json({
     rooms: db.rooms,
     roomPerks: db.roomPerks,
@@ -13,7 +13,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const db = getDatabase();
+    const db = await getDatabase();
 
     if (body.type === "perk") {
       const newPerk: RoomPerk = {
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
         iconName: body.iconName || "check",
       };
       db.roomPerks.push(newPerk);
-      saveDatabase(db);
+      await saveDatabase(db);
       return NextResponse.json({ success: true, perk: newPerk });
     }
 
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
       order: db.rooms.length + 1,
     };
     db.rooms.push(newRoom);
-    saveDatabase(db);
+    await saveDatabase(db);
     return NextResponse.json({ success: true, room: newRoom });
   } catch {
     return NextResponse.json({ error: "Failed to create room" }, { status: 500 });
@@ -45,11 +45,11 @@ export async function POST(req: Request) {
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
-    const db = getDatabase();
+    const db = await getDatabase();
 
     if (body.type === "perks_update") {
       db.roomPerks = body.perks;
-      saveDatabase(db);
+      await saveDatabase(db);
       return NextResponse.json({ success: true, perks: db.roomPerks });
     }
 
@@ -59,7 +59,7 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "Room not found" }, { status: 404 });
     }
     db.rooms[index] = updatedRoom;
-    saveDatabase(db);
+    await saveDatabase(db);
     return NextResponse.json({ success: true, room: updatedRoom });
   } catch {
     return NextResponse.json({ error: "Failed to update room" }, { status: 500 });
@@ -75,13 +75,13 @@ export async function DELETE(req: Request) {
     if (!id) {
       return NextResponse.json({ error: "Missing id" }, { status: 400 });
     }
-    const db = getDatabase();
+    const db = await getDatabase();
     if (isPerk) {
       db.roomPerks = db.roomPerks.filter((p) => p.id !== id);
     } else {
       db.rooms = db.rooms.filter((r) => r.id !== id);
     }
-    saveDatabase(db);
+    await saveDatabase(db);
     return NextResponse.json({ success: true, id });
   } catch {
     return NextResponse.json({ error: "Failed to delete item" }, { status: 500 });

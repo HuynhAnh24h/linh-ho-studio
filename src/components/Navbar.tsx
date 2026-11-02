@@ -2,23 +2,24 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Drum, Moon, Sun, Menu, X, ShieldAlert } from "lucide-react";
+import { Moon, Sun, Menu, X, ShieldAlert } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
 
 interface NavbarProps {
   brandName?: string;
 }
 
-export function Navbar({ brandName = "TÊN CỦA BẠN" }: NavbarProps) {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+export function Navbar({ brandName = "LH STUDIO" }: NavbarProps) {
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   useEffect(() => {
-    // Detect system or stored preference
     const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
     if (savedTheme) {
       setTheme(savedTheme);
       document.documentElement.setAttribute("data-theme", savedTheme);
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    } else {
+      // Default to dark theme matching LH Studio aesthetic
       setTheme("dark");
       document.documentElement.setAttribute("data-theme", "dark");
     }
@@ -43,12 +44,9 @@ export function Navbar({ brandName = "TÊN CỦA BẠN" }: NavbarProps) {
   return (
     <header className="sticky top-0 z-40 w-full backdrop-blur-md border-b border-[var(--line)] bg-[var(--navbg)] transition-colors">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        {/* Brand */}
-        <Link href="#top" className="flex items-center gap-2.5 font-condensed font-extrabold text-2xl tracking-wide text-[var(--text)] hover:opacity-90 transition-opacity">
-          <span className="ibox w-9 h-9 rounded-xl">
-            <Drum className="w-5 h-5" />
-          </span>
-          <span>{brandName.toUpperCase()}</span>
+        {/* Brand with Logo image */}
+        <Link href="#top" className="hover:opacity-90 transition-opacity">
+          <BrandLogo size="md" />
         </Link>
 
         {/* Desktop Nav Links */}
@@ -78,7 +76,7 @@ export function Navbar({ brandName = "TÊN CỦA BẠN" }: NavbarProps) {
           {/* Admin shortcut */}
           <Link
             href="/admin"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--chip)] text-[var(--text)] hover:bg-[var(--brass)] hover:text-black transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-[var(--chip)] text-[var(--text)] hover:bg-[var(--brass)] hover:text-[#1e1715] transition-colors"
             title="Trang quản trị Admin"
           >
             <ShieldAlert className="w-3.5 h-3.5" />

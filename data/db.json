@@ -232,6 +232,17 @@
   },
   "orders": [
     {
+      "id": "ord-1793587037933",
+      "customerName": "Khách mua sampler",
+      "phone": "",
+      "serviceType": "sampler",
+      "itemSelected": "Rock Acoustic (450.000đ)",
+      "software": "Cubase / Nuendo",
+      "message": "Chào bạn, mình muốn mua bộ sampler: Rock Acoustic (450.000đ).\nPhần mềm: Cubase / Nuendo.\nTên: (chưa điền)\nSĐT/Zalo: (chưa điền)\nBạn gửi mình thông tin thanh toán nhé.",
+      "status": "processing",
+      "createdAt": "2026-11-02T02:37:17.933Z"
+    },
+    {
       "id": "ord-1",
       "customerName": "Nguyễn Hải Đăng",
       "phone": "0912 345 678",

@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Lock, Drum, ArrowRight, AlertCircle } from "lucide-react";
+import { Lock, ArrowRight, AlertCircle } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
 
 interface AdminLoginProps {
   onSuccess: () => void;
@@ -40,21 +41,21 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-[var(--bg)] text-[var(--text)]">
-      <div className="w-full max-w-md bg-[var(--surface)] border border-[var(--line)] rounded-3xl p-8 shadow-xl space-y-6">
-        <div className="text-center space-y-2">
-          <div className="inline-grid place-items-center w-14 h-14 rounded-2xl bg-[var(--tint)] text-[var(--brass)] mx-auto mb-2">
-            <Drum className="w-7 h-7" />
+      <div className="w-full max-w-md bg-[var(--surface)] border border-[var(--line)] rounded-3xl p-8 shadow-2xl space-y-6">
+        <div className="text-center space-y-3">
+          <div className="flex justify-center mb-2">
+            <BrandLogo size="lg" showText={false} />
           </div>
-          <h1 className="font-condensed font-extrabold text-3xl sm:text-4xl text-[var(--text)]">
-            Quản trị Drummer Profile
+          <h1 className="font-condensed font-extrabold text-3xl sm:text-4xl text-[var(--brass)] tracking-wide uppercase">
+            LH STUDIO ADMIN
           </h1>
-          <p className="text-sm text-[var(--muted)]">
-            Nhập mật khẩu quản trị viên để đăng nhập
+          <p className="text-xs sm:text-sm text-[var(--muted)]">
+            Hệ thống quản trị nội dung, khoá học, phòng tập &amp; bộ sampler
           </p>
         </div>
 
         {error && (
-          <div className="flex items-center gap-2 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-500 text-sm">
+          <div className="flex items-center gap-2 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
             <AlertCircle className="w-4 h-4 flex-shrink-0" />
             <span>{error}</span>
           </div>
@@ -78,14 +79,14 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
               <Lock className="w-4 h-4 text-[var(--muted)] absolute left-3.5 top-1/2 -translate-y-1/2" />
             </div>
             <p className="text-xs text-[var(--muted)] mt-1.5">
-              Mật khẩu mặc định: <code className="text-[var(--brass)] font-mono">admin123</code> (có thể thay đổi trong .env)
+              Mật khẩu mặc định: <code className="text-[var(--brass)] font-mono">admin123</code>
             </p>
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3.5 rounded-xl font-bold text-sm bg-[var(--brass)] text-[#1a1405] hover:bg-[var(--brass-2)] transition-all shadow-md flex items-center justify-center gap-2"
+            className="w-full py-3.5 rounded-xl font-bold text-sm bg-[var(--brass)] text-[#1e1715] hover:bg-[var(--brass-2)] transition-all shadow-md flex items-center justify-center gap-2"
           >
             <span>{isLoading ? "Đang xác thực..." : "Đăng nhập hệ thống"}</span>
             <ArrowRight className="w-4 h-4" />
@@ -95,7 +96,7 @@ export function AdminLogin({ onSuccess }: AdminLoginProps) {
         <div className="text-center pt-2">
           <a
             href="/"
-            className="text-xs text-[var(--muted)] hover:text-[var(--text)] transition-colors underline"
+            className="text-xs text-[var(--muted)] hover:text-[var(--brass)] transition-colors underline"
           >
             ← Quay lại trang chủ xem giao diện
           </a>

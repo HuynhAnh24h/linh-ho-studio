@@ -3,7 +3,7 @@ import { getDatabase, saveDatabase } from "@/lib/db";
 import { SoundKitItem, ComboOffer } from "@/lib/types";
 
 export async function GET() {
-  const db = getDatabase();
+  const db = await getDatabase();
   return NextResponse.json({
     kits: db.kits,
     comboOffer: db.comboOffer,
@@ -13,7 +13,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const db = getDatabase();
+    const db = await getDatabase();
 
     const newKit: SoundKitItem = {
       id: body.id || "kit-" + Date.now(),
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
     };
 
     db.kits.push(newKit);
-    saveDatabase(db);
+    await saveDatabase(db);
     return NextResponse.json({ success: true, kit: newKit });
   } catch {
     return NextResponse.json({ error: "Failed to create sound kit" }, { status: 500 });
@@ -49,11 +49,11 @@ export async function POST(req: Request) {
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
-    const db = getDatabase();
+    const db = await getDatabase();
 
     if (body.type === "combo") {
       db.comboOffer = body.combo as ComboOffer;
-      saveDatabase(db);
+      await saveDatabase(db);
       return NextResponse.json({ success: true, comboOffer: db.comboOffer });
     }
 
@@ -63,7 +63,7 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "Kit not found" }, { status: 404 });
     }
     db.kits[index] = updatedKit;
-    saveDatabase(db);
+    await saveDatabase(db);
     return NextResponse.json({ success: true, kit: updatedKit });
   } catch {
     return NextResponse.json({ error: "Failed to update sound kit" }, { status: 500 });
@@ -77,9 +77,9 @@ export async function DELETE(req: Request) {
     if (!id) {
       return NextResponse.json({ error: "Missing kit id" }, { status: 400 });
     }
-    const db = getDatabase();
+    const db = await getDatabase();
     db.kits = db.kits.filter((k) => k.id !== id);
-    saveDatabase(db);
+    await saveDatabase(db);
     return NextResponse.json({ success: true, id });
   } catch {
     return NextResponse.json({ error: "Failed to delete sound kit" }, { status: 500 });

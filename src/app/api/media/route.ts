@@ -17,7 +17,7 @@ function ensureUploadsDir() {
 }
 
 export async function GET() {
-  const db = getDatabase();
+  const db = await getDatabase();
   return NextResponse.json(db.media || []);
 }
 
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     // 1. Direct JSON (for adding URL or base64 directly)
     if (contentType.includes("application/json")) {
       const body = await req.json();
-      const db = getDatabase();
+      const db = await getDatabase();
       const mediaItem: MediaItem = {
         id: "media-" + Date.now(),
         name: body.name || "Media File",
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
       };
       if (!db.media) db.media = [];
       db.media.unshift(mediaItem);
-      saveDatabase(db);
+      await saveDatabase(db);
       return NextResponse.json({ success: true, media: mediaItem });
     }
 
@@ -73,7 +73,7 @@ export async function POST(req: Request) {
       fileUrl = `data:${mime || (isAudio ? "audio/wav" : "image/jpeg")};base64,${base64}`;
     }
 
-    const db = getDatabase();
+    const db = await getDatabase();
     const mediaItem: MediaItem = {
       id: "media-" + Date.now(),
       name: customName || file.name,
@@ -85,7 +85,7 @@ export async function POST(req: Request) {
 
     if (!db.media) db.media = [];
     db.media.unshift(mediaItem);
-    saveDatabase(db);
+    await saveDatabase(db);
 
     return NextResponse.json({ success: true, media: mediaItem });
   } catch (error) {
@@ -101,7 +101,7 @@ export async function DELETE(req: Request) {
     if (!id) {
       return NextResponse.json({ error: "Missing media id" }, { status: 400 });
     }
-    const db = getDatabase();
+    const db = await getDatabase();
     const item = (db.media || []).find((m) => m.id === id);
 
     // If local file, attempt to delete
@@ -117,7 +117,7 @@ export async function DELETE(req: Request) {
     }
 
     db.media = (db.media || []).filter((m) => m.id !== id);
-    saveDatabase(db);
+    await saveDatabase(db);
     return NextResponse.json({ success: true, id });
   } catch {
     return NextResponse.json({ error: "Failed to delete media" }, { status: 500 });
