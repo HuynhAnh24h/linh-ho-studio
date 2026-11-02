@@ -129,27 +129,39 @@ export const initialSiteData: SiteData = {
   roomImages: [
     {
       id: "rm-img-1",
-      title: "Không gian phòng tập band Full Equipment",
-      imageUrl: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=80",
+      title: "Không gian phòng tập band chuyên nghiệp",
+      imageUrl: "/images/phong-tap/room-1.jpg",
       category: "phong-tap",
     },
     {
       id: "rm-img-2",
-      title: "Dàn trống Acoustic Yamaha đầy đủ cymbals",
-      imageUrl: "https://images.unsplash.com/photo-1543443374-b6fe10a6ab7b?auto=format&fit=crop&w=800&q=80",
+      title: "Dàn trống Acoustic đầy đủ cymbals",
+      imageUrl: "/images/phong-tap/drum.jpg",
       category: "nhac-cu",
     },
     {
       id: "rm-img-3",
-      title: "Hệ thống Ampli Guitar, Bass và PA Monitor",
-      imageUrl: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=800&q=80",
+      title: "Bàn Mixer & Hệ thống âm thanh kiểm âm",
+      imageUrl: "/images/phong-tap/mixer.jpg",
       category: "thiet-bi",
     },
     {
       id: "rm-img-4",
-      title: "Phòng tập band nhỏ & Không gian cách âm",
-      imageUrl: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&w=800&q=80",
-      category: "phong-tap",
+      title: "Đàn Bass & Ampli công suất lớn",
+      imageUrl: "/images/phong-tap/bass.jpg",
+      category: "nhac-cu",
+    },
+    {
+      id: "rm-img-5",
+      title: "Trống Cajon Acoustic cho band mộc",
+      imageUrl: "/images/phong-tap/cajon.jpg",
+      category: "nhac-cu",
+    },
+    {
+      id: "rm-img-6",
+      title: "Bộ gõ Bongo & Latin Percussion",
+      imageUrl: "/images/phong-tap/bongo.jpg",
+      category: "nhac-cu",
     },
   ],
   eventServices: [

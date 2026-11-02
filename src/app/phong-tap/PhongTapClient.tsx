@@ -1,8 +1,24 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { RoomItem, RoomPerk, RoomImageItem, ProfileData } from "@/lib/types";
-import { Clock, Drum, Speaker, Mic, Snowflake, Percent, CalendarCheck, Send, Check, AlertCircle, Sparkles, MessageCircle } from "lucide-react";
+import {
+  Clock,
+  Drum,
+  Speaker,
+  Mic,
+  Snowflake,
+  Percent,
+  CalendarCheck,
+  Send,
+  Check,
+  AlertCircle,
+  Sparkles,
+  MessageCircle,
+  X,
+  Maximize2,
+} from "lucide-react";
 
 interface PhongTapClientProps {
   rooms: RoomItem[];
@@ -14,6 +30,15 @@ interface PhongTapClientProps {
 export function PhongTapClient({ rooms, roomPerks, roomImages, profile }: PhongTapClientProps) {
   const [selectedRoomId, setSelectedRoomId] = useState<string>(rooms[0]?.id || "");
   const [hours, setHours] = useState<number>(2);
+
+  // Room Images Filter & Lightbox
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [lightboxImage, setLightboxImage] = useState<RoomImageItem | null>(null);
+
+  const filteredImages = roomImages.filter((img) => {
+    if (selectedCategory === "all") return true;
+    return img.category === selectedCategory;
+  });
 
   // Booking Form State
   const [customerName, setCustomerName] = useState("");
@@ -138,36 +163,73 @@ Ghi chú: ${notes || "Không"}`;
 
         {/* Room Gallery: Hình ảnh phòng tập & đồ đạc */}
         <div className="space-y-8">
-          <div className="space-y-2">
-            <h2 className="font-condensed font-extrabold text-4xl sm:text-5xl text-[var(--text)] flex items-center gap-3">
-              <span className="ibox w-12 h-12 rounded-2xl">
-                <Sparkles className="w-6 h-6 text-[var(--brass)]" />
-              </span>
-              <span>Hình Ảnh Phòng Tập &amp; Trang Thiết Bị</span>
-            </h2>
-            <p className="text-sm sm:text-base text-[var(--muted)]">
-              Hình ảnh thực tế không gian phòng tập, dàn trống và hệ thống ampli loa tại LH Studio
-            </p>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className="space-y-2">
+              <h2 className="font-condensed font-extrabold text-4xl sm:text-5xl text-[var(--text)] flex items-center gap-3">
+                <span className="ibox w-12 h-12 rounded-2xl">
+                  <Sparkles className="w-6 h-6 text-[var(--brass)]" />
+                </span>
+                <span>Hình Ảnh Phòng Tập &amp; Trang Thiết Bị</span>
+              </h2>
+              <p className="text-sm sm:text-base text-[var(--muted)]">
+                Hình ảnh thực tế không gian phòng tập, dàn trống, bàn mixer và các thiết bị âm thanh tại LH Studio
+              </p>
+            </div>
+
+            {/* Category Filter Chips */}
+            <div className="flex flex-wrap items-center gap-2">
+              {[
+                { id: "all", label: "Tất cả" },
+                { id: "phong-tap", label: "Không gian phòng" },
+                { id: "nhac-cu", label: "Trống & Nhạc cụ" },
+                { id: "thiet-bi", label: "Mixer & Thiết bị" },
+              ].map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                    selectedCategory === cat.id
+                      ? "bg-[var(--brass)] text-[#1e1715] shadow-sm"
+                      : "bg-[var(--chip)] text-[var(--muted)] hover:text-[var(--text)] border border-[var(--line)]"
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {roomImages.map((img) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredImages.map((img) => (
               <div
                 key={img.id}
-                className="group bg-[var(--surface)] border border-[var(--line)] hover:border-[var(--brass)] rounded-3xl overflow-hidden shadow-sm transition-all flex flex-col justify-between"
+                onClick={() => setLightboxImage(img)}
+                className="group bg-[var(--surface)] border border-[var(--line)] hover:border-[var(--brass)] rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-[var(--brass)]/5 transition-all flex flex-col justify-between cursor-pointer"
               >
                 <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#261e1b]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={img.imageUrl}
                     alt={img.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-4">
+                    <span className="text-xs font-semibold text-white/90">Xem ảnh lớn</span>
+                    <Maximize2 className="w-4 h-4 text-white" />
+                  </div>
                 </div>
-                <div className="p-4">
-                  <h4 className="font-bold text-sm text-[var(--text)] group-hover:text-[var(--brass)] transition-colors">
+                <div className="p-4 flex items-center justify-between gap-2">
+                  <h4 className="font-bold text-sm text-[var(--text)] group-hover:text-[var(--brass)] transition-colors line-clamp-1">
                     {img.title}
                   </h4>
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[var(--chip)] text-[var(--muted)] border border-[var(--line)]">
+                    {img.category === "phong-tap"
+                      ? "Phòng tập"
+                      : img.category === "nhac-cu"
+                      ? "Nhạc cụ"
+                      : "Thiết bị"}
+                  </span>
                 </div>
               </div>
             ))}
@@ -385,6 +447,50 @@ Ghi chú: ${notes || "Không"}`;
             </div>
           </form>
         </div>
+
+        {/* Lightbox Zoom Modal for Room Images */}
+        {lightboxImage && (
+          <div
+            onClick={() => setLightboxImage(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in"
+          >
+            <button
+              onClick={() => setLightboxImage(null)}
+              className="absolute top-5 right-5 p-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors z-20"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="max-w-4xl w-full max-h-[90vh] flex flex-col items-center justify-center space-y-4"
+            >
+              <div className="relative w-full aspect-[4/3] max-h-[75vh] rounded-3xl overflow-hidden shadow-2xl border border-white/10">
+                <Image
+                  src={lightboxImage.imageUrl}
+                  alt={lightboxImage.title}
+                  fill
+                  className="object-contain"
+                  sizes="100vw"
+                  priority
+                />
+              </div>
+
+              <div className="text-center space-y-1">
+                <h3 className="font-condensed font-bold text-2xl text-white">
+                  {lightboxImage.title}
+                </h3>
+                <span className="text-xs uppercase font-bold tracking-wider text-[var(--brass)]">
+                  {lightboxImage.category === "phong-tap"
+                    ? "Không gian phòng tập"
+                    : lightboxImage.category === "nhac-cu"
+                    ? "Dàn trống & Bộ gõ"
+                    : "Hệ thống âm thanh & Mixer"}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
