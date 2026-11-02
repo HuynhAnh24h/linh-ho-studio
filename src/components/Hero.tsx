@@ -96,9 +96,9 @@ export function Hero({ profile, onOpenBookingModal }: HeroProps) {
 
   return (
     <section className="relative overflow-hidden bg-[var(--hero)] border-b border-[var(--line)] py-14 md:py-24" id="top">
-      {/* Concert stage ambient glow lighting */}
-      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[var(--brass)]/10 blur-[130px] rounded-full pointer-events-none -z-0" />
-      <div className="absolute bottom-0 left-10 w-[420px] h-[420px] bg-[var(--ember)]/10 blur-[120px] rounded-full pointer-events-none -z-0" />
+      {/* Concert stage ambient glow lighting with breathing pulse */}
+      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[var(--brass)]/15 blur-[130px] rounded-full pointer-events-none animate-pulse-glow -z-0" />
+      <div className="absolute bottom-0 left-10 w-[420px] h-[420px] bg-[var(--ember)]/15 blur-[120px] rounded-full pointer-events-none animate-pulse-glow -z-0" />
 
       {/* Subtle stage grid texture */}
       <div
@@ -279,11 +279,11 @@ export function Hero({ profile, onOpenBookingModal }: HeroProps) {
                   className={`px-3.5 py-2.5 rounded-2xl backdrop-blur-md border shadow-2xl flex items-center gap-2 transition-all cursor-pointer select-none active:scale-90 ${
                     isHit
                       ? "bg-amber-400 text-black border-amber-300 scale-95 shadow-[0_0_25px_rgba(251,191,36,0.8)]"
-                      : "bg-black/70 hover:bg-black/90 text-white border-[var(--brass)]/80 hover:border-amber-300"
+                      : "bg-black/70 hover:bg-black/90 text-white border-[var(--brass)]/80 hover:border-amber-300 ring-2 ring-amber-400/40"
                   }`}
                   title="Gõ thử tiếng Snare mộc live"
                 >
-                  <Drum className={`w-4 h-4 text-amber-400 ${isHit ? "animate-bounce" : ""}`} />
+                  <Drum className={`w-4 h-4 text-amber-400 ${isHit ? "animate-bounce" : "animate-pulse"}`} />
                   <div className="text-left">
                     <div className="text-[11px] font-black uppercase leading-tight">
                       Gõ Snare

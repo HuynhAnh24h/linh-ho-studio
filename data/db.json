@@ -540,28 +540,6 @@
       "message": "Chào bạn, mình muốn mua bộ sampler Rock Acoustic. Bạn gửi mình thông tin thanh toán nhé.",
       "status": "completed",
       "createdAt": "2026-10-28T14:30:00Z"
-    },
-    {
-      "id": "ord-2",
-      "customerName": "Trần Minh Quang",
-      "phone": "0988 776 655",
-      "serviceType": "room",
-      "itemSelected": "Phòng B (4 giờ)",
-      "hours": 4,
-      "roomSelected": "Phòng B",
-      "message": "Đặt phòng B thứ 7 tuần này từ 14h đến 18h.",
-      "status": "new",
-      "createdAt": "2026-11-01T09:15:00Z"
-    },
-    {
-      "id": "ord-3",
-      "customerName": "Lê Hoàng Phúc",
-      "phone": "0903 112 233",
-      "serviceType": "event_band",
-      "itemSelected": "Cho Thuê Nguyên Band Nhạc Tiệc Cưới",
-      "message": "Chào Linh, mình cần thuê ban nhạc cho tiệc cưới ngày 20 tháng sau tại Riverside Palace.",
-      "status": "new",
-      "createdAt": "2026-11-02T08:00:00Z"
     }
   ],
   "media": []

@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { BackgroundMusic } from "@/components/BackgroundMusic";
+import { PageLoader } from "@/components/PageLoader";
 
 export const metadata: Metadata = {
-  title: "Drummer Profile – Dạy trống, thuê phòng tập, sampler",
-  description: "Drummer chuyên nghiệp, giáo viên dạy trống, chủ phòng tập band cho thuê theo giờ và sản xuất bộ sampler trống chuyên nghiệp.",
-  keywords: ["drummer", "dạy trống", "thuê phòng tập", "sampler", "sound kit", "phòng tập band"],
+  title: "Linh Hồ – Drummer & LH Music Studio",
+  description: "Drummer chuyên nghiệp, đào tạo dạy trống thực chiến, phòng tập band tiêu chuẩn và sản xuất bộ sound sampler Roland SPD-30 & SPD-SX Pro.",
+  keywords: ["drummer linh hồ", "lh music studio", "dạy trống", "thuê phòng tập", "sampler spd-30", "sound pack", "ban nhạc tiệc cưới"],
 };
 
 export default function RootLayout({
@@ -22,8 +24,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen flex flex-col antialiased selection:bg-[#b8860b] selection:text-white">
+      <body className="min-h-screen flex flex-col antialiased selection:bg-[#b8860b] selection:text-white relative">
+        <PageLoader />
         {children}
+        <BackgroundMusic />
       </body>
     </html>
   );

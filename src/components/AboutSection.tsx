@@ -121,12 +121,14 @@ export function AboutSection({ profile }: AboutSectionProps) {
                   <span>ACCESS: ALL-STAGE // BACKSTAGE</span>
                   <span className="text-emerald-400 font-bold">STATUS: ACTIVE</span>
                 </div>
-                {/* Barcode Graphic */}
-                <div className="h-6 flex items-center justify-between opacity-70">
+                {/* Barcode Graphic with Laser Scanner Animation */}
+                <div className="relative h-7 flex items-center justify-between opacity-85 overflow-hidden bg-black/40 px-1 rounded-sm">
+                  {/* Red/Amber Scanning Laser Beam */}
+                  <div className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-red-500 to-transparent shadow-[0_0_8px_rgba(239,68,68,0.9)] animate-laser-scan pointer-events-none z-10" />
                   {Array.from({ length: 36 }).map((_, i) => (
                     <span
                       key={i}
-                      className="bg-white/80 h-full"
+                      className="bg-white/85 h-full"
                       style={{
                         width: i % 3 === 0 ? "3px" : i % 2 === 0 ? "1px" : "2px",
                       }}
