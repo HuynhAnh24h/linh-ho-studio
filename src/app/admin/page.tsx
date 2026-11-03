@@ -40,6 +40,7 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<string>("overview");
   const [data, setData] = useState<SiteData | null>(null);
   const [isNeon, setIsNeon] = useState<boolean>(false);
+  const [neonError, setNeonError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState<boolean>(false);
 
@@ -78,8 +79,9 @@ export default function AdminPage() {
         const json = await res.json();
         setData(json);
         if (json._system?.isNeon !== undefined) {
-          setIsNeon(json._system.isNeon);
+          setIsNeon(json._system.isNeon && !json._system.neonError);
         }
+        setNeonError(json._system?.neonError || null);
       }
     } catch (err) {
       console.error("Fetch data error:", err);
@@ -321,9 +323,9 @@ export default function AdminPage() {
 
           {/* Database status pill */}
           <div className="px-3 py-2 rounded-xl bg-[var(--chip)] border border-[var(--line)] flex items-center gap-2 text-xs">
-            <Database className={`w-3.5 h-3.5 ${isNeon ? "text-emerald-400" : "text-amber-400"}`} />
+            <Database className={`w-3.5 h-3.5 ${isNeon && !neonError ? "text-emerald-400" : "text-amber-400"}`} />
             <span className="font-semibold truncate">
-              {isNeon ? "Neon PostgreSQL" : "CSDL Cục bộ"}
+              {isNeon && !neonError ? "Neon PostgreSQL" : neonError ? "Neon Hết Quota (402)" : "CSDL Cục bộ"}
             </span>
           </div>
 
@@ -428,6 +430,7 @@ export default function AdminPage() {
               <AdminOverview
                 data={data}
                 isNeon={isNeon}
+                neonError={neonError}
                 onNavigateTab={(tab) => setActiveTab(tab)}
                 onUpdateOrderStatus={handleUpdateOrderStatus}
               />

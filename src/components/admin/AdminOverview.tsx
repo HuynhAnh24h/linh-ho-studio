@@ -7,11 +7,12 @@ import { ShoppingBag, GraduationCap, Clock, Headphones, Image as ImageIcon, Exte
 interface AdminOverviewProps {
   data: SiteData;
   isNeon?: boolean;
+  neonError?: string | null;
   onNavigateTab: (tabId: string) => void;
   onUpdateOrderStatus: (orderId: string, status: OrderItem["status"]) => void;
 }
 
-export function AdminOverview({ data, isNeon, onNavigateTab, onUpdateOrderStatus }: AdminOverviewProps) {
+export function AdminOverview({ data, isNeon, neonError, onNavigateTab, onUpdateOrderStatus }: AdminOverviewProps) {
   const isSamplerOrder = (o: OrderItem) => {
     if (o.serviceType === "sampler") return true;
     if (["room", "course", "event_band", "thue_trong"].includes(o.serviceType)) return false;
@@ -114,8 +115,32 @@ export function AdminOverview({ data, isNeon, onNavigateTab, onUpdateOrderStatus
         </a>
       </div>
 
-      {/* Neon Database Guide card if not connected */}
-      {!isNeon && (
+      {/* Neon Database Error Alert (Quota Exceeded or Connection Error) */}
+      {neonError && (
+        <div className="p-6 rounded-3xl bg-red-500/10 border-2 border-red-500/40 text-red-200 space-y-3 animate-fade-in shadow-lg">
+          <div className="flex items-center gap-2.5 text-red-400">
+            <AlertCircle className="w-6 h-6 flex-shrink-0 animate-pulse" />
+            <h3 className="font-condensed font-extrabold text-xl text-red-300">
+              Cảnh báo quan trọng: Database Neon Cloud không thể lưu dữ liệu!
+            </h3>
+          </div>
+          <p className="text-xs sm:text-sm text-red-200/90 leading-relaxed">
+            {neonError}
+          </p>
+          <div className="p-4 rounded-2xl bg-black/40 border border-red-500/30 text-xs space-y-2">
+            <strong className="text-white block">💡 Hướng dẫn khắc phục trong 1 phút để lưu dữ liệu trên Vercel:</strong>
+            <ol className="list-decimal list-inside space-y-1 text-gray-300">
+              <li>Truy cập <a href="https://neon.tech" target="_blank" rel="noopener noreferrer" className="text-[var(--brass)] underline font-bold">neon.tech</a> và tạo một <strong>New Project</strong> miễn phí mới (hoặc nâng cấp gói).</li>
+              <li>Sao chép chuỗi kết nối <strong>Connection String (PostgreSQL)</strong>.</li>
+              <li>Dán vào file <code className="text-[var(--brass)] font-mono">.env.local</code> (ở máy tính) và mục <strong>Settings ➔ Environment Variables ➔ DATABASE_URL</strong> trên Vercel Dashboard.</li>
+              <li>Bấm <strong>Redeploy</strong> trên Vercel. Mọi thao tác CRUD Sampler và đổi thông tin trang chủ sẽ lưu vĩnh viễn!</li>
+            </ol>
+          </div>
+        </div>
+      )}
+
+      {/* Neon Database Guide card if not connected and no error */}
+      {!isNeon && !neonError && (
         <div className="p-5 rounded-2xl bg-[var(--surface)] border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <h4 className="font-bold text-sm text-[var(--text)] flex items-center gap-2">

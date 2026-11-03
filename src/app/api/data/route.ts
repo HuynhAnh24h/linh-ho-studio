@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getDatabase, saveDatabase, resetDatabase, isNeonConnected } from "@/lib/db";
+import { getDatabase, saveDatabase, resetDatabase, isNeonConnected, getNeonError } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -7,11 +7,14 @@ export const revalidate = 0;
 export async function GET() {
   try {
     const data = await getDatabase();
+    const neonError = getNeonError();
     return NextResponse.json(
       {
         ...data,
         _system: {
           isNeon: isNeonConnected(),
+          isNeonWorking: isNeonConnected() && !neonError,
+          neonError: neonError,
         },
       },
       {

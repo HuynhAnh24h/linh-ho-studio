@@ -7,6 +7,8 @@ import { initialSiteData } from "./initial-data";
 import { broadcastSocketEvent } from "./socket-server-emit";
 
 let isTableInitialized = false;
+let memoryData: SiteData | null = null;
+let lastNeonError: string | null = null;
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const DATA_FILE = path.join(DATA_DIR, "db.json");
@@ -26,12 +28,17 @@ export function isNeonConnected(): boolean {
   return !!url && (url.startsWith("postgres://") || url.startsWith("postgresql://"));
 }
 
+export function getNeonError(): string | null {
+  return lastNeonError;
+}
+
 function getNeonClient(): NeonQueryFunction<false, false> | null {
   const url = getDatabaseUrl();
   if (url && (url.startsWith("postgres://") || url.startsWith("postgresql://"))) {
     try {
       return neon(url);
-    } catch (err) {
+    } catch (err: any) {
+      lastNeonError = err?.message || String(err);
       console.error("[Neon] Connection initialization error:", err);
       return null;
     }
@@ -50,8 +57,9 @@ async function ensureNeonTable(sql: NeonQueryFunction<false, false>) {
       );
     `;
     isTableInitialized = true;
-  } catch (err) {
+  } catch (err: any) {
     console.error("[Neon] Error ensuring table:", err);
+    throw err;
   }
 }
 
@@ -62,7 +70,7 @@ function ensureDirectoryExists(dirPath: string) {
       fs.mkdirSync(dirPath, { recursive: true });
     }
   } catch (err) {
-    console.warn("Could not create directory:", dirPath, err);
+    // Ignore in read-only environment
   }
 }
 
@@ -74,6 +82,8 @@ export async function getDatabase(): Promise<SiteData> {
     try {
       await ensureNeonTable(sql);
       const rows = (await sql`SELECT data FROM lh_site_data WHERE id = 'main' LIMIT 1;`) as { data: SiteData }[];
+      lastNeonError = null;
+
       if (rows && rows.length > 0 && rows[0].data) {
         const d = rows[0].data;
         if (!d.orders || d.orders.length === 0) {
@@ -84,6 +94,7 @@ export async function getDatabase(): Promise<SiteData> {
             `;
           } catch {}
         }
+        memoryData = JSON.parse(JSON.stringify(d));
         return d;
       } else {
         // Seed Neon database with initial data
@@ -94,14 +105,38 @@ export async function getDatabase(): Promise<SiteData> {
           VALUES ('main', ${JSON.stringify(seedData)}::jsonb, NOW())
           ON CONFLICT (id) DO UPDATE SET data = ${JSON.stringify(seedData)}::jsonb, updated_at = NOW();
         `;
+        memoryData = JSON.parse(JSON.stringify(seedData));
         return seedData;
       }
-    } catch (err) {
-      console.error("[Neon] Error querying Neon database, falling back to local file:", err);
+    } catch (err: any) {
+      const msg = err?.message || String(err);
+      if (msg.includes("402") || msg.toLowerCase().includes("quota")) {
+        lastNeonError = "Database Neon đã hết hạn ngạch miễn phí (HTTP 402 Quota Exceeded). Cần tạo database mới trên neon.tech để lưu dữ liệu vĩnh viễn!";
+      } else {
+        lastNeonError = msg;
+      }
+      console.error("[Neon] Error querying Neon database, falling back to local/tmp:", lastNeonError);
     }
   }
 
-  // 2. Local data/db.json (Always fresh, zero stale cache)
+  // 2. Memory cache (for active serverless lambdas)
+  if (memoryData) {
+    return memoryData;
+  }
+
+  // 3. Fallback to /tmp/db.json (Serverless environments: check if tmp is newer)
+  try {
+    if (fs.existsSync(TMP_FILE)) {
+      const raw = fs.readFileSync(TMP_FILE, "utf-8");
+      const parsed: SiteData = JSON.parse(raw);
+      memoryData = parsed;
+      return parsed;
+    }
+  } catch (err) {
+    // ignore
+  }
+
+  // 4. Local data/db.json (Git repository / Build time file)
   try {
     if (fs.existsSync(DATA_FILE)) {
       const raw = fs.readFileSync(DATA_FILE, "utf-8");
@@ -110,25 +145,16 @@ export async function getDatabase(): Promise<SiteData> {
         parsed.orders = initialSiteData.orders || [];
       }
       if (!parsed.media) parsed.media = [];
+      memoryData = parsed;
       return parsed;
     }
   } catch (err) {
     console.warn("Failed to read from DATA_FILE:", err);
   }
 
-  // 3. Fallback to /tmp/db.json (Serverless environments)
-  try {
-    if (fs.existsSync(TMP_FILE)) {
-      const raw = fs.readFileSync(TMP_FILE, "utf-8");
-      const parsed: SiteData = JSON.parse(raw);
-      return parsed;
-    }
-  } catch {
-    // Ignore tmp error
-  }
-
-  // 4. Default initial seed
+  // 5. Default initial seed
   const fallbackData: SiteData = JSON.parse(JSON.stringify(initialSiteData));
+  memoryData = fallbackData;
   await saveDatabase(fallbackData);
   return fallbackData;
 }
@@ -136,6 +162,9 @@ export async function getDatabase(): Promise<SiteData> {
 export async function saveDatabase(data: SiteData): Promise<boolean> {
   const sql = getNeonClient();
   let savedToNeon = false;
+
+  // Update memory cache immediately
+  memoryData = JSON.parse(JSON.stringify(data));
 
   // 1. Save to Neon PostgreSQL
   if (sql) {
@@ -147,31 +176,41 @@ export async function saveDatabase(data: SiteData): Promise<boolean> {
         ON CONFLICT (id) DO UPDATE SET data = ${JSON.stringify(data)}::jsonb, updated_at = NOW();
       `;
       savedToNeon = true;
-    } catch (err) {
-      console.error("[Neon] Error saving to Neon database:", err);
+      lastNeonError = null;
+    } catch (err: any) {
+      const msg = err?.message || String(err);
+      if (msg.includes("402") || msg.toLowerCase().includes("quota")) {
+        lastNeonError = "Database Neon đã hết hạn ngạch miễn phí (HTTP 402 Quota Exceeded). Cần tạo database mới trên neon.tech để lưu dữ liệu vĩnh viễn!";
+      } else {
+        lastNeonError = msg;
+      }
+      console.error("[Neon] Error saving to Neon database:", lastNeonError);
     }
   }
 
-  // 2. Always save to local data/db.json as local mirror / backup
+  // 2. Always write to /tmp/db.json (Works on Vercel Serverless containers)
+  try {
+    fs.writeFileSync(TMP_FILE, JSON.stringify(data, null, 2), "utf-8");
+  } catch (err) {
+    // Ignore tmp error
+  }
+
+  // 3. Save to local data/db.json if writable (local development)
   try {
     ensureDirectoryExists(DATA_DIR);
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), "utf-8");
   } catch (err) {
-    try {
-      fs.writeFileSync(TMP_FILE, JSON.stringify(data, null, 2), "utf-8");
-    } catch {
-      console.warn("Filesystem read-only.", err);
-    }
+    // Expected on Vercel Read-Only filesystem
   }
 
-  // 3. Invalidate Next.js cache across entire layout instantly
+  // 4. Invalidate Next.js cache across entire layout instantly
   try {
     revalidatePath("/", "layout");
   } catch (err) {
-    // In dev mode or standalone scripts, ignore if Next cache context is not active
+    // Ignore cache error in non-request contexts
   }
 
-  // 4. Broadcast real-time update to all open admin & client tabs via Socket.IO
+  // 5. Broadcast real-time update to all open admin & client tabs via Socket.IO
   try {
     broadcastSocketEvent("data_updated", { timestamp: Date.now() });
   } catch (err) {
