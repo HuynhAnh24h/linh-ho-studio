@@ -52,6 +52,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
+    const MAX_FILE_SIZE = 3.5 * 1024 * 1024; // 3.5 MB max for database health
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json(
+        {
+          error: `Tệp quá lớn (${(file.size / (1024 * 1024)).toFixed(1)}MB). Giới hạn tối đa là 3.5MB để tránh làm tràn dung lượng database miễn phí. Vui lòng nén tệp hoặc dán link trực tiếp!`,
+        },
+        { status: 400 }
+      );
+    }
+
     const mime = file.type;
     const isAudio = mime.startsWith("audio/") || file.name.endsWith(".mp3") || file.name.endsWith(".wav") || file.name.endsWith(".ogg");
 
@@ -84,7 +94,8 @@ export async function POST(req: Request) {
     };
 
     if (!db.media) db.media = [];
-    db.media.unshift(mediaItem);
+    // Keep max 25 recent media items to prevent database bloat
+    db.media = [mediaItem, ...db.media.slice(0, 24)];
     await saveDatabase(db);
 
     return NextResponse.json({ success: true, url: fileUrl, media: mediaItem });
