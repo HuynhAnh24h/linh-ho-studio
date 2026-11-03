@@ -10,6 +10,14 @@ const port = parseInt(process.env.PORT || "3000", 10);
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
 
+process.on("unhandledRejection", (reason, promise) => {
+  console.warn("[Server] Unhandled Rejection at:", promise, "reason:", reason);
+});
+
+process.on("uncaughtException", (err) => {
+  console.error("[Server] Uncaught Exception thrown:", err);
+});
+
 app.prepare().then(() => {
   const httpServer = createServer(async (req, res) => {
     try {
