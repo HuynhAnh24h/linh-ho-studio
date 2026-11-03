@@ -21,14 +21,18 @@ export async function POST(req: Request) {
       email: body.email ? String(body.email).trim() : undefined,
       serviceType: body.serviceType || "sampler",
       itemSelected: body.itemSelected || "Liên hệ dịch vụ",
+      price: body.price !== undefined ? Number(body.price) : undefined,
       software: body.software || "",
       deviceModel: body.deviceModel || "",
       deliveryMethod: body.deliveryMethod || "",
-      hours: body.hours,
-      roomSelected: body.roomSelected,
+      bookingDate: body.bookingDate || "",
+      bookingTime: body.bookingTime || "",
+      hours: body.hours !== undefined ? Number(body.hours) : undefined,
+      roomSelected: body.roomSelected || "",
       message: body.message || "",
-      status: "new",
-      createdAt: new Date().toISOString(),
+      adminNotes: body.adminNotes || "",
+      status: (body.status as OrderItem["status"]) || "new",
+      createdAt: body.createdAt || new Date().toISOString(),
     };
 
     if (!db.orders) {

@@ -469,6 +469,10 @@ export default function AdminPage() {
             {activeTab === "orders" && (
               <AdminOrders
                 orders={data.orders}
+                kits={data.kits}
+                rooms={data.rooms}
+                courses={data.courses}
+                services={data.eventServices || []}
                 onRefresh={fetchData}
                 onUpdateStatus={handleUpdateOrderStatus}
                 onDeleteOrder={handleDeleteOrder}

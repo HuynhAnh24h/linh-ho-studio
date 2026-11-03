@@ -2,7 +2,7 @@
 
 import React from "react";
 import { SiteData, OrderItem } from "@/lib/types";
-import { ShoppingBag, GraduationCap, Clock, Headphones, Image as ImageIcon, ExternalLink, AlertCircle, CheckCircle, Database, Music, Users } from "lucide-react";
+import { ShoppingBag, GraduationCap, Clock, Headphones, Image as ImageIcon, ExternalLink, AlertCircle, CheckCircle, Database, Music, Users, Package, Calendar } from "lucide-react";
 
 interface AdminOverviewProps {
   data: SiteData;
@@ -12,46 +12,65 @@ interface AdminOverviewProps {
 }
 
 export function AdminOverview({ data, isNeon, onNavigateTab, onUpdateOrderStatus }: AdminOverviewProps) {
-  const newOrdersCount = data.orders.filter((o) => o.status === "new").length;
+  const isSamplerOrder = (o: OrderItem) => {
+    if (o.serviceType === "sampler") return true;
+    if (["room", "course", "event_band", "thue_trong"].includes(o.serviceType)) return false;
+    const txt = (o.itemSelected || "").toLowerCase();
+    return txt.includes("sampler") || txt.includes("sound") || txt.includes("pack") || txt.includes("spd") || txt.includes("kit");
+  };
+
+  const samplerOrders = data.orders.filter(isSamplerOrder);
+  const bookingOrders = data.orders.filter((o) => !isSamplerOrder(o));
+
+  const newSamplerCount = samplerOrders.filter((o) => o.status === "new").length;
+  const newBookingCount = bookingOrders.filter((o) => o.status === "new").length;
 
   const stats = [
     {
-      label: "Đơn đặt hàng & Liên hệ",
-      value: data.orders.length,
-      badge: newOrdersCount > 0 ? `${newOrdersCount} đơn mới` : undefined,
-      badgeColor: "bg-red-500 text-white",
-      icon: <ShoppingBag className="w-5 h-5 text-[var(--brass)]" />,
+      label: "Đơn Mua Sampler",
+      value: samplerOrders.length,
+      badge: newSamplerCount > 0 ? `${newSamplerCount} đơn mới` : undefined,
+      badgeColor: "bg-red-500 text-white animate-pulse",
+      icon: <Package className="w-5 h-5 text-[var(--brass)]" />,
+      tab: "orders",
+    },
+    {
+      label: "Lịch Đặt Phòng & Dịch Vụ",
+      value: bookingOrders.length,
+      badge: newBookingCount > 0 ? `${newBookingCount} lịch mới` : undefined,
+      badgeColor: "bg-red-500 text-white animate-pulse",
+      icon: <Calendar className="w-5 h-5 text-cyan-400" />,
       tab: "orders",
     },
     {
       label: "Khoá học dạy trống",
       value: data.courses.length,
-      icon: <GraduationCap className="w-5 h-5 text-[var(--brass)]" />,
+      icon: <GraduationCap className="w-5 h-5 text-amber-400" />,
       tab: "courses",
-    },
-    {
-      label: "Hình ảnh học viên",
-      value: data.studentImages?.length || 0,
-      icon: <Users className="w-5 h-5 text-[var(--brass)]" />,
-      tab: "students",
     },
     {
       label: "Phòng tập band",
       value: data.rooms.length,
-      icon: <Clock className="w-5 h-5 text-[var(--brass)]" />,
+      icon: <Clock className="w-5 h-5 text-cyan-400" />,
       tab: "rooms",
-    },
-    {
-      label: "Dịch vụ Show & Tiệc",
-      value: data.eventServices?.length || 0,
-      icon: <Music className="w-5 h-5 text-[var(--brass)]" />,
-      tab: "services",
     },
     {
       label: "Bộ Sampler trống",
       value: data.kits.length,
       icon: <Headphones className="w-5 h-5 text-[var(--brass)]" />,
       tab: "kits",
+    },
+    {
+      label: "Dịch vụ Show & Tiệc",
+      value: data.eventServices?.length || 0,
+      icon: <Music className="w-5 h-5 text-purple-400" />,
+      tab: "services",
+    },
+    {
+      label: "Hình ảnh học viên",
+      value: data.studentImages?.length || 0,
+      icon: <Users className="w-5 h-5 text-[var(--brass)]" />,
+      tab: "students",
     },
     {
       label: "File Media (Ảnh & Audio)",
@@ -194,7 +213,18 @@ export function AdminOverview({ data, isNeon, onNavigateTab, onUpdateOrderStatus
                       </a>
                     </td>
                     <td className="py-3.5 text-xs text-[var(--text)]">
-                      {order.itemSelected}
+                      <div className="flex items-center gap-1.5">
+                        <span
+                          className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${
+                            isSamplerOrder(order)
+                              ? "bg-[var(--brass)]/15 text-[var(--brass)]"
+                              : "bg-cyan-500/15 text-cyan-400"
+                          }`}
+                        >
+                          {isSamplerOrder(order) ? "Sampler" : "Đặt lịch"}
+                        </span>
+                        <span className="font-medium truncate max-w-[220px]">{order.itemSelected}</span>
+                      </div>
                     </td>
                     <td className="py-3.5 text-xs text-[var(--muted)]">
                       {new Date(order.createdAt).toLocaleDateString("vi-VN", {

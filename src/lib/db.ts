@@ -75,7 +75,16 @@ export async function getDatabase(): Promise<SiteData> {
       await ensureNeonTable(sql);
       const rows = (await sql`SELECT data FROM lh_site_data WHERE id = 'main' LIMIT 1;`) as { data: SiteData }[];
       if (rows && rows.length > 0 && rows[0].data) {
-        return rows[0].data;
+        const d = rows[0].data;
+        if (!d.orders || d.orders.length === 0) {
+          d.orders = initialSiteData.orders || [];
+          try {
+            await sql`
+              UPDATE lh_site_data SET data = ${JSON.stringify(d)}::jsonb, updated_at = NOW() WHERE id = 'main';
+            `;
+          } catch {}
+        }
+        return d;
       } else {
         // Seed Neon database with initial data
         console.log("[Neon] Seeding initial data into lh_site_data...");
@@ -97,6 +106,10 @@ export async function getDatabase(): Promise<SiteData> {
     if (fs.existsSync(DATA_FILE)) {
       const raw = fs.readFileSync(DATA_FILE, "utf-8");
       const parsed: SiteData = JSON.parse(raw);
+      if (!parsed.orders || parsed.orders.length === 0) {
+        parsed.orders = initialSiteData.orders || [];
+      }
+      if (!parsed.media) parsed.media = [];
       return parsed;
     }
   } catch (err) {

@@ -130,14 +130,18 @@ export interface OrderItem {
   customerName: string;
   phone: string;
   email?: string;
-  serviceType: "sampler" | "room" | "course" | "event_band" | "thue_trong";
+  serviceType: "sampler" | "room" | "course" | "event_band" | "thue_trong" | "other";
   itemSelected: string;
+  price?: number;
   software?: string;
   deviceModel?: string;
   deliveryMethod?: string;
+  bookingDate?: string;
+  bookingTime?: string;
   hours?: number;
   roomSelected?: string;
   message?: string;
+  adminNotes?: string;
   status: "new" | "processing" | "completed" | "cancelled";
   createdAt: string;
 }

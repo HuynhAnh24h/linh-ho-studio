@@ -1,27 +1,432 @@
 {
+  "kits": [
+    {
+      "id": "spd30-all-show",
+      "desc": "50 User Kit cân chỉnh chuyên sâu từ sound gốc Roland SPD-30: Kick lực, Snare vang dày, đầy đủ bộ gõ cha-cha, rumba, disco, bolero, ballad. Cắm USB nạp trực tiếp.",
+      "name": "Bộ Tiếng Đánh Show Tiệc & Sự Kiện (SPD-30)",
+      "badge": "Bán Chạy Nhất",
+      "order": 1,
+      "price": 450000,
+      "format": "File Backup SPD-30 (.SVD) + USB Data",
+      "padType": "spd30",
+      "category": "spd30_preset",
+      "features": [
+        "Cân chỉnh tỉ mỉ từng thông số EQ, Layer, Muffle, Tune, FX trên SPD-30",
+        "Đủ tiếng cho nhạc Pop, Ballad, Bolero, Disco, Cha-cha, Rumba",
+        "Có file Backup cắm USB load 1 phút là có đủ 50 bộ tiếng",
+        "Hỗ trợ hướng dẫn nạp qua Zalo / Video chi tiết"
+      ],
+      "iconName": "drum",
+      "sampleCount": "50 User Kits cài sẵn",
+      "synthConfig": {
+        "lp": 18000,
+        "bpm": 105,
+        "hat": [
+          0.05,
+          0.35
+        ],
+        "tom": 1,
+        "kick": [
+          150,
+          45,
+          0.45
+        ],
+        "crash": 1.6,
+        "snare": [
+          190,
+          0.22
+        ]
+      },
+      "originalPrice": 650000,
+      "compatibleDevices": [
+        "Roland SPD-30 (Octapad)"
+      ]
+    },
+    {
+      "id": "spd30-thanh-ca",
+      "desc": "Thiết kế riêng cho phụng vụ nhà thờ: Bộ chimes, timpani, crash reverb không gian rộng, snare quét chổi và kick sub ấm dày trang trọng.",
+      "name": "Bộ Tiếng Thánh Ca & Phụng Vụ (SPD-30)",
+      "badge": "Chuyên Thánh Ca",
+      "order": 2,
+      "price": 350000,
+      "format": "File Backup SPD-30 (.SVD)",
+      "padType": "spd30",
+      "category": "thanh_ca",
+      "features": [
+        "Âm hưởng trang nghiêm, vang rộng chuẩn nhà thờ",
+        "Đầy đủ Chimes, Timpani, Cymbal Roll, Shaker nhẹ nhàng",
+        "Cân chỉnh độ nhạy Pad chuẩn xác chống nảy tiếng thừa"
+      ],
+      "iconName": "disc-3",
+      "sampleCount": "25 User Kits Phụng Vụ",
+      "synthConfig": {
+        "lp": 12000,
+        "bpm": 78,
+        "hat": [
+          0.04,
+          0.25
+        ],
+        "tom": 0.9,
+        "kick": [
+          110,
+          40,
+          0.6
+        ],
+        "crash": 2,
+        "snare": [
+          170,
+          0.28
+        ]
+      },
+      "originalPrice": 500000,
+      "compatibleDevices": [
+        "Roland SPD-30 (Octapad)"
+      ]
+    },
+    {
+      "id": "sx-vinahouse",
+      "desc": "Kick punchy uy lực căng đét, Snare đanh sắc nét, Clap dày, Fx drop / riser / crash laser. Chuyên trị nhạc quẩy bar, pub, đám tiệc remix sôi động.",
+      "name": "Bộ Tiếng Vinahouse & EDM Party (Sound Ngoài)",
+      "badge": "Cực Cháy",
+      "order": 3,
+      "price": 490000,
+      "format": "WAV 24-bit 44.1kHz Multi-Velocity",
+      "padType": "sample_pad",
+      "category": "vinahouse_edm",
+      "features": [
+        "Sample WAV gốc xử lý qua Analog Limiter cho âm lượng to rõ",
+        "Kick Vinahouse nén chặt, không bị vỡ tiếng khi mở lớn",
+        "Kèm bộ tiếng hiệu ứng Intro DJ, Sirens, Laser, Còi hú",
+        "Tương thích tất cả sample pad nhận file WAV"
+      ],
+      "iconName": "zap",
+      "sampleCount": "160 WAV Samples + 12 Kits",
+      "synthConfig": {
+        "lp": 18000,
+        "bpm": 135,
+        "hat": [
+          0.03,
+          0.25
+        ],
+        "tom": 0.7,
+        "kick": [
+          90,
+          30,
+          1.1
+        ],
+        "crash": 1.4,
+        "snare": [
+          240,
+          0.14
+        ]
+      },
+      "originalPrice": 700000,
+      "compatibleDevices": [
+        "Roland SPD-SX",
+        "Roland SPD-SX PRO",
+        "NUX DP-2000",
+        "Avatar HXW",
+        "Donner"
+      ]
+    },
+    {
+      "id": "sx-pop-ballad",
+      "desc": "Mẫu âm thanh acoustic drum phòng thu cao cấp được thu từ các dàn trống Yamaha & Ludwig xịn. Snare ấm dày tự nhiên, hi-hat nhuyễn mượt mà.",
+      "name": "Bộ Tiếng Pop Ballad & Nhạc Trẻ Studio (Sound Ngoài)",
+      "badge": "Chuẩn Phòng Thu",
+      "order": 4,
+      "price": 450000,
+      "format": "WAV 24-bit 44.1kHz Studio High-End",
+      "padType": "sample_pad",
+      "category": "pop_ballad",
+      "features": [
+        "Độ nhạy multi-velocity đánh nhẹ ra tiếng nhẹ, đánh mạnh ra tiếng mạnh",
+        "Snare mộc có lực ghost-note cực mượt",
+        "Hi-hat nhuyễn sạch tần số cao"
+      ],
+      "iconName": "drum",
+      "sampleCount": "140 WAV Samples + 10 Kits",
+      "synthConfig": {
+        "lp": 18000,
+        "bpm": 95,
+        "hat": [
+          0.05,
+          0.3
+        ],
+        "tom": 1.1,
+        "kick": [
+          140,
+          42,
+          0.5
+        ],
+        "crash": 1.5,
+        "snare": [
+          180,
+          0.22
+        ]
+      },
+      "originalPrice": 600000,
+      "compatibleDevices": [
+        "Roland SPD-SX",
+        "Roland SPD-SX PRO",
+        "NUX DP-2000",
+        "Avatar HXW",
+        "Donner"
+      ]
+    },
+    {
+      "id": "sx-acoustic-latin",
+      "desc": "Trọn bộ âm thanh gõ mộc: Congas, Bongos, Cajon, Timbales, Shakers, Cabasa, Wind Chimes, Tambourine. Cực kỳ thích hợp cho ban nhạc acoustic mộc mạc.",
+      "name": "Bộ Gõ Acoustic / Latin & Cajon Show (Sound Ngoài)",
+      "badge": "Acoustic Must-Have",
+      "order": 5,
+      "price": 390000,
+      "format": "WAV 24-bit 44.1kHz",
+      "padType": "sample_pad",
+      "category": "acoustic_percussion",
+      "features": [
+        "Âm thanh gõ mộc mạc, sống động như chơi dàn gõ thật",
+        "Bao gồm tiếng Slap Conga, Open Tone, Heel-Toe, Bongo martillo",
+        "Dành cho show quán cà phê, phòng trà, event sang trọng"
+      ],
+      "iconName": "disc-3",
+      "sampleCount": "180 WAV Samples",
+      "synthConfig": {
+        "lp": 15000,
+        "bpm": 112,
+        "hat": [
+          0.03,
+          0.18
+        ],
+        "tom": 0.9,
+        "kick": [
+          120,
+          50,
+          0.4
+        ],
+        "crash": 1.2,
+        "snare": [
+          220,
+          0.16
+        ]
+      },
+      "originalPrice": 550000,
+      "compatibleDevices": [
+        "Roland SPD-SX",
+        "Roland SPD-SX PRO",
+        "NUX DP-2000",
+        "Avatar HXW",
+        "Donner"
+      ]
+    },
+    {
+      "id": "sx-full-tour",
+      "desc": "Bộ tổng hợp toàn diện nhất: Đầy đủ từ Pop Ballad, Bolero, Cha-cha, Disco, Rock đến Vinahouse EDM. Tặng kèm bộ hiệu ứng tiếng vỗ tay, intro DJ, còi hụ.",
+      "name": "Mega Pack: All-in-One Đi Tour & Show Đám Tiệc (Sound Ngoài)",
+      "badge": "Gói VIP Đầy Đủ",
+      "order": 6,
+      "price": 850000,
+      "format": "WAV 24-bit 44.1kHz + Project Setup",
+      "padType": "sample_pad",
+      "category": "show_all",
+      "features": [
+        "Gói đầy đủ nhất dành cho anh em chơi show tiệc cưới, sự kiện, đi tour",
+        "Tích hợp project sẵn cho SPD-SX và NUX chỉ việc chép vào thẻ nhớ",
+        "Tặng kèm bộ Loop nền & Tiếng vỗ tay MC",
+        "Hỗ trợ nạp từ xa qua Ultraviewer trọn đời"
+      ],
+      "iconName": "zap",
+      "sampleCount": "350+ WAV Samples + 30 Kits",
+      "synthConfig": {
+        "lp": 18000,
+        "bpm": 125,
+        "hat": [
+          0.04,
+          0.28
+        ],
+        "tom": 0.8,
+        "kick": [
+          100,
+          35,
+          0.9
+        ],
+        "crash": 1.7,
+        "snare": [
+          200,
+          0.18
+        ]
+      },
+      "originalPrice": 1300000,
+      "compatibleDevices": [
+        "Roland SPD-SX",
+        "Roland SPD-SX PRO",
+        "NUX DP-2000",
+        "Avatar HXW",
+        "Donner"
+      ]
+    }
+  ],
+  "media": [],
+  "rooms": [
+    {
+      "id": "room-1",
+      "name": "Phòng A (Phòng Acoustic & Band nhỏ)",
+      "order": 1,
+      "capacity": "4 - 5 người",
+      "description": "Thích hợp tập cá nhân, band nhỏ acoustic, trio hoặc thu âm giọng hát, podcast.",
+      "pricePerHour": 120000
+    },
+    {
+      "id": "room-2",
+      "name": "Phòng B (Phòng Full-Band Sân Khấu)",
+      "order": 2,
+      "capacity": "6 - 10 người",
+      "description": "Không gian rộng rãi, trang bị dàn trống cao cấp, ampli guitar/bass công suất lớn và hệ thống loa monitor kiểm âm sân khấu.",
+      "pricePerHour": 180000
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-1",
+      "email": "haidang.drummer@gmail.com",
+      "phone": "0912 345 678",
+      "price": 450000,
+      "status": "new",
+      "message": "Chào Linh Hồ, mình đặt mua bộ 50 tiếng đánh show tiệc cho SPD-30. Mình cần nạp gấp để tối mai đi show. Gửi mình thông tin chuyển khoản nhé!",
+      "createdAt": "2026-11-03T07:10:00Z",
+      "adminNotes": "",
+      "deviceModel": "Roland SPD-30 (Octapad)",
+      "serviceType": "sampler",
+      "customerName": "Nguyễn Hải Đăng",
+      "itemSelected": "Bộ Tiếng Đánh Show Tiệc & Sự Kiện (SPD-30) (450.000đ)",
+      "deliveryMethod": "Gửi Link Google Drive qua Zalo"
+    },
+    {
+      "id": "ord-2",
+      "email": "band99.sg@gmail.com",
+      "hours": 3,
+      "phone": "0988 776 655",
+      "price": 360000,
+      "status": "new",
+      "message": "Đặt phòng A tối thứ 5 (18h-21h). Nhóm cần thêm 2 mic vocal và 1 key Nord Stage nha anh.",
+      "createdAt": "2026-11-03T06:30:00Z",
+      "bookingDate": "2026-11-05",
+      "bookingTime": "18h00 - 21h00",
+      "serviceType": "room",
+      "customerName": "Trần Minh Quang (Band 99)",
+      "itemSelected": "Phòng A (Phòng Acoustic & Band nhỏ) (3 giờ)",
+      "roomSelected": "Phòng A (Phòng Acoustic & Band nhỏ)"
+    },
+    {
+      "id": "ord-3",
+      "phone": "0903 112 233",
+      "price": 6000000,
+      "status": "processing",
+      "message": "Chào Linh, mình cần thuê ban nhạc full acoustic cho tiệc cưới ngày 25 tháng sau tại White Palace.",
+      "createdAt": "2026-11-02T14:20:00Z",
+      "adminNotes": "Đã gọi điện trao đổi sơ bộ, đã gửi playlist mẫu qua Zalo, khách hẹn chốt cọc ngày 15.",
+      "serviceType": "event_band",
+      "customerName": "Lê Hoàng Phúc",
+      "itemSelected": "Cho Thuê Nguyên Band Nhạc Tiệc Cưới"
+    },
+    {
+      "id": "ord-4",
+      "email": "tuananh.music@gmail.com",
+      "phone": "0776 980 269",
+      "price": 300000,
+      "status": "processing",
+      "message": "Chào thầy Linh, em muốn đăng ký khóa học cơ bản người mới. Tuần học 2-3 buổi ca tối. Nhờ thầy tư vấn giúp em!",
+      "createdAt": "2026-11-02T10:15:00Z",
+      "adminNotes": "Học viên chưa từng cầm dùi, muốn học tối thứ 2-4-6 từ 19h.",
+      "serviceType": "course",
+      "customerName": "Huỳnh Tuấn Anh",
+      "itemSelected": "Khoá học Người mới (300k / buổi 60 phút)"
+    },
+    {
+      "id": "ord-5",
+      "email": "bao.drummer@outlook.com",
+      "phone": "0934 567 890",
+      "price": 490000,
+      "status": "completed",
+      "message": "Mình dùng SPD-SX PRO, gửi mình link tải WAV 24-bit và project nạp nhé.",
+      "software": "Ableton Live",
+      "createdAt": "2026-11-01T16:00:00Z",
+      "adminNotes": "Đã nhận đủ 490k qua Vietcombank, đã gửi link Google Drive kèm video nạp sample.",
+      "deviceModel": "Roland SPD-SX PRO",
+      "serviceType": "sampler",
+      "customerName": "Phạm Quốc Bảo",
+      "itemSelected": "Bộ Sound Vinahouse & EDM Club (SPD-SX / NUX / Avatar) (490.000đ)"
+    }
+  ],
+  "courses": [
+    {
+      "id": "course-1",
+      "unit": "/ buổi 60 phút",
+      "order": 1,
+      "price": "300k",
+      "title": "Khoá học Người mới",
+      "features": [
+        "Cách cầm dùi, thế ngồi chuẩn cơ thể học",
+        "Đọc bản nhạc nhịp trống, giữ tempo vững chắc",
+        "Đánh được bài hát đầu tiên sau 3 buổi",
+        "Hỗ trợ mượn phòng tập miễn phí để luyện tập"
+      ],
+      "iconName": "sprout",
+      "isPopular": false,
+      "priceNumber": 300000
+    },
+    {
+      "id": "course-2",
+      "unit": "/ buổi 60 phút",
+      "order": 2,
+      "price": "350k",
+      "title": "Khoá học Trung cấp",
+      "features": [
+        "Groove, fill đa dạng và dynamic biểu cảm",
+        "Đánh theo bài hát thực tế đa thể loại (Pop, Rock, Funk)",
+        "Luyện Rudiments và độc lập 4 chi tay chân",
+        "Tập chơi cùng nhạc cụ khác và ghép ban nhạc"
+      ],
+      "iconName": "trending-up",
+      "isPopular": true,
+      "priceNumber": 350000
+    },
+    {
+      "id": "course-3",
+      "unit": "/ buổi 60 phút",
+      "order": 3,
+      "price": "400k",
+      "title": "Khoá học Chuyên sâu & Biểu diễn",
+      "features": [
+        "Kỹ năng biểu diễn sân khấu live chuyên nghiệp",
+        "Chơi cùng click track / in-ear monitor và thu âm studio",
+        "Xây dựng phong cách âm nhạc và tư duy solo trống",
+        "Cơ hội tham gia ghép band và biểu diễn thực tế"
+      ],
+      "iconName": "award",
+      "isPopular": false,
+      "priceNumber": 400000
+    }
+  ],
   "profile": {
-    "name": "Linh Hồ",
-    "tagline": "CHƠI HẾT MÌNH TRÊN SÂN KHẤU.\nCHUẨN TỪNG TIẾT TẤU TRONG PHÒNG THU.",
     "bio": "Drummer & Music Producer tại LH Music Studio. Hơn 10 năm cống hiến cho sân khấu live concert, tour diễn sự kiện lớn (HPMA Connection Showcase) và sáng tạo các bộ sound sampler độc quyền cho Roland SPD-30, SPD-SX Pro, NUX và Avatar.",
-    "aboutText1": "Âm nhạc với tôi không đơn thuần là đếm nhịp 1-2-3-4 theo giáo trình khô khan. Đó là nhịp tim của ban nhạc, là cú đạp Kick rung chuyển lồng ngực và tiếng Snare giòn giã kết nối hàng ngàn khán giả bên dưới sân khấu.",
-    "aboutText2": "Từ những đêm diễn cuồng nhiệt tại các sự kiện showcase lớn như HPMA Connection Showcase đến những buổi thâu đêm làm việc tại LH Music Studio, tôi luôn đặt trọn nhiệt huyết vào từng nhịp phách. Tại đây, tôi đào tạo thế hệ drummer thực chiến, cung cấp phòng tập tiêu chuẩn cách âm cao cấp và chia sẻ những bộ sound pack được cân chỉnh tỉ mỉ cho anh em đi show.",
-    "avatarUrl": "/images/profile/linh-ho-portrait.jpg",
+    "name": "Linh Xe Ôm",
     "stats": [
       {
-        "value": "10+",
-        "label": "Năm biểu diễn live & phòng thu"
+        "label": "Năm biểu diễn live & phòng thu",
+        "value": "3+"
       },
       {
-        "value": "500+",
-        "label": "Show diễn & sự kiện sân khấu"
+        "label": "Show diễn & sự kiện sân khấu",
+        "value": "500+"
       },
       {
-        "value": "200+",
-        "label": "Học viên tự tin làm chủ nhịp"
+        "label": "Học viên tự tin làm chủ nhịp",
+        "value": "200+"
       },
       {
-        "value": "100%",
-        "label": "Tâm huyết & năng lượng rockstar"
+        "label": "Tâm huyết & năng lượng rockstar",
+        "value": "100%"
       }
     ],
     "genres": [
@@ -33,108 +438,18 @@
       "Thu âm & Phòng tập"
     ],
     "contact": {
-      "phone": "0938 123 456",
       "zalo": "0938123456",
       "email": "lh.musicstudio.vn@gmail.com",
-      "facebook": "https://facebook.com/linhhodrummer",
+      "phone": "0938 123 456",
+      "address": "LH Music Studio - TP. Hồ Chí Minh",
       "youtube": "https://youtube.com/@linhhomusic",
-      "address": "LH Music Studio - TP. Hồ Chí Minh"
-    }
+      "facebook": "https://facebook.com/linhhodrummer"
+    },
+    "tagline": "CHƠI HẾT MÌNH TRÊN SÂN KHẤU.\nCHUẨN TỪNG TIẾT TẤU TRONG PHÒNG THU.",
+    "avatarUrl": "/images/profile/linh-ho-portrait.jpg",
+    "aboutText1": "Âm nhạc với tôi không đơn thuần là đếm nhịp 1-2-3-4 theo giáo trình khô khan. Đó là nhịp tim của ban nhạc, là cú đạp Kick rung chuyển lồng ngực và tiếng Snare giòn giã kết nối hàng ngàn khán giả bên dưới sân khấu.",
+    "aboutText2": "Từ những đêm diễn cuồng nhiệt tại các sự kiện showcase lớn như HPMA Connection Showcase đến những buổi thâu đêm làm việc tại LH Music Studio, tôi luôn đặt trọn nhiệt huyết vào từng nhịp phách. Tại đây, tôi đào tạo thế hệ drummer thực chiến, cung cấp phòng tập tiêu chuẩn cách âm cao cấp và chia sẻ những bộ sound pack được cân chỉnh tỉ mỉ cho anh em đi show."
   },
-  "courses": [
-    {
-      "id": "course-1",
-      "title": "Khoá học Người mới",
-      "price": "300k",
-      "priceNumber": 300000,
-      "unit": "/ buổi 60 phút",
-      "iconName": "sprout",
-      "features": [
-        "Cách cầm dùi, thế ngồi chuẩn cơ thể học",
-        "Đọc bản nhạc nhịp trống, giữ tempo vững chắc",
-        "Đánh được bài hát đầu tiên sau 3 buổi",
-        "Hỗ trợ mượn phòng tập miễn phí để luyện tập"
-      ],
-      "isPopular": false,
-      "order": 1
-    },
-    {
-      "id": "course-2",
-      "title": "Khoá học Trung cấp",
-      "price": "350k",
-      "priceNumber": 350000,
-      "unit": "/ buổi 60 phút",
-      "iconName": "trending-up",
-      "features": [
-        "Groove, fill đa dạng và dynamic biểu cảm",
-        "Đánh theo bài hát thực tế đa thể loại (Pop, Rock, Funk)",
-        "Luyện Rudiments và độc lập 4 chi tay chân",
-        "Tập chơi cùng nhạc cụ khác và ghép ban nhạc"
-      ],
-      "isPopular": true,
-      "order": 2
-    },
-    {
-      "id": "course-3",
-      "title": "Khoá học Chuyên sâu & Biểu diễn",
-      "price": "400k",
-      "priceNumber": 400000,
-      "unit": "/ buổi 60 phút",
-      "iconName": "award",
-      "features": [
-        "Kỹ năng biểu diễn sân khấu live chuyên nghiệp",
-        "Chơi cùng click track / in-ear monitor và thu âm studio",
-        "Xây dựng phong cách âm nhạc và tư duy solo trống",
-        "Cơ hội tham gia ghép band và biểu diễn thực tế"
-      ],
-      "isPopular": false,
-      "order": 3
-    }
-  ],
-  "studentImages": [
-    {
-      "id": "stu-1",
-      "title": "Lớp học trống 1 kèm 1 căn bản",
-      "caption": "Học viên nắm vững tư thế ngồi và nhịp phách cơ bản",
-      "imageUrl": "https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      "id": "stu-2",
-      "title": "Học viên nhí tập luyện pad nhịp điệu",
-      "caption": "Rèn luyện phản xạ tay chân từ sớm",
-      "imageUrl": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      "id": "stu-3",
-      "title": "Buổi biểu diễn báo cáo cuối khoá",
-      "caption": "Học viên tự tin đánh cùng ban nhạc trên sân khấu nhỏ",
-      "imageUrl": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      "id": "stu-4",
-      "title": "Ghép band thực tế tại phòng tập",
-      "caption": "Cùng giao lưu học hỏi với các bạn chơi guitar và bass",
-      "imageUrl": "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=800&q=80"
-    }
-  ],
-  "rooms": [
-    {
-      "id": "room-1",
-      "name": "Phòng A (Phòng Acoustic & Band nhỏ)",
-      "capacity": "4 - 5 người",
-      "pricePerHour": 120000,
-      "description": "Thích hợp tập cá nhân, band nhỏ acoustic, trio hoặc thu âm giọng hát, podcast.",
-      "order": 1
-    },
-    {
-      "id": "room-2",
-      "name": "Phòng B (Phòng Full-Band Sân Khấu)",
-      "capacity": "6 - 10 người",
-      "pricePerHour": 180000,
-      "description": "Không gian rộng rãi, trang bị dàn trống cao cấp, ampli guitar/bass công suất lớn và hệ thống loa monitor kiểm âm sân khấu.",
-      "order": 2
-    }
-  ],
   "roomPerks": [
     {
       "id": "perk-1",
@@ -167,52 +482,58 @@
       "iconName": "percent"
     }
   ],
+  "comboOffer": {
+    "desc": "Sở hữu toàn bộ kho Sound tiếng cho cả Roland SPD-30 lẫn các dòng nạp Sound Ngoài (SPD-SX, NUX, Avatar). Cập nhật âm thanh mới miễn phí 1 năm.",
+    "badge": "Tiết kiệm 45%",
+    "price": 990000,
+    "title": "Trọn Gói All-in-One Toàn Bộ Sound Packs",
+    "originalPrice": 1800000
+  },
   "roomImages": [
     {
       "id": "rm-img-1",
       "title": "Không gian phòng tập band chuyên nghiệp",
-      "imageUrl": "/images/phong-tap/room-1.jpg",
-      "category": "phong-tap"
+      "category": "phong-tap",
+      "imageUrl": "/images/phong-tap/room-1.jpg"
     },
     {
       "id": "rm-img-2",
       "title": "Dàn trống Acoustic đầy đủ cymbals",
-      "imageUrl": "/images/phong-tap/drum.jpg",
-      "category": "nhac-cu"
+      "category": "nhac-cu",
+      "imageUrl": "/images/phong-tap/drum.jpg"
     },
     {
       "id": "rm-img-3",
       "title": "Bàn Mixer & Hệ thống âm thanh kiểm âm",
-      "imageUrl": "/images/phong-tap/mixer.jpg",
-      "category": "thiet-bi"
+      "category": "thiet-bi",
+      "imageUrl": "/images/phong-tap/mixer.jpg"
     },
     {
       "id": "rm-img-4",
       "title": "Đàn Bass & Ampli công suất lớn",
-      "imageUrl": "/images/phong-tap/bass.jpg",
-      "category": "nhac-cu"
+      "category": "nhac-cu",
+      "imageUrl": "/images/phong-tap/bass.jpg"
     },
     {
       "id": "rm-img-5",
       "title": "Trống Cajon Acoustic cho band mộc",
-      "imageUrl": "/images/phong-tap/cajon.jpg",
-      "category": "nhac-cu"
+      "category": "nhac-cu",
+      "imageUrl": "/images/phong-tap/cajon.jpg"
     },
     {
       "id": "rm-img-6",
       "title": "Bộ gõ Bongo & Latin Percussion",
-      "imageUrl": "/images/phong-tap/bongo.jpg",
-      "category": "nhac-cu"
+      "category": "nhac-cu",
+      "imageUrl": "/images/phong-tap/bongo.jpg"
     }
   ],
   "eventServices": [
     {
       "id": "srv-1",
+      "order": 1,
+      "price": "Từ 3.500.000đ / buổi",
       "title": "Cho Thuê Band Nhạc Acoustic",
       "category": "band_acoustic",
-      "price": "Từ 3.500.000đ / buổi",
-      "priceNumber": 3500000,
-      "description": "Ban nhạc Acoustic phong cách trẻ trung, sang trọng phù hợp cho quán cafe, tiệc sinh nhật, lễ khai trương, tiệc kỷ niệm, private party.",
       "features": [
         "Đội hình: 1 Ca sĩ + 1 Guitar + 1 Trống Cajon/Pad (hoặc thêm Saxophone/Violin)",
         "Biểu diễn từ 2 đến 3 tiếng các ca khúc hit Pop, Ballad, US-UK, V-Pop",
@@ -220,15 +541,15 @@
         "Hỗ trợ khách mời lên giao lưu hát cùng ban nhạc"
       ],
       "imageUrl": "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=800&q=80",
-      "order": 1
+      "description": "Ban nhạc Acoustic phong cách trẻ trung, sang trọng phù hợp cho quán cafe, tiệc sinh nhật, lễ khai trương, tiệc kỷ niệm, private party.",
+      "priceNumber": 3500000
     },
     {
       "id": "srv-2",
+      "order": 2,
+      "price": "Từ 1.200.000đ / ngày",
       "title": "Cho Thuê Dàn Trống & Nhạc Cụ Sự Kiện",
       "category": "thue_trong",
-      "price": "Từ 1.200.000đ / ngày",
-      "priceNumber": 1200000,
-      "description": "Dịch vụ cho thuê bộ trống acoustic, trống điện tử và dàn ampli nhạc cụ chuyên nghiệp cho show diễn, concert, hội nghị, quay MV ca nhạc.",
       "features": [
         "Bộ trống Acoustic Yamaha/Tama đầy đủ mặt da, cymbal Zildjian sáng bóng",
         "Gồm đầy đủ chân hardware, ghế ngồi, thảm trống cao cấp",
@@ -236,15 +557,15 @@
         "Giá ưu đãi cho thuê dài ngày hoặc tour diễn"
       ],
       "imageUrl": "https://images.unsplash.com/photo-1543443374-b6fe10a6ab7b?auto=format&fit=crop&w=800&q=80",
-      "order": 2
+      "description": "Dịch vụ cho thuê bộ trống acoustic, trống điện tử và dàn ampli nhạc cụ chuyên nghiệp cho show diễn, concert, hội nghị, quay MV ca nhạc.",
+      "priceNumber": 1200000
     },
     {
       "id": "srv-3",
+      "order": 3,
+      "price": "Từ 6.000.000đ / tiệc",
       "title": "Cho Thuê Nguyên Band Nhạc Tiệc Cưới & Hỏi (Full Band)",
       "category": "full_band_tiec",
-      "price": "Từ 6.000.000đ / tiệc",
-      "priceNumber": 6000000,
-      "description": "Ban nhạc tiệc cưới chuyên nghiệp mang đến không khí lễ cưới đẳng cấp, bùng nổ và cảm xúc cho cô dâu chú rể và quan khách.",
       "features": [
         "Đội hình Full Band: Trống Live + Guitar điện + Bass + Keyboard + 2 Ca sĩ (Nam & Nữ)",
         "Đón khách với nhạc hòa tấu Acoustic lãng mạn nhẹ nhàng",
@@ -253,294 +574,34 @@
         "Trang phục lịch sự, đồng bộ theo tông màu lễ cưới"
       ],
       "imageUrl": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80",
-      "order": 3
+      "description": "Ban nhạc tiệc cưới chuyên nghiệp mang đến không khí lễ cưới đẳng cấp, bùng nổ và cảm xúc cho cô dâu chú rể và quan khách.",
+      "priceNumber": 6000000
     }
   ],
-  "kits": [
+  "studentImages": [
     {
-      "id": "spd30-all-show",
-      "name": "Bộ Tiếng Đánh Show Tiệc & Sự Kiện (SPD-30)",
-      "desc": "50 User Kit cân chỉnh chuyên sâu từ sound gốc Roland SPD-30: Kick lực, Snare vang dày, đầy đủ bộ gõ cha-cha, rumba, disco, bolero, ballad. Cắm USB nạp trực tiếp.",
-      "padType": "spd30",
-      "category": "spd30_preset",
-      "compatibleDevices": [
-        "Roland SPD-30 (Octapad)"
-      ],
-      "price": 450000,
-      "originalPrice": 650000,
-      "sampleCount": "50 User Kits cài sẵn",
-      "format": "File Backup SPD-30 (.SVD) + USB Data",
-      "badge": "Bán Chạy Nhất",
-      "features": [
-        "Cân chỉnh tỉ mỉ từng thông số EQ, Layer, Muffle, Tune, FX trên SPD-30",
-        "Đủ tiếng cho nhạc Pop, Ballad, Bolero, Disco, Cha-cha, Rumba",
-        "Có file Backup cắm USB load 1 phút là có đủ 50 bộ tiếng",
-        "Hỗ trợ hướng dẫn nạp qua Zalo / Video chi tiết"
-      ],
-      "iconName": "drum",
-      "synthConfig": {
-        "kick": [
-          150,
-          45,
-          0.45
-        ],
-        "snare": [
-          190,
-          0.22
-        ],
-        "hat": [
-          0.05,
-          0.35
-        ],
-        "tom": 1,
-        "crash": 1.6,
-        "lp": 18000,
-        "bpm": 105
-      },
-      "order": 1
+      "id": "stu-1",
+      "title": "Lớp học trống 1 kèm 1 căn bản",
+      "caption": "Học viên nắm vững tư thế ngồi và nhịp phách cơ bản",
+      "imageUrl": "https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?auto=format&fit=crop&w=800&q=80"
     },
     {
-      "id": "spd30-thanh-ca",
-      "name": "Bộ Tiếng Thánh Ca & Phụng Vụ (SPD-30)",
-      "desc": "Thiết kế riêng cho phụng vụ nhà thờ: Bộ chimes, timpani, crash reverb không gian rộng, snare quét chổi và kick sub ấm dày trang trọng.",
-      "padType": "spd30",
-      "category": "thanh_ca",
-      "compatibleDevices": [
-        "Roland SPD-30 (Octapad)"
-      ],
-      "price": 350000,
-      "originalPrice": 500000,
-      "sampleCount": "25 User Kits Phụng Vụ",
-      "format": "File Backup SPD-30 (.SVD)",
-      "badge": "Chuyên Thánh Ca",
-      "features": [
-        "Âm hưởng trang nghiêm, vang rộng chuẩn nhà thờ",
-        "Đầy đủ Chimes, Timpani, Cymbal Roll, Shaker nhẹ nhàng",
-        "Cân chỉnh độ nhạy Pad chuẩn xác chống nảy tiếng thừa"
-      ],
-      "iconName": "disc-3",
-      "synthConfig": {
-        "kick": [
-          110,
-          40,
-          0.6
-        ],
-        "snare": [
-          170,
-          0.28
-        ],
-        "hat": [
-          0.04,
-          0.25
-        ],
-        "tom": 0.9,
-        "crash": 2,
-        "lp": 12000,
-        "bpm": 78
-      },
-      "order": 2
+      "id": "stu-2",
+      "title": "Học viên nhí tập luyện pad nhịp điệu",
+      "caption": "Rèn luyện phản xạ tay chân từ sớm",
+      "imageUrl": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80"
     },
     {
-      "id": "sx-vinahouse",
-      "name": "Bộ Tiếng Vinahouse & EDM Party (Sound Ngoài)",
-      "desc": "Kick punchy uy lực căng đét, Snare đanh sắc nét, Clap dày, Fx drop / riser / crash laser. Chuyên trị nhạc quẩy bar, pub, đám tiệc remix sôi động.",
-      "padType": "sample_pad",
-      "category": "vinahouse_edm",
-      "compatibleDevices": [
-        "Donner",
-        "Roland SPD-30 (Octapad)"
-      ],
-      "price": 490000,
-      "originalPrice": 700000,
-      "sampleCount": "160 WAV Samples + 12 Kits",
-      "format": "WAV 24-bit 44.1kHz Multi-Velocity",
-      "badge": "Cực Cháy",
-      "demoAudioUrl": "",
-      "downloadUrl": "",
-      "features": [
-        "Sample WAV gốc xử lý qua Analog Limiter cho âm lượng to rõ",
-        "Kick Vinahouse nén chặt, không bị vỡ tiếng khi mở lớn",
-        "Kèm bộ tiếng hiệu ứng Intro DJ, Sirens, Laser, Còi hú",
-        "Tương thích tất cả sample pad nhận file WAV"
-      ],
-      "samples": {},
-      "synthConfig": {
-        "kick": [
-          90,
-          30,
-          1.1
-        ],
-        "snare": [
-          240,
-          0.14
-        ],
-        "hat": [
-          0.03,
-          0.25
-        ],
-        "tom": 0.7,
-        "crash": 1.4,
-        "lp": 18000,
-        "bpm": 135
-      },
-      "order": 3
+      "id": "stu-3",
+      "title": "Buổi biểu diễn báo cáo cuối khoá",
+      "caption": "Học viên tự tin đánh cùng ban nhạc trên sân khấu nhỏ",
+      "imageUrl": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80"
     },
     {
-      "id": "sx-pop-ballad",
-      "name": "Bộ Tiếng Pop Ballad & Nhạc Trẻ Studio (Sound Ngoài)",
-      "desc": "Mẫu âm thanh acoustic drum phòng thu cao cấp được thu từ các dàn trống Yamaha & Ludwig xịn. Snare ấm dày tự nhiên, hi-hat nhuyễn mượt mà.",
-      "padType": "sample_pad",
-      "category": "pop_ballad",
-      "compatibleDevices": [
-        "Roland SPD-SX",
-        "Roland SPD-SX PRO",
-        "NUX DP-2000",
-        "Avatar HXW",
-        "Donner"
-      ],
-      "price": 450000,
-      "originalPrice": 600000,
-      "sampleCount": "140 WAV Samples + 10 Kits",
-      "format": "WAV 24-bit 44.1kHz Studio High-End",
-      "badge": "Chuẩn Phòng Thu",
-      "features": [
-        "Độ nhạy multi-velocity đánh nhẹ ra tiếng nhẹ, đánh mạnh ra tiếng mạnh",
-        "Snare mộc có lực ghost-note cực mượt",
-        "Hi-hat nhuyễn sạch tần số cao"
-      ],
-      "iconName": "drum",
-      "synthConfig": {
-        "kick": [
-          140,
-          42,
-          0.5
-        ],
-        "snare": [
-          180,
-          0.22
-        ],
-        "hat": [
-          0.05,
-          0.3
-        ],
-        "tom": 1.1,
-        "crash": 1.5,
-        "lp": 18000,
-        "bpm": 95
-      },
-      "order": 4
-    },
-    {
-      "id": "sx-acoustic-latin",
-      "name": "Bộ Gõ Acoustic / Latin & Cajon Show (Sound Ngoài)",
-      "desc": "Trọn bộ âm thanh gõ mộc: Congas, Bongos, Cajon, Timbales, Shakers, Cabasa, Wind Chimes, Tambourine. Cực kỳ thích hợp cho ban nhạc acoustic mộc mạc.",
-      "padType": "sample_pad",
-      "category": "acoustic_percussion",
-      "compatibleDevices": [
-        "Roland SPD-SX",
-        "Roland SPD-SX PRO",
-        "NUX DP-2000",
-        "Avatar HXW",
-        "Donner"
-      ],
-      "price": 390000,
-      "originalPrice": 550000,
-      "sampleCount": "180 WAV Samples",
-      "format": "WAV 24-bit 44.1kHz",
-      "badge": "Acoustic Must-Have",
-      "features": [
-        "Âm thanh gõ mộc mạc, sống động như chơi dàn gõ thật",
-        "Bao gồm tiếng Slap Conga, Open Tone, Heel-Toe, Bongo martillo",
-        "Dành cho show quán cà phê, phòng trà, event sang trọng"
-      ],
-      "iconName": "disc-3",
-      "synthConfig": {
-        "kick": [
-          120,
-          50,
-          0.4
-        ],
-        "snare": [
-          220,
-          0.16
-        ],
-        "hat": [
-          0.03,
-          0.18
-        ],
-        "tom": 0.9,
-        "crash": 1.2,
-        "lp": 15000,
-        "bpm": 112
-      },
-      "order": 5
-    },
-    {
-      "id": "sx-full-tour",
-      "name": "Mega Pack: All-in-One Đi Tour & Show Đám Tiệc (Sound Ngoài)",
-      "desc": "Bộ tổng hợp toàn diện nhất: Đầy đủ từ Pop Ballad, Bolero, Cha-cha, Disco, Rock đến Vinahouse EDM. Tặng kèm bộ hiệu ứng tiếng vỗ tay, intro DJ, còi hụ.",
-      "padType": "sample_pad",
-      "category": "show_all",
-      "compatibleDevices": [
-        "Roland SPD-SX",
-        "Roland SPD-SX PRO",
-        "NUX DP-2000",
-        "Avatar HXW",
-        "Donner"
-      ],
-      "price": 850000,
-      "originalPrice": 1300000,
-      "sampleCount": "350+ WAV Samples + 30 Kits",
-      "format": "WAV 24-bit 44.1kHz + Project Setup",
-      "badge": "Gói VIP Đầy Đủ",
-      "features": [
-        "Gói đầy đủ nhất dành cho anh em chơi show tiệc cưới, sự kiện, đi tour",
-        "Tích hợp project sẵn cho SPD-SX và NUX chỉ việc chép vào thẻ nhớ",
-        "Tặng kèm bộ Loop nền & Tiếng vỗ tay MC",
-        "Hỗ trợ nạp từ xa qua Ultraviewer trọn đời"
-      ],
-      "iconName": "zap",
-      "synthConfig": {
-        "kick": [
-          100,
-          35,
-          0.9
-        ],
-        "snare": [
-          200,
-          0.18
-        ],
-        "hat": [
-          0.04,
-          0.28
-        ],
-        "tom": 0.8,
-        "crash": 1.7,
-        "lp": 18000,
-        "bpm": 125
-      },
-      "order": 6
+      "id": "stu-4",
+      "title": "Ghép band thực tế tại phòng tập",
+      "caption": "Cùng giao lưu học hỏi với các bạn chơi guitar và bass",
+      "imageUrl": "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=800&q=80"
     }
-  ],
-  "comboOffer": {
-    "title": "Trọn Gói All-in-One Toàn Bộ Sound Packs",
-    "price": 990000,
-    "originalPrice": 1800000,
-    "badge": "Tiết kiệm 45%",
-    "desc": "Sở hữu toàn bộ kho Sound tiếng cho cả Roland SPD-30 lẫn các dòng nạp Sound Ngoài (SPD-SX, NUX, Avatar). Cập nhật âm thanh mới miễn phí 1 năm."
-  },
-  "orders": [
-    {
-      "id": "ord-1",
-      "customerName": "Nguyễn Hải Đăng",
-      "phone": "0912 345 678",
-      "serviceType": "sampler",
-      "itemSelected": "Rock Acoustic (450.000đ)",
-      "software": "FL Studio",
-      "message": "Chào bạn, mình muốn mua bộ sampler Rock Acoustic. Bạn gửi mình thông tin thanh toán nhé.",
-      "status": "completed",
-      "createdAt": "2026-10-28T14:30:00Z"
-    }
-  ],
-  "media": []
+  ]
 }
