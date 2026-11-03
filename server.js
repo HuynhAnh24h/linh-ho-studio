@@ -1,14 +1,12 @@
 const { createServer } = require("http");
 const { parse } = require("url");
+const net = require("net");
 const next = require("next");
 const { Server } = require("socket.io");
 
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "0.0.0.0";
-const port = parseInt(process.env.PORT || "3000", 10);
-
-const app = next({ dev, hostname, port });
-const handle = app.getRequestHandler();
+const defaultPort = parseInt(process.env.PORT || "3000", 10);
 
 process.on("unhandledRejection", (reason, promise) => {
   console.warn("[Server] Unhandled Rejection at:", promise, "reason:", reason);
@@ -18,72 +16,100 @@ process.on("uncaughtException", (err) => {
   console.error("[Server] Uncaught Exception thrown:", err);
 });
 
-app.prepare().then(() => {
-  const httpServer = createServer(async (req, res) => {
-    try {
-      const parsedUrl = parse(req.url, true);
-      await handle(req, res, parsedUrl);
-    } catch (err) {
-      console.error("Error occurred handling", req.url, err);
-      res.statusCode = 500;
-      res.end("internal server error");
-    }
+function isPortTaken(port) {
+  return new Promise((resolve) => {
+    const socket = new net.Socket();
+    socket.setTimeout(400);
+    socket.once("connect", () => {
+      socket.destroy();
+      resolve(true);
+    });
+    socket.once("timeout", () => {
+      socket.destroy();
+      resolve(false);
+    });
+    socket.once("error", () => {
+      resolve(false);
+    });
+    socket.connect(port, "127.0.0.1");
   });
+}
 
-  const io = new Server(httpServer, {
-    cors: {
-      origin: "*",
-      methods: ["GET", "POST"],
-    },
-    transports: ["websocket", "polling"],
-  });
+async function findAvailablePort(desiredPort) {
+  let p = desiredPort;
+  while (await isPortTaken(p)) {
+    console.warn(`[Server] Cổng ${p} đã có dịch vụ khác đang chạy, tự động chuyển sang cổng ${p + 1}...`);
+    p++;
+  }
+  return p;
+}
 
-  // Attach to global so Route Handlers in Next.js can emit events
-  global.__io = io;
+findAvailablePort(defaultPort).then((activePort) => {
+  const app = next({ dev, hostname, port: activePort });
+  const handle = app.getRequestHandler();
 
-  io.on("connection", (socket) => {
-    console.log(`[Socket.IO] Client connected: ${socket.id}`);
-
-    // Send initial status and connection ack
-    socket.emit("connected", {
-      status: "connected",
-      socketId: socket.id,
-      timestamp: new Date().toISOString(),
+  app.prepare().then(() => {
+    const httpServer = createServer(async (req, res) => {
+      try {
+        const parsedUrl = parse(req.url, true);
+        await handle(req, res, parsedUrl);
+      } catch (err) {
+        console.error("Error occurred handling", req.url, err);
+        res.statusCode = 500;
+        res.end("internal server error");
+      }
     });
 
-    // Broadcast client count
-    io.emit("clients_count", io.engine.clientsCount);
+    const io = new Server(httpServer, {
+      cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+      },
+      transports: ["websocket", "polling"],
+    });
 
-    socket.on("disconnect", () => {
-      console.log(`[Socket.IO] Client disconnected: ${socket.id}`);
+    // Attach to global so Route Handlers in Next.js can emit events
+    global.__io = io;
+
+    io.on("connection", (socket) => {
+      console.log(`[Socket.IO] Client connected: ${socket.id}`);
+
+      socket.emit("connected", {
+        status: "connected",
+        socketId: socket.id,
+        timestamp: new Date().toISOString(),
+      });
+
       io.emit("clients_count", io.engine.clientsCount);
-    });
 
-    // Test ping from admin or client
-    socket.on("ping_server", (data) => {
-      socket.emit("pong_server", {
-        time: new Date().toISOString(),
-        echo: data,
+      socket.on("disconnect", () => {
+        console.log(`[Socket.IO] Client disconnected: ${socket.id}`);
+        io.emit("clients_count", io.engine.clientsCount);
+      });
+
+      socket.on("ping_server", (data) => {
+        socket.emit("pong_server", {
+          time: new Date().toISOString(),
+          echo: data,
+        });
+      });
+
+      socket.on("order_updated", (data) => {
+        io.emit("order_updated", data);
+      });
+
+      socket.on("broadcast_notification", (data) => {
+        io.emit("notification", data);
       });
     });
 
-    // Admin updates order status (real-time broadcast to all clients)
-    socket.on("order_updated", (data) => {
-      io.emit("order_updated", data);
+    httpServer.listen(activePort, hostname, () => {
+      console.log(`> [LH Music Studio] Ready on http://localhost:${activePort}`);
+      console.log(`> [LH Music Studio] Network: http://192.168.1.48:${activePort}`);
+      console.log(`> [Socket.IO] Real-time engine active on ws://0.0.0.0:${activePort}`);
     });
-
-    // Admin or client sends a live notification
-    socket.on("broadcast_notification", (data) => {
-      io.emit("notification", data);
-    });
+  }).catch((err) => {
+    console.error("Failed to start server:", err);
+    process.exit(1);
   });
-
-  httpServer.listen(port, hostname, () => {
-    console.log(`> [LH Music Studio] Ready on http://localhost:${port}`);
-    console.log(`> [LH Music Studio] Network: http://192.168.1.48:${port}`);
-    console.log(`> [Socket.IO] Real-time engine active on ws://0.0.0.0:${port}`);
-  });
-}).catch((err) => {
-  console.error("Failed to start server:", err);
-  process.exit(1);
 });
